@@ -8,11 +8,15 @@ class CreateAdminsTable extends Migration
 {
     public function up()
     {
+        // Tabel admins
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->enum('role', ['super_admin', 'admin']);
+            $table->unsignedBigInteger('user_id');
+            $table->enum('role', ['super_admin', 'admin'])->default('admin');
             $table->timestamps();
+
+            // Foreign key ke tabel users
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
