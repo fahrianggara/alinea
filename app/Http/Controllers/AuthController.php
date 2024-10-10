@@ -21,7 +21,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->status && $user->due_block === null) {
-                return redirect()->intended('/home');
+                return redirect()->intended('/dashboard');
             } else {
                 Auth::logout();
                 return redirect()->back()->withErrors([

@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::with('user')->get();
-        return view('admin.index', compact('admins'));
+        return view('admin.pages.dashboard', compact('admins'));
     }
 
     // Tambah admin baru
