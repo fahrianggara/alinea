@@ -76,12 +76,9 @@
                 display: none;
             }
 
-            .login .wrap-login .the-form {
-                padding: 0 !important;
-            }
 
             .login .wrap-login {
-                padding: 0 !important;
+                padding: 40px 0 !important;
             }
 
         }
