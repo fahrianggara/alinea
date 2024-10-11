@@ -35,6 +35,7 @@
             background-size: cover;
             position: relative;
             background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 10px 10px 4px 0 rgba(0, 0, 0, 0.25);
             padding: 60px;
             border-radius: 10px;
             overflow: hidden;
@@ -74,6 +75,7 @@
             .login .wrap-login .svg-boy {
                 display: none;
             }
+
             .login .wrap-login .the-form {
                 padding: 0 !important;
             }

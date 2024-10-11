@@ -13,7 +13,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
 });
-
-Route::get('/', function () {
-    return view('welcome');
-});
