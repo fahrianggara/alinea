@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Http\Resources\ResResource;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +29,26 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * unauthenticated
+     *
+     * @param  mixed $request
+     * @param  mixed $exception
+     * @return void
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // if the request is from api
+        if (in_array('sanctum', $exception->guards())) {
+            return new JsonResponse([
+                'status' => false,
+                'message' => 'Unauthenticated.',
+            ], 401);
+        }
+
+        // if the request is from web
+        return redirect()->guest(route('login'));
     }
 }
