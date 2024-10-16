@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class BookApiController extends Controller
 {
-    // Get all books
     public function index()
     {
         return response()->json(Book::all(), 200);
