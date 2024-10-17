@@ -50,7 +50,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/kategori" class="nav-link">
+                    <a href="/category" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
                             Kategori Buku

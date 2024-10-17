@@ -33,7 +33,6 @@ class CategoryController extends Controller
         } else {
             return redirect()->route('category')->with('error', 'category Fails Added');
         }
-
     }
 
     /**
@@ -65,7 +64,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
+        $category = Category::find($id);
+
+        if (!$category) {
+            return redirect()->route('category')->with('error', 'category Not Found');
+        }
+
+        $category->update($validatedData);
+
+        return redirect()->route('category')->with('success', 'category Success Updated');
     }
 
     /**
@@ -73,6 +86,14 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::find($id);
+
+        if (!$category) {
+            return redirect()->route('category')->with('error', 'category Not Found');
+        }
+
+        $category->delete();
+
+        return redirect()->route('category')->with('success', 'category Success Deleted');
     }
 }

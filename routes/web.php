@@ -17,6 +17,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [CategoryController::class, 'update'])->name('.update');
 
     });
 
