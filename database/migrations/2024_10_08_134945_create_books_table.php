@@ -10,9 +10,11 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('cover')->nullable();
             $table->string('title');
             $table->string('author');
             $table->string('isbn')->unique();
+            $table->unsignedInteger('stock')->nullable();
             $table->text('description')->nullable();
             $table->date('published_date');
             $table->enum('status', ['available', 'borrowed']);

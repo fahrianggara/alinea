@@ -44,3 +44,11 @@ td {
 .content .table-card div.table-responsive>div.dt-container>div.row:nth-last-child(1) {
     padding: 20px 20px !important;
 }
+
+/* Mengatur jarak antar item */
+table td, table th {
+    vertical-align: middle !important;
+}
+table td p {
+    margin: 0 !important;
+}

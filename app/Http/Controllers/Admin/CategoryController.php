@@ -13,8 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('admin.pages.category', compact('categories'));
+        $categories = Category::latest()->get();
+        return view('admin.categories.category', compact('categories'));
     }
 
     /**
@@ -29,9 +29,9 @@ class CategoryController extends Controller
 
         $category = Category::create($validatedData);
         if ($category) {
-            return redirect()->route('category')->with('success', 'category Success Added');
+            return redirect()->route('categories')->with('success', 'category Success Added');
         } else {
-            return redirect()->route('category')->with('error', 'category Fails Added');
+            return redirect()->route('categories')->with('error', 'category Fails Added');
         }
     }
 
@@ -73,12 +73,12 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return redirect()->route('category')->with('error', 'category Not Found');
+            return redirect()->route('categories')->with('error', 'category Not Found');
         }
 
         $category->update($validatedData);
 
-        return redirect()->route('category')->with('success', 'category Success Updated');
+        return redirect()->route('categories')->with('success', 'category Success Updated');
     }
 
     /**
@@ -89,11 +89,11 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return redirect()->route('category')->with('error', 'category Not Found');
+            return redirect()->route('categories')->with('error', 'category Not Found');
         }
 
         $category->delete();
 
-        return redirect()->route('category')->with('success', 'category Success Deleted');
+        return redirect()->route('categories')->with('success', 'category Success Deleted');
     }
 }

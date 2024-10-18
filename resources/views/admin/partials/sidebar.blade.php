@@ -41,7 +41,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="/dashboard" class="nav-link">
+                    <a href="{{ route('dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -50,7 +50,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/category" class="nav-link">
+                    <a href="{{ route('categories')}}" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
                             Kategori Buku
@@ -59,7 +59,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/berita" class="nav-link">
+                    <a href="{{ route('books')}}" class="nav-link">
                         <i class="nav-icon fas fa-newspaper"></i>
                         <p>
                             Buku
