@@ -64,6 +64,10 @@ class BorrowingController extends Controller
                 'borrow_date' => $request->borrow_date,
                 'return_date' => $request->return_date,
                 'status_id' => '1',
+                'issue_date' => $request->return_date,
+'due_date' =>$request->return_date,
+'status' =>'fined'
+
             ]);
 
             // Kurangi stok buku
