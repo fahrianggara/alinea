@@ -20,6 +20,7 @@ class BookFactory extends Factory
             'title' => $this->faker->sentence(3), // Judul buku acak dengan 3 kata
             'author' => $this->faker->name(), // Nama penulis acak
             'isbn' => $this->faker->isbn13(), // ISBN acak 13 digit
+            'stock' => $this->faker->numberBetween(1, 20),
             'description' => $this->faker->paragraph(), // Deskripsi buku acak
             'published_date' => $this->faker->date(), // Tanggal publikasi acak
             'status' => $this->faker->randomElement(['available', 'borrowed']), // Status acak

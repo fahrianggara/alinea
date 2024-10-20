@@ -14,7 +14,7 @@ class CreateBorrowingsTable extends Migration
             $table->foreignId('book_id')->constrained('books');
             $table->date('borrow_date');
             $table->date('return_date')->nullable();
-            $table->enum('status', ['borrowed', 'returned']);
+            $table->foreignId('status_id')->constrained('statuses');
             $table->timestamps();
         });
     }

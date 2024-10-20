@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Admin;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -17,11 +19,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         Category::factory()->count(5)->create();
         Book::factory()->count(5)->create();
+
+        
+
         User::create([
-            'nim' => '1234567890',
-            'email' => 'user1@example.com',
+            'nim' => '125354544',
+            'first_name' => 'Ilham',
+            'last_name' => 'Ganteng',
+            'email' => 'user@example.com',
             'password' => Hash::make('password'),
             'status' => true,
             'due_block' => null,
@@ -29,12 +37,73 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'nim' => '0987654321',
+            'nim' => null,
+            'first_name' => 'Bos',
+            'last_name' => 'Jhodie',
             'email' => 'admin1@example.com',
             'password' => Hash::make('password'),
             'status' => true,
             'due_block' => null,
             'role' => 'admin',
         ]);
+
+        User::create([
+            'nim' => null,
+            'first_name' => 'Angga',
+            'last_name' => 'Doe',
+            'email' => 'admin2@example.com',
+            'password' => Hash::make('password'),
+            'status' => true,
+            'due_block' => null,
+            'role' => 'admin',
+        ]);
+
+        Admin::create([
+            'user_id' => '3',
+            'role' => 'super_admin',
+        ]);
+
+        Admin::create([
+            'user_id' => '2',
+            'role' => 'admin',
+        ]);
+
+
+        Status::create([
+            'name' => 'pending',
+            'color' => 'bg-warning',
+            'message' => 'Your payment is still pending. Please complete the payment to proceed.',
+            'description' => 'waiting for payment',
+        ]);
+        
+        Status::create([
+            'name' => 'borrowed',
+            'color' => 'bg-primary',
+            'message' => 'The book has been successfully borrowed. Enjoy reading!',
+            'description' => 'book borrowed',
+        ]);
+        
+        Status::create([
+            'name' => 'returned',
+            'color' => 'bg-success',
+            'message' => 'Thank you for returning the book. We hope you enjoyed it!',
+            'description' => 'book returned',
+        ]);
+        
+        Status::create([
+            'name' => 'late return',
+            'color' => 'bg-warning',
+            'message' => 'The book was returned late. Please check our policy on late returns.',
+            'description' => 'book late returned',
+        ]);
+        
+        Status::create([
+            'name' => 'missing',
+            'color' => 'bg-danger',
+            'message' => 'The book is currently marked as missing. Please report it if you find it.',
+            'description' => 'book missing',
+        ]);
+        
+        
     }
 }

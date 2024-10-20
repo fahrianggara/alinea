@@ -1,19 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
+use GuzzleHttp\Middleware;
+use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController};
+use Faker\Guesser\Name;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
-    Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::group(['prefix' => 'categories', 'as' => 'categories',], function () {
+
+        Route::get('/', [CategoryController::class, 'index'])->name('');
+        Route::post('/', [CategoryController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [CategoryController::class, 'update'])->name('.update');
+
+    });
+
+    Route::group(['prefix' => 'books', 'as' => 'books',], function () {
+
+        Route::get('/', [BookController::class, 'index'])->name('');
+        Route::get('/{id}', [BookController::class, 'show'])->name('.show');
+        Route::post('/', [BookController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [BookController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [BookController::class, 'update'])->name('.update');
+
+    });
+
+    Route::group(['prefix' => 'borrowings', 'as' => 'borrowings',], function () {
+
+        Route::get('/', [BorrowingController::class, 'index'])->name('');
+        Route::get('/{id}', [BorrowingController::class, 'show'])->name('.show');
+        Route::post('/', [BorrowingController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
+
+    });
+
 });

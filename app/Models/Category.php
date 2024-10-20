@@ -10,4 +10,8 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description']; // fields yang bisa diisi
+
+    public function books(){
+        return $this->hasMany(Book::class);
+    }
 }
