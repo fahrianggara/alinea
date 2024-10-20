@@ -52,3 +52,13 @@ table td, table th {
 table td p {
     margin: 0 !important;
 }
+
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    display: flex;
+    align-items: center;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered img {
+    margin-right: 10px;
+}

@@ -40,8 +40,12 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
+
                 <li class="nav-item">
-                    <a href="{{ route('dashboard')}}" class="nav-link">
+                    <span class="small nav-link">Menu</span>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -50,19 +54,35 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('categories')}}" class="nav-link">
+                    <span class="small nav-link">Books</span>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('categories') }}" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
-                            Kategori Buku
+                            Category
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('books')}}" class="nav-link">
+                    <a href="{{ route('books') }}" class="nav-link">
                         <i class="nav-icon fas fa-newspaper"></i>
                         <p>
-                            Buku
+                            Book
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="small nav-link">Main</span>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('borrowings') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Borrowing
                         </p>
                     </a>
                 </li>
@@ -71,37 +91,34 @@
                     <a href="/profile" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Profile
+                            Invoice
                         </p>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="/penulis" class="nav-link">
-                        <i class="nav-icon fas fa-pen"></i>
-                        <p>
-                            Penulis
-                        </p>
-                    </a>
-                </li>
+                @if ($admin->role == 'super_admin')
+                    <li class="nav-item">
+                        <span class="small nav-link">Superadmmin Manage</span>
+                    </li>
 
-                <li class="nav-item">
-                    <a href="/pengguna" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Pengguna
-                        </p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="/penulis" class="nav-link">
+                            <i class="nav-icon fas fa-pen"></i>
+                            <p>
+                                Users
+                            </p>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a href="/langganan" class="nav-link">
-                        <i class="nav-icon fas fa-credit-card"></i>
-                        <p>
-                            Langganan
-                        </p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="/penulis" class="nav-link">
+                            <i class="nav-icon fas fa-pen"></i>
+                            <p>
+                                Workers
+                            </p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
 

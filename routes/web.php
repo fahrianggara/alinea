@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
-use App\Http\Controllers\Admin\{AuthController, BookController, CategoryController, DashboardController};
+use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController};
 use Faker\Guesser\Name;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
@@ -30,6 +30,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [BookController::class, 'store'])->name('.store');
         Route::delete('/{id}', [BookController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [BookController::class, 'update'])->name('.update');
+
+    });
+
+    Route::group(['prefix' => 'borrowings', 'as' => 'borrowings',], function () {
+
+        Route::get('/', [BorrowingController::class, 'index'])->name('');
+        Route::get('/{id}', [BorrowingController::class, 'show'])->name('.show');
+        Route::post('/', [BorrowingController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
 
     });
 
