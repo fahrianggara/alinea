@@ -1,8 +1,15 @@
 <?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\Api\{BookApiController , CategoryApiController};
+=======
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
+>>>>>>> 96405bed6776963e112e9967422c7ff3cfe64f47
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Spatie\FlareClient\Api;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< HEAD
 Route::get('/categories', [CategoryApiController::class, 'index']);
 Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
 Route::post('/categories', [CategoryApiController::class, 'store']);
@@ -28,3 +36,26 @@ Route::get('/books/{id}', [BookApiController::class, 'show']);
 Route::post('/books', [BookApiController::class, 'store']);
 Route::put('/books/{id}', [BookApiController::class, 'update']);
 Route::delete('/books/{id}', [BookApiController::class, 'destroy']);
+=======
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::delete('/logout', [AuthController::class, 'logout']);
+
+    Route::group(['prefix' => 'books'], function () {
+        Route::get('/', [BookController::class, 'index']);
+        Route::get('/{id}', [BookController::class, 'show']);
+        Route::post('/', [BookController::class, 'store']);
+        Route::put('/{id}', [BookController::class, 'update']);
+        Route::delete('/{id}', [BookController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::get('/{id}', [CategoryController::class, 'show']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::put('/{id}', [CategoryController::class, 'update']);
+        Route::delete('/{id}', [CategoryController::class, 'destroy']);
+    });
+});
+>>>>>>> 96405bed6776963e112e9967422c7ff3cfe64f47
