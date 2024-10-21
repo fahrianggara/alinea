@@ -12,7 +12,7 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('borrowing_id')->constrained('borrowings');
-            $table->decimal('total_amount', 10, 2);
+            $table->decimal('total_amount', 10, 2)->nullable();
             $table->date('issue_date');
             $table->date('due_date');
             $table->enum('status', ['fined', 'clear']);

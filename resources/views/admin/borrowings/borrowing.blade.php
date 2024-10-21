@@ -48,6 +48,10 @@
                                                 alt="Book Cover"class="img-fluid" style="max-width: 50px;">
                                         </td>
                                         <td>
+                                            <span class="badge bg-primary font-weight-bold">
+                                                {{ $borrowing->no_invoice }}
+                                            </span>
+                                            <br>
                                             <span class="small text-capitalize" style="color: #757575; font-size: 14px;">
                                                 {{ $borrowing->book->category->name }} - {{ $borrowing->book->author }}
                                             </span>
@@ -102,19 +106,18 @@
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                                     <li class="dropdown-item">
-                                                        <button type="submit" class="btn d-flex align-items-center px-0"
-                                                            data-toggle="modal"
-                                                            data-target="#Updateborrowing{{ $borrowing->id }}">
-                                                            <i class="fas fa-user-edit text-center mr-2"
-                                                                style="width: 18px; font-size: 16px;"></i>
-                                                            <span>Update book</span>
-                                                        </button>
+                                                        <a class="btn d-flex align-items-center px-0" style=""
+                                                            href="{{ route('borrowings.show', $borrowing->id) }}">
+                                                            <i class="fas fa-eye text-center mr-2"
+                                                                style="widht: 18px; font-size: 16px;"></i>
+                                                            <span>Detail book</span>
+                                                        </a>
                                                     </li>
 
                                                     <li class="dropdown-item">
-                                                        <form action="{{ route('categories.destroy', $borrowing->id) }}"
+                                                        <form action="{{ route('borrowings.destroy', $borrowing->id) }}"
                                                             method="POST"
-                                                            onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                                            onsubmit="return confirm('Are you sure you want to delete this Borrowings?');">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
