@@ -102,13 +102,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="/penulis" class="nav-link">
-                            <i class="nav-icon fas fa-pen"></i>
-                            <p>
-                                Users
-                            </p>
-                        </a>
-                    </li>
+    <a href="{{ route('users.index') }}" class="nav-link">
+        <i class="nav-icon fas fa-users"></i>
+        <p>
+            Users
+        </p>
+    </a>
+</li>
 
                     <li class="nav-item">
                         <a href="/penulis" class="nav-link">

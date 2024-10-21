@@ -2,13 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
-use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController};
+use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, UserController};
+use App\Models\Admin;
 use Faker\Guesser\Name;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
+
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -20,7 +22,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [CategoryController::class, 'store'])->name('.store');
         Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [CategoryController::class, 'update'])->name('.update');
-
     });
 
     Route::group(['prefix' => 'books', 'as' => 'books',], function () {
@@ -30,7 +31,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [BookController::class, 'store'])->name('.store');
         Route::delete('/{id}', [BookController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [BookController::class, 'update'])->name('.update');
-
     });
 
     Route::group(['prefix' => 'borrowings', 'as' => 'borrowings',], function () {
@@ -40,7 +40,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [BorrowingController::class, 'store'])->name('.store');
         Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
+    });
 
+    // In routes/web.php
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');          // List users
+        Route::get('/create', [UserController::class, 'create'])->name('create');  // Show create user form
+        Route::post('/', [UserController::class, 'store'])->name('store');          // Store a new user
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');    // Show edit form
+        Route::put('/{id}', [UserController::class, 'update'])->name('update');     // Update user
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
     });
 
 });
