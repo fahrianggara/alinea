@@ -1,12 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-use App\Http\Controllers\Api\{BookApiController , CategoryApiController};
-=======
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\CategoryController;
->>>>>>> 96405bed6776963e112e9967422c7ff3cfe64f47
+use App\Http\Controllers\Api\{BookApiController , CategoryApiController, AuthController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\FlareClient\Api;
@@ -22,7 +16,7 @@ use Spatie\FlareClient\Api;
 |
 */
 
-<<<<<<< HEAD
+
 Route::get('/categories', [CategoryApiController::class, 'index']);
 Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
 Route::post('/categories', [CategoryApiController::class, 'store']);
@@ -36,26 +30,25 @@ Route::get('/books/{id}', [BookApiController::class, 'show']);
 Route::post('/books', [BookApiController::class, 'store']);
 Route::put('/books/{id}', [BookApiController::class, 'update']);
 Route::delete('/books/{id}', [BookApiController::class, 'destroy']);
-=======
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', [AuthController::class, 'logout']);
 
     Route::group(['prefix' => 'books'], function () {
-        Route::get('/', [BookController::class, 'index']);
-        Route::get('/{id}', [BookController::class, 'show']);
-        Route::post('/', [BookController::class, 'store']);
-        Route::put('/{id}', [BookController::class, 'update']);
-        Route::delete('/{id}', [BookController::class, 'destroy']);
+        Route::get('/', [BookApiController::class, 'index']);
+        Route::get('/{id}', [BookApiController::class, 'show']);
+        Route::post('/', [BookApiController::class, 'store']);
+        Route::put('/{id}', [BookApiController::class, 'update']);
+        Route::delete('/{id}', [BookApiController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'categories'], function () {
-        Route::get('/', [CategoryController::class, 'index']);
-        Route::get('/{id}', [CategoryController::class, 'show']);
-        Route::post('/', [CategoryController::class, 'store']);
-        Route::put('/{id}', [CategoryController::class, 'update']);
-        Route::delete('/{id}', [CategoryController::class, 'destroy']);
+        Route::get('/', [CategoryApiController::class, 'index']);
+        Route::get('/{id}', [CategoryApiController::class, 'show']);
+        Route::post('/', [CategoryApiController::class, 'store']);
+        Route::put('/{id}', [CategoryApiController::class, 'update']);
+        Route::delete('/{id}', [CategoryApiController::class, 'destroy']);
     });
 });
->>>>>>> 96405bed6776963e112e9967422c7ff3cfe64f47
