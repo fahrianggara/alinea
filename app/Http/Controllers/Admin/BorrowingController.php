@@ -49,22 +49,15 @@ class BorrowingController extends Controller
         if ($book->stock > 0) {
             // Menyimpan data ke tabel borrowings
             Borrowing::create([
+                'no_invoice' => date('YmdHis'). rand(1000, 9999),
                 'user_id' => $request->user_id,
                 'book_id' => $request->book_id,
                 'borrow_date' => $request->borrow_date,
                 'return_date' => $request->return_date,
-                'status_id' => '1',
+                'status_id' => 1,
             ]);
 
             $borrowing_id = Borrowing::latest()->first()->id;
-
-            Invoice::create([
-                'user_id' => $request->user_id,
-                'borrowing_id' => $borrowing_id,
-                'borrow_date' => $request->borrow_date,
-                'return_date' => $request->return_date,
-                'status_id' => '1',
-            ]);
 
             // Kurangi stok buku
             $book->stock -= 1;
@@ -83,7 +76,9 @@ class BorrowingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $borrowing = Borrowing::with(['user', 'book', 'status'])->find($id);
+
+        return view('admin.borrowings.invoice', compact('borrowing'));
     }
 
     /**
@@ -107,6 +102,17 @@ class BorrowingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $borrowing = Borrowing::find($id);
+
+        $borrowing->delete();
+
+        if ($borrowing){
+
+            return redirect()->back()->with('success', 'Borrowings success delete');
+
+        } else {
+
+            return redirect()->back()->with('error', 'Borrowings failed delete');
+        }
     }
 }

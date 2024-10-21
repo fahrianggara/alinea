@@ -6,7 +6,15 @@ use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingControl
 use App\Models\Admin;
 use Faker\Guesser\Name;
 
+<<<<<<< HEAD
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
+=======
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+>>>>>>> 96405bed6776963e112e9967422c7ff3cfe64f47
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
