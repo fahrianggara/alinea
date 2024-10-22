@@ -79,53 +79,45 @@
                                                             </button>
                                                         </form>
                                                     </li>
+                                            </div>
 
-                                                    <div class="modal fade" id="UpdateCategory{{ $category->id }}">
-                                                        <div class="modal-dialog modal-md">
-                                                            <div class="modal-content">
+                                            <div class="modal fade" id="UpdateCategory{{ $category->id }}">
+                                                <div class="modal-dialog modal-md">
+                                                    <div class="modal-content">
 
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Category Book</h4>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;</button>
-                                                                </div>
-
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body">
-                                                                    <form
-                                                                        action="{{ route('categories.update', $category->id) }}"
-                                                                        method="post">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <div class="form-group">
-                                                                            <label for="name"
-                                                                                class="form-label small">Category</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="name" id="name"
-                                                                                value="{{ $category->name }}">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="description"
-                                                                                class="form-label small">Description</label>
-                                                                            <textarea name="description" id="editor" rows="10" class="form-control">
-                                                                                {{ $category->description }}
-                                                                            </textarea>
-                                                                        </div>
-                                                                </div>
-
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <button type="submit"
-                                                                        class="btn btn-success">Update</button>
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-                                                                </div>
-                                                                </form>
-
-                                                            </div>
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Category Book</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
+
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            <form action="{{ route('categories.store') }}" method="post">
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <label for="name" class="form-label small">Category</label>
+                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $category->name }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="description" class="form-label small">Description</label>
+                                                                    <textarea name="description" id="add-editor" rows="10" class="form-control">
+                                                                        {{ $category->description }}
+                                                                    </textarea>
+                                                                </div>
+                                                        </div>
+
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success">Add</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                        </form>
+
                                                     </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
                                 @endforeach

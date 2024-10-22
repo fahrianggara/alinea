@@ -8,16 +8,11 @@ use Faker\Guesser\Name;
 
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
-
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
+
+
 
 
 Route::group(['middleware' => ['auth']], function () {

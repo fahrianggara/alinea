@@ -43,9 +43,9 @@ class User extends Authenticatable
     }
 
     // Automatically hash the password when it is set
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
+    // public function setPasswordAttribute($password)
+    // {
+    //     $this->attributes['password'] = bcrypt($password);
+    // }
 }
 
