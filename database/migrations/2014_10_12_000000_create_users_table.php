@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('nim')->nullable()->unique();
             $table->string('email')->unique();
-            $table->string('first_name'); 
-            $table->string('last_name'); 
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('password');
             $table->boolean('status')->default(true);
             $table->date('due_block')->nullable();
             $table->enum('role', ['guest', 'user', 'admin'])->default('user');
             $table->string('remember_token', 100)->nullable();
+            $table->string('no_invoice')->nullable()->unique();
             $table->timestamps();
         });
 
@@ -29,7 +30,7 @@ return new class extends Migration
 
     public function down()
     {
-        
+
         Schema::dropIfExists('users');
     }
 };

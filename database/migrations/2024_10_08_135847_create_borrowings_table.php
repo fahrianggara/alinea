@@ -16,7 +16,6 @@ class CreateBorrowingsTable extends Migration
             $table->date('borrow_date')->nullable();
             $table->date('return_date')->nullable();
             $table->foreignId('status_id')->constrained('statuses');
-            $table->decimal('total_amount')->nullable();
             $table->timestamps();
         });
     }
