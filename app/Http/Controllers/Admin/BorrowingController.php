@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BorrowingController extends Controller
@@ -49,7 +50,6 @@ class BorrowingController extends Controller
         if ($book->stock > 0) {
             // Menyimpan data ke tabel borrowings
             Borrowing::create([
-                'no_invoice' => date('YmdHis'). rand(1000, 9999),
                 'user_id' => $request->user_id,
                 'book_id' => $request->book_id,
                 'borrow_date' => $request->borrow_date,
@@ -58,6 +58,17 @@ class BorrowingController extends Controller
             ]);
 
             $borrowing_id = Borrowing::latest()->first()->id;
+
+            $date = Carbon::now()->format('Ymd'); // format year-month-day (20241024)
+            $no_invoice = $date . $request->user_id . $borrowing_id . rand(100, 999); // e.g. 20241024123451XXX
+
+            $invoice = Invoice::create([
+                'no_invoice' => $no_invoice,
+                'user_id' => $request->user_id,
+                'borrowing_id' => $borrowing_id,
+                'total_amount' => 30000,
+                'status' => 'fined'
+            ]);
 
             // Kurangi stok buku
             $book->stock -= 1;
