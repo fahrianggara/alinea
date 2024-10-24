@@ -2,22 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
-use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, UserController};
+use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, InvoiceController, UserController};
 use App\Models\Admin;
 use Faker\Guesser\Name;
 
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->Middleware('guest');
-
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
+
+
 
 
 Route::group(['middleware' => ['auth']], function () {
@@ -48,6 +43,17 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [BorrowingController::class, 'store'])->name('.store');
         Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
+    });
+
+
+    Route::group(['prefix' => 'invoices', 'as' => 'invoices',], function () {
+
+        Route::get('/', [InvoiceController::class, 'index'])->name('');
+        Route::get('/{id}', [InvoiceController::class, 'show'])->name('.show');
+        Route::post('/', [InvoiceController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [InvoiceController::class, 'update'])->name('.update');
+
     });
 
     // In routes/web.php

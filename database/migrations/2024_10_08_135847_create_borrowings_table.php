@@ -10,13 +10,11 @@ class CreateBorrowingsTable extends Migration
     {
         Schema::create('borrowings', function (Blueprint $table) {
             $table->id();
-            $table->string('no_invoice')->unique();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('book_id')->constrained('books');
-            $table->date('borrow_date')->nullable();
-            $table->date('return_date')->nullable();
+            $table->date('borrow_date');
+            $table->date('return_date');
             $table->foreignId('status_id')->constrained('statuses');
-            $table->decimal('total_amount')->nullable();
             $table->timestamps();
         });
     }

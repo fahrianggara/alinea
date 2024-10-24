@@ -88,7 +88,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/profile" class="nav-link">
+                    <a href="{{ route('invoices') }}" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Invoice

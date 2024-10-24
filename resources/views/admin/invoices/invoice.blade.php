@@ -6,7 +6,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6 ml-auto">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Categories</a></li>
+                        <li class="breadcrumb-item"><a href="#">invoice</a></li>
+                        <li class="breadcrumb-item"><a href="#">borrowings</a></li>
                         <li class="breadcrumb-item active">Dashboard Alinea</li>
                     </ol>
                 </div>
@@ -18,9 +19,9 @@
 
             <div class="card table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span class="title-top-table">Book Category</span>
-                    <button class="btn btn-success ml-auto py-1" data-toggle="modal" data-target="#AddCategory">
-                        <i class="fa fa-plus mr-1"></i> Add Category
+                    <span class="title-top-table">Book invoice</span>
+                    <button class="btn btn-success ml-auto py-1" data-toggle="modal" data-target="#Addinvoice">
+                        <i class="fa fa-plus mr-1"></i> Add invoice
                     </button>
                 </div>
                 <div class="card-body">
@@ -29,8 +30,11 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
+                                    <th>Invoice</th>
+                                    <th>Borrower</th>
+                                    <th>Total Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
                                     <th>
                                         <center>Actions</center>
                                     </th>
@@ -38,11 +42,14 @@
                             </thead>
                             <tbody>
                                 @php $no = 1; @endphp
-                                @foreach ($categories as $category)
+                                @foreach ($invoices as $invoice)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>{!! $category->description !!}</td>
+                                        <td>{{ $invoice->no_invoice }}</td>
+                                        <td>{{ $invoice->user->first_name }} {{ $invoice->user->last_name }}</td>
+                                        <td>{{ 'Rp' . number_format($invoice->total_amount, 0, ',', '.') }}</td>
+                                        <td>{{ $invoice->created_at }}</td>
+                                        <td>{{ $invoice->status }}</td>
 
                                         <td>
                                             <div class="dropdown d-flex align-items-center justify-content-center">
@@ -58,7 +65,7 @@
                                                     <li class="dropdown-item">
                                                         <button type="submit" class="btn d-flex align-items-center px-0"
                                                             data-toggle="modal"
-                                                            data-target="#UpdateCategory{{ $category->id }}">
+                                                            data-target="#Updateinvoice{{ $invoice->id }}">
                                                             <i class="fas fa-user-edit text-center mr-2"
                                                                 style="width: 18px; font-size: 16px;"></i>
                                                             <span>Update book</span>
@@ -66,7 +73,7 @@
                                                     </li>
 
                                                     <li class="dropdown-item">
-                                                        <form action="{{ route('categories.destroy', $category->id) }}"
+                                                        <form action="{{ route('categories.destroy', $invoice->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this book?');">
                                                             @csrf
@@ -75,19 +82,19 @@
                                                                 class="btn d-flex align-items-center px-0">
                                                                 <i class="fas fa-trash text-center mr-2"
                                                                     style="width: 18px; font-size: 16px;"></i>
-                                                                <span>Delete Category</span>
+                                                                <span>Delete invoice</span>
                                                             </button>
                                                         </form>
                                                     </li>
                                             </div>
 
-                                            <div class="modal fade" id="UpdateCategory{{ $category->id }}">
+                                            <div class="modal fade" id="Updateinvoice{{ $invoice->id }}">
                                                 <div class="modal-dialog modal-md">
                                                     <div class="modal-content">
 
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Category Book</h4>
+                                                            <h4 class="modal-title">invoice Book</h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
 
@@ -96,13 +103,13 @@
                                                             <form action="{{ route('categories.store') }}" method="post">
                                                                 @csrf
                                                                 <div class="form-group">
-                                                                    <label for="name" class="form-label small">Category</label>
-                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $category->name }}">
+                                                                    <label for="name" class="form-label small">invoice</label>
+                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $invoice->name }}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="description" class="form-label small">Description</label>
                                                                     <textarea name="description" id="add-editor" rows="10" class="form-control">
-                                                                        {{ $category->description }}
+                                                                        {{ $invoice->description }}
                                                                     </textarea>
                                                                 </div>
                                                         </div>
@@ -127,39 +134,4 @@
                 </div>
             </div>
     </section>
-
-    <div class="modal fade" id="AddCategory">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Category Book</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form action="{{ route('categories.store') }}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name" class="form-label small">Category</label>
-                            <input type="text" class="form-control" name="name" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="form-label small">Description</label>
-                            <textarea name="description" id="add-editor" rows="10" class="form-control"></textarea>
-                        </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Add</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
 @endsection
