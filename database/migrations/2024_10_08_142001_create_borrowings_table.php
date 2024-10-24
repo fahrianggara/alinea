@@ -10,6 +10,7 @@ class CreateBorrowingsTable extends Migration
     {
         Schema::create('borrowings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('invoice_id')->constrained('invoices');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('book_id')->constrained('books');
             $table->date('borrow_date');

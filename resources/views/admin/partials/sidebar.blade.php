@@ -65,6 +65,7 @@
                     </a>
                 </li>
 
+
                 <li class="nav-item">
                     <a href="{{ route('books') }}" class="nav-link">
                         <i class="nav-icon fas fa-newspaper"></i>
@@ -75,7 +76,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <span class="small nav-link">Main</span>
+                    <span class="small nav-link">Main For Testing Only</span>
                 </li>
 
                 <li class="nav-item">
@@ -96,25 +97,36 @@
                     </a>
                 </li>
 
+
+
                 @if ($admin->role == 'super_admin')
                     <li class="nav-item">
                         <span class="small nav-link">Superadmmin Manage</span>
                     </li>
 
                     <li class="nav-item">
-    <a href="{{ route('users.index') }}" class="nav-link">
-        <i class="nav-icon fas fa-users"></i>
-        <p>
-            Users
-        </p>
-    </a>
-</li>
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Users
+                            </p>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a href="/penulis" class="nav-link">
                             <i class="nav-icon fas fa-pen"></i>
                             <p>
                                 Workers
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('testing') }}" class="nav-link">
+                            <i class="nav-icon fas fa-newspaper"></i>
+                            <p>
+                                Testing
                             </p>
                         </a>
                     </li>
