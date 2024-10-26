@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Resources\ResResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\FlareClient\Api;
@@ -20,7 +21,12 @@ use Spatie\FlareClient\Api;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function ()
+{
+    Route::get('/me', function (Request $request) {
+        return response()->json(new ResResource($request->user(), true, 'User data retrieved successfully'), 200);
+    });
+
     Route::delete('/logout', [AuthController::class, 'logout']);
 
     Route::group(['prefix' => 'books'], function () {
