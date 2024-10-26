@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 ml-auto">
                     <ol class="breadcrumb float-sm-right">
@@ -14,10 +14,10 @@
         </div>
     </div>
     <section class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span class="title-top-table">Book book</span>
+                    <span class="title-top-table">Book Manage</span>
                     <button class="btn btn-success ml-auto py-1" data-toggle="modal" data-target="#AddBook">
                         <i class="fa fa-plus mr-1"></i> Add book
                     </button>
