@@ -10,12 +10,10 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('no_invoice')->unique();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('borrowing_id')->constrained('borrowings');
-            $table->decimal('total_amount', 10, 2);
-            $table->date('issue_date');
-            $table->date('due_date');
-            $table->enum('status', ['fined', 'clear']);
+            $table->decimal('total_amount', 10, 2)->nullable();
+            $table->enum('status', ['fined', 'clear'])->nullable();
             $table->timestamps();
         });
     }

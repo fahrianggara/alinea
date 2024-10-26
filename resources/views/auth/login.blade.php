@@ -11,9 +11,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.3/dist/sweetalert2.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
     <style>
         * {
@@ -34,7 +37,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: #F1F4FD;
             box-shadow: 10px 10px 4px 0 rgba(0, 0, 0, 0.25);
             padding: 60px;
             border-radius: 10px;
@@ -83,13 +86,27 @@
 
         }
     </style>
+    <style>
+        .field-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+
+        .form-group {
+            position: relative;
+        }
+    </style>
+
 </head>
 
 <body>
 
     <div class="container-fluid login d-flex align-items-center justify-content-center"
         style="background-image: url('{{ asset('assets/images/login/bg-login.png') }}')">
-
         <div
             class="col-lg-8 col-11 mx-auto wrap-login"style="background-image: url('{{ asset('assets/images/login/right-login.png') }}')">
             <div class="row m-0">
@@ -99,18 +116,20 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                required>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                id="email" name="email" placeholder="Email" required>
                         </div>
 
-                        <div class="form-group m-0">
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Password" required>
+                        <div class="form-group m-0 position-relative">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                id="password" name="password" placeholder="Password" required>
+
+                            <!-- Tambahkan ikon show/hide -->
+                            <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
 
                         <div class="form-check py-3 pl-4">
-                            <input class="form-check-input" type="checkbox" id="coding" name="interests[]"
-                                value="coding">
+                            <input class="form-check-input" type="checkbox" id="coding" name="remember">
                             <label class="form-check-label" for="coding">
                                 Remember me
                             </label>
@@ -128,41 +147,61 @@
         </div>
     </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>
+        // Cek apakah ada error untuk email
+        @if ($errors->has('email'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ $errors->first('email') }}',
+            });
+        @endif
+
+        // Cek apakah ada error untuk password
+        @if ($errors->has('password'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ $errors->first('password') }}',
+            });
+        @endif
+
+        // Cek apakah ada error custom seperti unAdmin
+        @if ($errors->has('unAdmin'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Anda Salah Masuk',
+                text: '{{ $errors->first('unAdmin') }}',
+            });
+        @endif
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ketika ikon mata diklik
+            document.querySelector('.toggle-password').addEventListener('click', function(e) {
+                let passwordInput = document.querySelector('#password');
+
+                // Ubah type dari password menjadi text untuk show
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash'); // Ubah ikon jadi eye-slash
+                } else {
+                    passwordInput.type = "password";
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye'); // Kembalikan ikon jadi eye
+                }
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
-
-
-
-{{-- <!DOCTYPE html>
-<html>
-
-<head>
-    <title>Login</title>
-</head>
-
-<body>
-    <h1>Login</h1>
-    @if ($errors->any())
-    <div>
-        <strong>{{ $errors->first() }}</strong>
-    </div>
-    @endif
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-
-        <button type="submit">Login</button>
-    </form>
-</body>
-
-</html> --}}
