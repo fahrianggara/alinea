@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
 use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CartController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
+use App\Http\Controllers\Alinea\PickupController;
 use App\Http\Controllers\Testing\CartTestController;
 use App\Models\Admin;
 use Faker\Guesser\Name;
@@ -67,18 +68,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
     // for testing only
     Route::group(['prefix' => 'testing', 'as' => 'testing',], function () {
 
@@ -88,7 +77,18 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('/cart/borrow', [CartTestController::class, 'borrow'])->name('.borrow');
 
+    });
 
+    // for Front-End
+    
+    Route::group(['prefix' => 'pickups', 'as' => 'pickups',], function () {
+
+        Route::get('/', [PickupController::class, 'index'])->name('');
+        Route::get('/{id}', [BorrowingController::class, 'show'])->name('.show');
+        Route::post('/', [BorrowingController::class, 'store'])->name('.store');
+        Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
+        Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
+        
     });
 
 });

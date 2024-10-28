@@ -60,7 +60,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book-reader"></i>
                         <p>
@@ -71,9 +71,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <hr>
-                            
+
                         <li class="nav-item">
-                            <a href="{{ route('categories') }}" class="nav-link text-sm">
+                            <a href="{{ route('categories') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tags fa-sm"></i>
                                 <p>Returns Page</p>
                             </a>
@@ -84,7 +84,7 @@
                 </li>
 
 
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
@@ -96,14 +96,14 @@
                     <ul class="nav nav-treeview mt-2">
                         <hr>
                         <li class="nav-item">
-                            <a href="{{ route('categories') }}" class="nav-link text-sm">
+                            <a href="{{ route('categories') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tags fa-sm"></i>
                                 <p>Book Category</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('books') }}" class="nav-link text-sm">
+                            <a href="{{ route('books') }}" class="nav-link">
                                 <i class="nav-icon fas fa-book-open fa-sm"></i>
                                 <p>Book</p>
                             </a>
@@ -136,61 +136,51 @@
                 </li>
 
                 @if ($admin->role == 'super_admin')
-                    <li class="nav-item menu-open">
-                        <a href="#" class="nav-link">
+                    {{-- <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user-shield"></i>
                             <p>
                                 Super Admin
                                 <i class="fas fa-angle-left right"></i>
                             </p>
+                        </a> --}}
+                    <li class="nav-header">
+                        <span>Super Admin</span>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="{{ route('borrowings') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-reader fa-sm"></i>
+                            <p>Borrowing</p>
                         </a>
-                        <ul class="nav nav-treeview mt-2">
-                            <li class="nav-header">
-                                <span>Borrowing Testing</span>
-                            </li>
-                            <li class="nav-item active">
-                                <a href="{{ route('borrowings') }}" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-book-reader fa-sm"></i>
-                                    <p>Borrowing</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('invoices') }}" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-file-invoice fa-sm"></i>
-                                    <p>Invoice</p>
-                                </a>
-                            </li>
-                            <li class="nav-header">
-                                <span>Manage & Testing</span>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('users.index') }}" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-users-cog fa-sm"></i>
-                                    <p>Users</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/penulis" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-user-edit fa-sm"></i>
-                                    <p>Admins</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('testing') }}" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-vial fa-sm"></i>
-                                    <p>Testing</p>
-                                </a>
-                            </li>
-                            <li class="nav-header">
-                                <span>Api Testing</span>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('testing') }}" class="nav-link text-sm">
-                                    <i class="nav-icon fas fa-vial fa-sm"></i>
-                                    <p>Api Mobile</p>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('invoices') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice fa-sm"></i>
+                            <p>Invoice</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">
+                        <span>Manage & Testing</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users-cog fa-sm"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/penulis" class="nav-link">
+                            <i class="nav-icon fas fa-user-edit fa-sm"></i>
+                            <p>Admins</p>
+                        </a>
+                    </li>
+                    <li class="nav-header">
+                        <span>Api Testing</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('testing') }}" class="nav-link">
+                            <i class="nav-icon fas fa-vial fa-sm"></i>
+                            <p>Api Mobile</p>
+                        </a>
                     </li>
                 @endif
             </ul>

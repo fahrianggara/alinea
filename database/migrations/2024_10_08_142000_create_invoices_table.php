@@ -11,6 +11,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('no_invoice')->unique();
+            $table->text('qr_code')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('total_amount', 10, 2)->nullable();
             $table->enum('status', ['fined', 'clear'])->nullable();

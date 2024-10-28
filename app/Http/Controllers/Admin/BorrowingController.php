@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BorrowingController extends Controller
 {
@@ -18,7 +19,7 @@ class BorrowingController extends Controller
      */
     public function index()
     {
-        $borrowings = Borrowing::with('user', 'book.category', 'status')->get();
+        $borrowings = Borrowing::with('user', 'book.category', 'status', 'invoice')->latest()->get();
         $books = Book::with('category')->get();
 
         return view('admin.borrowings.borrowing', compact(['borrowings', 'books']));
@@ -45,6 +46,9 @@ class BorrowingController extends Controller
             'return_date' => 'nullable|date|after_or_equal:borrow_date',
         ]);
 
+        $date = Carbon::now()->format('Ymd');
+        $no_invoice = $date . Auth::id() . rand(100, 999);
+
         // Cari buku berdasarkan book_id
         $book = Book::find($request->book_id);
         if (!$book) {
@@ -55,21 +59,23 @@ class BorrowingController extends Controller
             return redirect()->back()->with('error', 'Book "' . $book->title . '" is out of stock!');
         }
 
-        // Buat nomor invoice
-        $date = Carbon::now()->format('Ymd'); // e.g., 20241024
-        $no_invoice = $date . Auth::id() . rand(100, 999); // e.g., 20241024123451XXX
 
         // Inisiasi total amount (misalnya 10.000 per buku)
         $totalAmount = 10000; // Contoh harga setiap buku 10.000
 
         // Mulai transaksi
-        DB::beginTransaction();
+        
 
         try {
+            DB::beginTransaction();
+
+            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+
             // Simpan invoice
             $invoice = Invoice::create([
                 'no_invoice' => $no_invoice,
                 'user_id' => Auth::id(),
+                'qr_code' => $qrCode,
                 'total_amount' => $totalAmount, // Total dihitung langsung
                 'status' => 'clear', // Status invoice
             ]);
@@ -81,7 +87,7 @@ class BorrowingController extends Controller
                 'book_id' => $book->id,
                 'borrow_date' => now(),
                 'return_date' => now()->addWeeks(1), // Contoh durasi 1 minggu
-                'status_id' => 2, // Status peminjaman
+                'status_id' => 1, // Status peminjaman
             ]);
 
             // Kurangi stok buku
