@@ -15,13 +15,8 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function borrowing()
+    public function borrowings()
     {
-        return $this->belongsTo(Borrowing::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
+        return $this->hasMany(Borrowing::class, 'invoice_id');
     }
 }

@@ -10,7 +10,7 @@ class InvoiceController extends Controller
 {
     public function index(){
 
-        $invoices = Invoice::with(['user', 'borrowing'])->get();
+        $invoices = Invoice::with(['user'])->get();
 
         return view('admin.invoices.invoice', compact('invoices'));
     }

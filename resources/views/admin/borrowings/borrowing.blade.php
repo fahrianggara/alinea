@@ -28,6 +28,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>QR</th>
                                     <th>Cover</th>
                                     <th>Information</th>
                                     <th>Borrower</th>
@@ -43,13 +44,14 @@
                                 @foreach ($borrowings as $borrowing)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td><img src="data:image/png;base64,{{ $borrowing->invoice->qr_code }}" alt="QR Code" class="img-fluid" width="100"></td>
                                         <td>
                                             <img src="{{ asset('storage/' . $borrowing->book->cover) }}"
                                                 alt="Book Cover"class="img-fluid" style="max-width: 50px;">
                                         </td>
                                         <td>
                                             <span class="badge bg-primary font-weight-bold">
-                                                {{ $borrowing->no_invoice }}
+                                                {{ $borrowing->invoice->no_invoice }}
                                             </span>
                                             <br>
                                             <span class="small text-capitalize" style="color: #757575; font-size: 14px;">

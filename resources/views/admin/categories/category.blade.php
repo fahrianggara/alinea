@@ -61,7 +61,7 @@
                                                             data-target="#UpdateCategory{{ $category->id }}">
                                                             <i class="fas fa-user-edit text-center mr-2"
                                                                 style="width: 18px; font-size: 16px;"></i>
-                                                            <span>Update book</span>
+                                                            <span>Update category</span>
                                                         </button>
                                                     </li>
 
@@ -93,8 +93,10 @@
 
                                                         <!-- Modal body -->
                                                         <div class="modal-body">
-                                                            <form action="{{ route('categories.store') }}" method="post">
+                                                            <form action="{{ route('categories.update', $category->id) }}"
+                                                                method="post">
                                                                 @csrf
+                                                                @method('PUT')
                                                                 <div class="form-group">
                                                                     <label for="name" class="form-label small">Category</label>
                                                                     <input type="text" class="form-control" name="name" id="name" value="{{ $category->name }}">
@@ -109,7 +111,7 @@
 
                                                         <!-- Modal footer -->
                                                         <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-success">Add</button>
+                                                            <button type="submit" class="btn btn-success">Update</button>
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         </div>
                                                         </form>

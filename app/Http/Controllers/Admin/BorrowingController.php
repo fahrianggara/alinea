@@ -8,6 +8,9 @@ use App\Models\Borrowing;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BorrowingController extends Controller
 {
@@ -16,7 +19,7 @@ class BorrowingController extends Controller
      */
     public function index()
     {
-        $borrowings = Borrowing::with('user', 'book.category', 'status')->get();
+        $borrowings = Borrowing::with('user', 'book.category', 'status', 'invoice')->latest()->get();
         $books = Book::with('category')->get();
 
         return view('admin.borrowings.borrowing', compact(['borrowings', 'books']));
@@ -43,42 +46,60 @@ class BorrowingController extends Controller
             'return_date' => 'nullable|date|after_or_equal:borrow_date',
         ]);
 
+        $date = Carbon::now()->format('Ymd');
+        $no_invoice = $date . Auth::id() . rand(100, 999);
+
         // Cari buku berdasarkan book_id
         $book = Book::find($request->book_id);
+        if (!$book) {
+            return redirect()->back()->with('error', 'Book not found!');
+        }
 
-        // Cek apakah stok tersedia
-        if ($book->stock > 0) {
-            // Menyimpan data ke tabel borrowings
-            Borrowing::create([
-                'user_id' => $request->user_id,
-                'book_id' => $request->book_id,
-                'borrow_date' => $request->borrow_date,
-                'return_date' => $request->return_date,
-                'status_id' => 1,
-            ]);
+        if ($book->stock <= 0) {
+            return redirect()->back()->with('error', 'Book "' . $book->title . '" is out of stock!');
+        }
 
-            $borrowing_id = Borrowing::latest()->first()->id;
 
-            $date = Carbon::now()->format('Ymd'); // format year-month-day (20241024)
-            $no_invoice = $date . $request->user_id . $borrowing_id . rand(100, 999); // e.g. 20241024123451XXX
+        // Inisiasi total amount (misalnya 10.000 per buku)
+        $totalAmount = 10000; // Contoh harga setiap buku 10.000
 
+        // Mulai transaksi
+        
+
+        try {
+            DB::beginTransaction();
+
+            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+
+            // Simpan invoice
             $invoice = Invoice::create([
                 'no_invoice' => $no_invoice,
-                'user_id' => $request->user_id,
-                'borrowing_id' => $borrowing_id,
-                'total_amount' => 30000,
-                'status' => 'fined'
+                'user_id' => Auth::id(),
+                'qr_code' => $qrCode,
+                'total_amount' => $totalAmount, // Total dihitung langsung
+                'status' => 'clear', // Status invoice
+            ]);
+
+            // Simpan data peminjaman dengan `invoice_id`
+            Borrowing::create([
+                'invoice_id' => $invoice->id, // Menggunakan invoice_id, bukan no_invoice
+                'user_id' => Auth::id(),
+                'book_id' => $book->id,
+                'borrow_date' => now(),
+                'return_date' => now()->addWeeks(1), // Contoh durasi 1 minggu
+                'status_id' => 1, // Status peminjaman
             ]);
 
             // Kurangi stok buku
-            $book->stock -= 1;
-            $book->save(); // Simpan perubahan stok
+            $book->decrement('stock');
 
-            // Redirect setelah menyimpan data
-            return redirect()->back()->with('success', 'Borrowing record added successfully and stock updated.');
-        } else {
-            // Jika stok buku 0, kembalikan pesan error
-            return redirect()->back()->with('error', 'Stock is unavailable for this book.');
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Book successfully borrowed!');
+        } catch (\Exception $e) {
+            // Jika ada kesalahan, rollback transaksi
+            DB::rollBack();
+            return redirect()->back()->with('error', 'An error occurred while borrowing the book: ' . $e->getMessage());
         }
     }
 
@@ -114,13 +135,15 @@ class BorrowingController extends Controller
     public function destroy(string $id)
     {
         $borrowing = Borrowing::find($id);
-
+        $invoice = Invoice::where('no_invoice', $borrowing->no_invoice)->first();
+        if ($invoice) {
+            $invoice->delete();
+        }
         $borrowing->delete();
 
-        if ($borrowing){
+        if ($borrowing) {
 
             return redirect()->back()->with('success', 'Borrowings success delete');
-
         } else {
 
             return redirect()->back()->with('error', 'Borrowings failed delete');
