@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Http\Resources\ResResource;
 
 class BookApiController extends Controller
 {
     public function index()
     {
-        return response()->json(Book::all(), 200);
+        // return response()->json(Book::all(), 200);
+        return new ResResource(Book::all(), "Fetch successfully", 200);
     }
 
     // Get a single book by ID
