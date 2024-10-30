@@ -11,8 +11,8 @@ class BookApiController extends Controller
 {
     public function index()
     {
-        // return response()->json(Book::all(), 200);
-        return new ResResource(Book::all(), "Fetch successfully", 200);
+        // return new ResResource(Book::all(), true, "Books retrieved successfully");
+        return response()->json(new ResResource(Book::all(), true, "Books retrieved successfully"), 200);
     }
 
     // Get a single book by ID
@@ -21,10 +21,11 @@ class BookApiController extends Controller
         $book = Book::find($id);
 
         if ($book) {
-            return response()->json($book, 200);
+            return response()->json(new ResResource($book, true, "Book retrieved successfully"), 200);
         }
 
-        return response()->json(['message' => 'Book not found'], 404);
+        return response()->json(new ResResource(null, false, "Book retrieved successfully"), 200);
+
     }
 
     // Create a new book
@@ -42,7 +43,7 @@ class BookApiController extends Controller
 
         $book = Book::create($validated);
 
-        return response()->json($book, 201);
+        return response()->json(new ResResource($book, true, "Book created successfully"), 201);
     }
 
     // Update a book
@@ -51,7 +52,7 @@ class BookApiController extends Controller
         $book = Book::find($id);
 
         if (!$book) {
-            return response()->json(['message' => 'Book not found'], 404);
+            return response()->json(new ResResource(null, false, "Book not found"), 404);
         }
 
         $validated = $request->validate([
@@ -66,7 +67,7 @@ class BookApiController extends Controller
 
         $book->update($validated);
 
-        return response()->json($book, 200);
+        return response()->json(new ResResource($book, true, "Book updated successfully"), 200);
     }
 
     // Delete a book
@@ -76,9 +77,9 @@ class BookApiController extends Controller
 
         if ($book) {
             $book->delete();
-            return response()->json(['message' => 'Book deleted successfully'], 200);
+            return response()->json(new ResResource(null, true, "Book deleted successfully"), 200);
         }
 
-        return response()->json(['message' => 'Book not found'], 404);
+        return response()->json(new ResResource(null, false, "Book not found"), 404);
     }
 }

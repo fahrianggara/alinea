@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\ResResource;
 
 class CategoryApiController extends Controller
 {
     public function index()
     {
-        return response()->json(Category::all(), 200);
+        return response()->json(new ResResource(Category::all(), true, "Categories retrieved successfully"), 200);
     }
 
     // Get a single category by id
@@ -19,10 +20,10 @@ class CategoryApiController extends Controller
         $category = Category::find($id);
 
         if ($category) {
-            return response()->json($category, 200);
+            return response()->json(new ResResource($category, true, "Category retrieved successfully"), 200);
         }
 
-        return response()->json(['message' => 'Category not found'], 404);
+        return response()->json(new ResResource(null, false, "Category not found"), 404);
     }
 
     // Create a new category
@@ -35,7 +36,7 @@ class CategoryApiController extends Controller
 
         $category = Category::create($validated);
 
-        return response()->json($category, 201);
+        return response()->json(new ResResource($category, true, "Category created successfully"), 201);
     }
 
     // Update a category
@@ -44,7 +45,7 @@ class CategoryApiController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json(['message' => 'Category not found'], 404);
+            return response()->json(new ResResource(null, false, "Category not found"), 404);
         }
 
         $validated = $request->validate([
@@ -54,7 +55,7 @@ class CategoryApiController extends Controller
 
         $category->update($validated);
 
-        return response()->json($category, 200);
+        return response()->json(new ResResource($category, true, "Category updated successfully"), 200);
     }
 
     // Delete a category
@@ -64,9 +65,9 @@ class CategoryApiController extends Controller
 
         if ($category) {
             $category->delete();
-            return response()->json(['message' => 'Category deleted successfully'], 200);
+            return response()->json(new ResResource(null, true, "Category deleted successfully"), 200);
         }
 
-        return response()->json(['message' => 'Category not found'], 404);
+        return response()->json(new ResResource(null, false, "Category not found"), 404);
     }
 }
