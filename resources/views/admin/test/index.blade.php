@@ -166,8 +166,8 @@
                 <div class="col-lg-6">
                     <div class="card">
                         @foreach ($invoices as $invoice)
-                            <h2>Invoice #{{ $invoice->no_invoice }} - Total: Rp
-                                {{ $invoice->total_amount, 0, ',', '.' }}</h2>
+                            {{-- <h2>Invoice #{{ $invoice->no_invoice }} - Total: Rp
+                                {{ $invoice->total_amount, 0, ',', '.' }}</h2> --}}
                             <p>Status: {{ ucfirst($invoice->status) }}</p>
                             <h3>Buku yang Dipinjam:</h3>
                             <ul>
