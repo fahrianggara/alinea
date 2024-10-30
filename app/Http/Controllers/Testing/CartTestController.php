@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CartTestController extends Controller
 {
@@ -79,8 +80,8 @@ class CartTestController extends Controller
         }
 
         // Generate nomor invoice unik
-        $date = Carbon::now()->format('Ymd'); // e.g., 20241024
-        $no_invoice = $date . Auth::id() . rand(100, 999); // e.g., 20241024123451XXX
+        $date = Carbon::now()->format('Ymd');
+        $no_invoice = $date . Auth::id() . rand(100, 999);
 
         // Inisiasi total amount (misalnya 10.000 per buku)
         $totalAmount = 0;
@@ -90,8 +91,11 @@ class CartTestController extends Controller
 
         try {
             // Simpan invoice
+            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+            
             $invoice = Invoice::create([
                 'no_invoice' => $no_invoice,
+                'qr_code' => $qrCode,
                 'user_id' => Auth::id(),
                 'total_amount' => 0, // Total dihitung nanti
                 'status' => 'clear', // Status invoice
@@ -111,7 +115,7 @@ class CartTestController extends Controller
                     'book_id' => $book->id,
                     'borrow_date' => now(),
                     'return_date' => now()->addWeeks(1), // Contoh durasi 1 minggu
-                    'status_id' => 2, // Status peminjaman
+                    'status_id' => 1, // Status peminjaman
                 ]);
 
                 // Kurangi stok buku

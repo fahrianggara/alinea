@@ -182,6 +182,12 @@
                             <p>Api Mobile</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('testing') }}" class="nav-link">
+                            <i class="nav-icon fas fa-vial fa-sm"></i>
+                            <p>Api Mobile</p>
+                        </a>
+                    </li>
                 @endif
             </ul>
 

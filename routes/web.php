@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
-use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CartController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
-use App\Http\Controllers\Alinea\PickupController;
+use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
+use App\Http\Controllers\Alinea\{AlineaController, PickupController};
 use App\Http\Controllers\Testing\CartTestController;
 use App\Models\Admin;
 use Faker\Guesser\Name;
@@ -55,7 +55,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', [InvoiceController::class, 'store'])->name('.store');
         Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [InvoiceController::class, 'update'])->name('.update');
-
     });
 
     // In routes/web.php
@@ -76,19 +75,30 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/cart/test/delete', [CartTestController::class, 'deleteAll'])->name('.delCart');
 
         Route::post('/cart/borrow', [CartTestController::class, 'borrow'])->name('.borrow');
+    });
+});
+
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::group(['prefix' => 'alinea', 'as' => 'alinea',], function () {
+        Route::get('/', [AlineaController::class, 'index'])->name('');
+    });
+
+    Route::group(['prefix' => 'pickups', 'as' => 'pickups',], function () {
+
+        Route::get('/', [PickupController::class, 'index'])->name('');
+        Route::post('/{no_invoice}', [PickupController::class, 'show'])->name('.show');
 
     });
 
-    // for Front-End
-    
-    Route::group(['prefix' => 'pickups', 'as' => 'pickups',], function () {
+    Route::group(['prefix' => 'returns', 'as' => 'returns',], function () {
 
         Route::get('/', [PickupController::class, 'index'])->name('');
         Route::get('/{id}', [BorrowingController::class, 'show'])->name('.show');
         Route::post('/', [BorrowingController::class, 'store'])->name('.store');
         Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
         Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
-        
     });
 
 });

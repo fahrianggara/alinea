@@ -6,34 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
-class PickupController extends Controller
+class AlineaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('alinea.pickups.index');
-    }
 
-    public function show(string $no_invoice)
-    {   
-
-        // $id = Invoice::where('no_invoice', $no_invoice)->first();
-        $invoices = Invoice::where('no_invoice', $no_invoice)->with('user', 'borrowings.book')->get();
-        if (!$invoices) {
-            return redirect()->back()->with('error', 'Invoice not found!');
-        }
-        return view('alinea.pickups.detail', compact('invoices'));
+        return view('alinea.page.alinea');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -46,6 +33,7 @@ class PickupController extends Controller
     /**
      * Display the specified resource.
      */
+
 
     /**
      * Show the form for editing the specified resource.
