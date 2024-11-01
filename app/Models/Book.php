@@ -10,9 +10,15 @@ class Book extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $appends = ['cover_url'];
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function getCoverUrlAttribute()
+    {
+        return asset("storage/$this->cover");
     }
 }
