@@ -18,7 +18,7 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'cover' => 'cover-book/671a1b858a650.png', // Judul buku acak dengan 3 kata
+            'cover' => 'cover-book/default.png', // Judul buku acak dengan 3 kata
             'author' => $this->faker->name(), // Nama penulis acak
             'isbn' => $this->faker->isbn13(), // ISBN acak 13 digit
             'stock' => $this->faker->numberBetween(1, 20),
