@@ -7,15 +7,23 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Alinea API
-InI adalah projek API yang dibuat untuk projek aplikasi Alinea Mobile
-## Daftar Anggota Kelompok
+# Alinea_API
 
-- **Fahri Anggara** - NIM: 10220009
-- **Dimas Yusuf Hidayat** - NIM: 10220014
-- **Fakhri Akmal Fadillah** - NIM: 10220046
-- **Ilham Ramadan** - NIM: 10220048
-- **Sultan Jordy Priadi** - NIM: 10220078
+Repositori ini berisi kode untuk **Alinea_API** yang dikembangkan oleh **Kelompok 4, kelas 10.5A.01**. Proyek ini bertujuan untuk membangun sebuah API yang akan mendukung berbagai fitur dan layanan yang diinginkan.
+
+## Anggota Kelompok
+
+| Nama                   | NIM       |
+|------------------------|-----------|
+| Fahri Anggara          | 10220009  |
+| Dimas Yusuf Hidayat    | 10220014  |
+| Fakhri Akmal Fadillah  | 10220046  |
+| Ilham Ramadan          | 10220048  |
+| Sultan Jordy Priadi    | 10220078  |
+
+## Deskripsi Proyek
+
+Alinea_API adalah sebuah API yang menyediakan berbagai layanan untuk mendukung projek **Alinea Mobile** . API ini dibangun menggunakan teknologi terbaru dan mengikuti standar terbaik untuk memastikan performa yang optimal dan kemudahan integrasi.
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
