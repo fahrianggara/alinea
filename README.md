@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Aline API
+## Alinea API
 InI adalah projek API yang dibuat untuk projek aplikasi Alinea Mobile
 ## Daftar Anggota Kelompok
 
