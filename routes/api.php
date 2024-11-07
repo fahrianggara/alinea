@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Api\{BookApiController , CategoryApiController};
+use App\Http\Controllers\Api\{BookApiController , CartApiController, CategoryApiController};
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\BookController;
@@ -62,6 +62,14 @@ Route::middleware('auth:sanctum')->group(function ()
         Route::post('/', [CategoryApiController::class, 'store']);
         Route::put('/{id}', [CategoryApiController::class, 'update']);
         Route::delete('/{id}', [CategoryApiController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'carts'], function () {
+        Route::get('/', [CartApiController::class, 'index']);
+        Route::get('/{id}', [CartApiController::class, 'show']);
+        Route::post('/', [CartApiController::class, 'store']);
+        Route::put('/{id}', [CartApiController::class, 'update']);
+        Route::delete('/{id}', [CartApiController::class, 'destroy']);
     });
 });
 
