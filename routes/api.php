@@ -1,13 +1,13 @@
 <?php
 
 
-use App\Http\Controllers\Api\{BookApiController , CartApiController, CategoryApiController};
+use App\Http\Controllers\Api\{BookApiController, CartApiController, CategoryApiController, NotificationAPIController};
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Resources\ResResource;
-
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\FlareClient\Api;
@@ -40,8 +40,7 @@ use Spatie\FlareClient\Api;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function ()
-{
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', function (Request $request) {
         return response()->json(new ResResource($request->user(), true, 'User data retrieved successfully'), 200);
     });
@@ -71,5 +70,20 @@ Route::middleware('auth:sanctum')->group(function ()
         Route::put('/{id}', [CartApiController::class, 'update']);
         Route::delete('/{id}', [CartApiController::class, 'destroy']);
     });
-});
 
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationAPIController::class, 'index']);
+        // Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
+        // Route::post('/new-book/{bookId}', [NotificationAPIController::class, 'newBookNotification']);
+        Route::get('/mynotif', function (Request $request) {
+            // Ensure user is authenticated
+            $user = $request->user(); // Retrieves the authenticated user
+
+            // Fetch notifications for the authenticated user
+            $notifications = Notification::where('user_id', $user->id)->get();
+
+            // Return response using the ResResource
+            return response()->json(new ResResource($notifications, true, 'User data retrieved successfully'), 200);
+        });
+    });
+});

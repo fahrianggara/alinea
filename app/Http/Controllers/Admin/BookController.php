@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
@@ -78,6 +79,7 @@ class BookController extends Controller
         $book->save(); // Menyimpan buku ke database
 
         if ($book) {
+            event(new NewBookAdded($book));
             return redirect()->back()->with('success', 'Book added successfully!');
         } else {
             return redirect()->back()->with('error', 'Book added successfully!');
@@ -141,19 +143,19 @@ class BookController extends Controller
             if ($book->cover && Storage::disk('public')->exists($book->cover)) {
                 Storage::disk('public')->delete($book->cover);
             }
-    
+
             // Menyimpan gambar cropped baru
             $imageData = $request->cropped_image;
             $image = str_replace('data:image/png;base64,', '', $imageData);
             $image = str_replace(' ', '+', $image);
             $imageName = uniqid() . '.png'; // Menghasilkan nama file unik
-            
+
             // Tentukan folder penyimpanan, di sini adalah 'cover-book'
             $folderPath = 'cover-book/';
-            
+
             // Simpan gambar ke folder 'public/cover-book'
             Storage::disk('public')->put($folderPath . $imageName, base64_decode($image));
-    
+
             // Simpan nama file gambar di database dengan path yang sesuai
             $book->cover = $folderPath . $imageName;
         }
