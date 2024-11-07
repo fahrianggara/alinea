@@ -65,10 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'carts'], function () {
         Route::get('/', [CartApiController::class, 'index']);
-        Route::get('/{id}', [CartApiController::class, 'show']);
-        Route::post('/', [CartApiController::class, 'store']);
-        Route::put('/{id}', [CartApiController::class, 'update']);
-        Route::delete('/{id}', [CartApiController::class, 'destroy']);
+        Route::get('/mycart', [CartApiController::class, 'mycart']);
+        Route::post('/addCart/{bookId}', [CartApiController::class, 'store']);
+        Route::delete('/{cartId}', [CartApiController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'notifications'], function () {
