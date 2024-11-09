@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Api\{BookApiController, BorrowingAPIController, CartApiController, CategoryApiController, NotificationAPIController};
+use App\Http\Controllers\Api\{BookApiController, BorrowingAPIController, CartApiController, CategoryApiController, InvoiceApiController, NotificationAPIController};
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\BookController;
@@ -22,21 +22,6 @@ use Spatie\FlareClient\Api;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-
-// Route::get('/categories', [CategoryApiController::class, 'index']);
-// Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
-// Route::post('/categories', [CategoryApiController::class, 'store']);
-// Route::put('/categories/{id}', [CategoryApiController::class, 'update']);
-// Route::delete(
-//     '/categories/{id}',
-//     [CategoryApiController::class, 'destroy']
-// );
-// Route::get('/books', [BookApiController::class, 'index']);
-// Route::get('/books/{id}', [BookApiController::class, 'show']);
-// Route::post('/books', [BookApiController::class, 'store']);
-// Route::put('/books/{id}', [BookApiController::class, 'update']);
-// Route::delete('/books/{id}', [BookApiController::class, 'destroy']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -78,6 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::put('/{id}', [BorrowingAPIController::class, 'update']);
         Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'invoices'], function () {
+        Route::get('/myinvoice', [InvoiceApiController::class, 'myInvoice']);
     });
 
     Route::group(['prefix' => 'notifications'], function () {

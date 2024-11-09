@@ -63,19 +63,9 @@
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                                     <li class="dropdown-item">
-                                                        <button type="submit" class="btn d-flex align-items-center px-0"
-                                                            data-toggle="modal"
-                                                            data-target="#Updateinvoice{{ $invoice->id }}">
-                                                            <i class="fas fa-user-edit text-center mr-2"
-                                                                style="width: 18px; font-size: 16px;"></i>
-                                                            <span>Update book</span>
-                                                        </button>
-                                                    </li>
-
-                                                    <li class="dropdown-item">
-                                                        <form action="{{ route('categories.destroy', $invoice->id) }}"
+                                                        <form action="{{ route('invoices.destroy', $invoice->id) }}"
                                                             method="POST"
-                                                            onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                                            onsubmit="return confirm('Are you sure you want to delete this invoice?');">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"

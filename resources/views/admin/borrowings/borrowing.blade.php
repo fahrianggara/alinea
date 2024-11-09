@@ -106,16 +106,6 @@
                                                 </button>
 
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                                                    <li class="dropdown-item">
-                                                        <a class="btn d-flex align-items-center px-0" style=""
-                                                            href="{{ route('borrowings.show', $borrowing->id) }}">
-                                                            <i class="fas fa-eye text-center mr-2"
-                                                                style="widht: 18px; font-size: 16px;"></i>
-                                                            <span>Detail book</span>
-                                                        </a>
-                                                    </li>
-
                                                     <li class="dropdown-item">
                                                         <form action="{{ route('borrowings.destroy', $borrowing->id) }}"
                                                             method="POST"
