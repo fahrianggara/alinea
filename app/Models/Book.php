@@ -21,4 +21,9 @@ class Book extends Model
     {
         return asset("storage/$this->cover");
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

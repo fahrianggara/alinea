@@ -47,5 +47,10 @@ class User extends Authenticatable
     // {
     //     $this->attributes['password'] = bcrypt($password);
     // }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }
 
