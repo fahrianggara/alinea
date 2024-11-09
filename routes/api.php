@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
         Route::get('/', [BorrowingAPIController::class, 'index']);
+        Route::get('/history', [BorrowingAPIController::class, 'history']);
         Route::get('/{id}', [BorrowingAPIController::class, 'show']);
         Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::put('/{id}', [BorrowingAPIController::class, 'update']);

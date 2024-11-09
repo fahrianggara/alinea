@@ -13,19 +13,80 @@ class CartApiController extends Controller
 {
     public function index()
     {
-
-
         return response()->json(
             new ResResource(Cart::where('user_id', Auth::id())->get(), true, "Books retrieved successfully"),
             200
         );
     }
 
+    public function mycart()
+    {
+        $cart = Cart::where('user_id', Auth::id())
+            ->with('book.category')
+            ->get();
+
+        return response()->json(
+            new ResResource($cart, true, "Carts retrieved successfully"),
+            200
+        );
+    }
+
+    // public function store($bookId)
+    // {
+    //     $book = Book::find($bookId);
+
+    //     if ($book) {
+    //         $cart = Cart::create([
+    //             'user_id' => Auth::id(),
+    //             'book_id' => $book->id,
+    //         ]);
+
+    //         return response()->json(
+    //             new ResResource($cart, true, "Book added to cart successfully"),
+    //             200
+    //         );
+    //     } else {
+    //         // Jika buku tidak ditemukan, berikan response error
+    //         return response()->json(
+    //             new ResResource('', false, "Book not found"),
+    //             404
+    //         );
+    //     }
+    // }
+
     public function store($bookId)
     {
-        $book = Book::find($bookId);
+        try {
+            $book = Book::find($bookId);
 
-        if ($book) {
+            if (!$book) {
+                return response()->json(
+                    new ResResource('', false, "Book not found"),
+                    404
+                );
+            }
+
+            // Cek apakah user sudah memiliki 3 buku di cart
+            $cartCount = Cart::where('user_id', Auth::id())->count();
+            if ($cartCount >= 3) {
+                return response()->json(
+                    new ResResource('', false, "Cart maximum limit reached (3 books)"),
+                    400
+                );
+            }
+
+            // Cek apakah book_id sudah ada di cart untuk user saat ini
+            $existingCart = Cart::where('user_id', Auth::id())
+                ->where('book_id', $book->id)
+                ->exists();
+            if ($existingCart) {
+                return response()->json(
+                    new ResResource('', false, "Book is already in cart"),
+                    400
+                );
+            }
+
+            // Jika belum ada, tambahkan book ke cart
             $cart = Cart::create([
                 'user_id' => Auth::id(),
                 'book_id' => $book->id,
@@ -35,23 +96,16 @@ class CartApiController extends Controller
                 new ResResource($cart, true, "Book added to cart successfully"),
                 200
             );
-        } else {
-            // Jika buku tidak ditemukan, berikan response error
+        } catch (\Exception $e) {
+            // Menangani error tidak terduga
             return response()->json(
-                new ResResource('', false, "Book not found"),
-                404
+                new ResResource('', false, "An error occurred while adding book to cart"),
+                500
             );
         }
     }
 
-    public function mycart()
-    {
-        $cart = Cart::where('user_id', Auth::id())->get();
-        return response()->json(
-            new ResResource($cart, true, "Carts retrieved successfully"),
-            200
-        );
-    }
+
 
     public function destroy($cartId)
     {

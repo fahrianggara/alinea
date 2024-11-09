@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ResResource;
 use App\Models\Borrowing;
 use App\Models\Book;
 use App\Models\Invoice;
@@ -48,6 +49,17 @@ class BorrowingAPIController extends Controller
         return response()->json(['borrowing' => $borrowing], 200);
     }
 
+    public function history()
+    {
+
+        $borrowings = Borrowing::where('user_id', Auth::id())->with('book.category')->get();
+
+        return response()->json(
+            new ResResource($borrowings, true, "History retrieved successfully"),
+            200
+        );
+    }
+
     /**
      * Store a newly created borrowing in storage.
      *
@@ -83,6 +95,9 @@ class BorrowingAPIController extends Controller
         try {
             DB::beginTransaction();
 
+            $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
+            $returnDate = Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d');
+
             // Generate the QR code for the invoice
             $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
 
@@ -100,8 +115,8 @@ class BorrowingAPIController extends Controller
                 'invoice_id' => $invoice->id,
                 'user_id' => Auth::id(),
                 'book_id' => $book->id,
-                'borrow_date' => now(),
-                'return_date' => now()->addWeeks(1), // Set return date to 1 week from now
+                'borrow_date' => $borrowDate,
+                'return_date' => $returnDate, // Set return date to 1 week from now
                 'status_id' => 1, // Default status of borrowing
             ]);
 

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
 
         Category::factory()->count(5)->create();
-        Book::factory()->count(5)->create();
+        Book::factory()->count(10)->create();
 
         
 

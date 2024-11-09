@@ -11,14 +11,16 @@ class BookApiController extends Controller
 {
     public function index()
     {
-        // return new ResResource(Book::all(), true, "Books retrieved successfully");
-        return response()->json(new ResResource(Book::all(), true, "Books retrieved successfully"), 200);
+
+        $books = Book::with('category')->latest()->get();
+        return response()->json(new ResResource($books, true, "Books retrieved successfully"), 200);
+
     }
 
     // Get a single book by ID
     public function show($id)
     {
-        $book = Book::find($id);
+        $book = Book::find($id)->with('category')->first();
 
         if ($book) {
             return response()->json(new ResResource($book, true, "Book retrieved successfully"), 200);
