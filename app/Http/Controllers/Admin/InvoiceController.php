@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
@@ -14,6 +15,33 @@ class InvoiceController extends Controller
         $invoices = Invoice::with(['user'])->latest()->get();
 
         return view('admin.invoices.invoice', compact('invoices'));
+    }
+
+    public function show($no_invoice)
+    {
+        $invoice = Invoice::with('borrowings.book.category')->where('no_invoice', $no_invoice)->first();
+
+        if ($invoice) {
+            return view('admin.invoices.pdf.invoicePdf', compact('invoice'));
+        }
+
+        return redirect()->back()->with('error', 'Invoice not found');
+    }
+
+    public function downloadPdf($id)
+    {
+        // Cari data invoice
+        $invoice = Invoice::with('user', 'borrowings.book')->find($id);
+
+        if (!$invoice) {
+            return response()->json(['error' => 'Invoice not found'], 404);
+        }
+
+        // Generate PDF dari view
+        $pdf = Pdf::loadView('admin.invoices.pdf.invoicePdf', compact('invoice'));
+
+        // Mengembalikan file PDF sebagai download
+        return $pdf->download("invoice_{$invoice->id}.pdf");
     }
 
     public function destroy($id)

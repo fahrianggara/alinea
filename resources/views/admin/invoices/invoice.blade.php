@@ -61,8 +61,15 @@
                                                 </button>
 
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                                                     <li class="dropdown-item">
+                                                        <a class="btn d-flex align-items-center px-0" style=""
+                                                            href="{{ route('invoices.show', $invoice->no_invoice) }}">
+                                                            <i class="fas fa-eye text-center mr-2"
+                                                                style="widht: 18px; font-size: 16px;"></i>
+                                                            <span>Detail Invoice</span>
+                                                        </a>
+                                                    </li>
+                                                    {{-- <li class="dropdown-item">
                                                         <form action="{{ route('invoices.destroy', $invoice->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this invoice?');">
@@ -75,7 +82,7 @@
                                                                 <span>Delete invoice</span>
                                                             </button>
                                                         </form>
-                                                    </li>
+                                                    </li> --}}
                                             </div>
 
                                             <div class="modal fade" id="Updateinvoice{{ $invoice->id }}">
