@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ResResource;
 use App\Models\Book;
 use App\Models\Borrowing;
+use App\Models\Invoice;
 use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class NotificationAPIController extends Controller
     // notif buku baru untuk user yang sudah login
     public function mynotif()
     {
-        $notifications = Notification::where('user_id', Auth::id())->get;
+        $notifications = Notification::where('user_id', Auth::id())->get();
         return response()->json(
             new ResResource($notifications, true, "notification retrieved successfully"),
             200
@@ -47,10 +48,13 @@ class NotificationAPIController extends Controller
                 ]);
             }
 
-            return response()->json(['message' => 'Notifications sent for new book.'], 200);
+            if (!$book) {
+                return response()->json(['error' => 'Book not found.'], 404);
+            }
+            if ($users->isEmpty()) {
+                return response()->json(['error' => 'No users found to notify.'], 404);
+            }
         }
-
-        return response()->json(['error' => 'Book not found.'], 404);
     }
 
     public function dueDateNotification($userId, $bookId)
@@ -86,4 +90,51 @@ class NotificationAPIController extends Controller
 
         return response()->json(['error' => 'User, Book, or Borrowing record not found.'], 404);
     }
+
+    public function finedNotification($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        // Fetch overdue invoices associated with this user
+        $overdueInvoices = Invoice::where('user_id', $user->id)
+        ->where('due_date', '<', now()) // Check for past due dates
+        ->where('info', 'fined') // Assuming 'fined' is used for unpaid/overdue invoices
+        ->get();
+
+        if ($overdueInvoices->isEmpty()) {
+            return response()->json(['message' => 'No overdue invoices found.'], 200);
+        }
+
+        // Send notifications for each overdue invoice
+        foreach ($overdueInvoices as $invoice) {
+            $borrowing = $invoice->borrowing; // Assuming there is a relation defined between invoices and borrowings
+
+            Notification::create([
+                'user_id' => $user->id,
+                'message' => "You have an unpaid invoice related to borrowing ID {$borrowing->id} with total amount of {$invoice->total_amount}. Please settle it immediately.",
+                'type' => 'fined',
+            ]);
+        }
+
+        return response()->json(['message' => 'Fined notifications sent.'], 200);
+    }
+
+    public function markAsRead($id)
+    {
+        $notification = Notification::find($id);
+
+        if (!$notification) {
+            return response()->json(['error' => 'Notification not found.'], 404);
+        }
+
+        $notification->update(['is_read' => true]);
+
+        return response()->json(['message' => 'Notification marked as read.', 'notification' => $notification], 200);
+    }
+
+
 }

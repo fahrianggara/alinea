@@ -83,6 +83,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
             // Return response using the ResResource
             return response()->json(new ResResource($notifications, true, 'User data retrieved successfully'), 200);
+            Route::post('/new-book/{bookId}', [NotificationAPIController::class, 'newBookNotification']);
+            Route::post('/due-date/{userId}/{bookId}', [NotificationAPIController::class, 'dueDateNotification']); // Due date reminder
+            Route::post('/fined/{userId}', [NotificationAPIController::class, 'finedNotification']); // Fined notification
+            Route::put('/{id}/mark-read', [NotificationAPIController::class, 'markAsRead']); // Mark as read
+
         });
     });
+
+    
 });
