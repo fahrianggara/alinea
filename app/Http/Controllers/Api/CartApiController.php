@@ -31,29 +31,6 @@ class CartApiController extends Controller
         );
     }
 
-    // public function store($bookId)
-    // {
-    //     $book = Book::find($bookId);
-
-    //     if ($book) {
-    //         $cart = Cart::create([
-    //             'user_id' => Auth::id(),
-    //             'book_id' => $book->id,
-    //         ]);
-
-    //         return response()->json(
-    //             new ResResource($cart, true, "Book added to cart successfully"),
-    //             200
-    //         );
-    //     } else {
-    //         // Jika buku tidak ditemukan, berikan response error
-    //         return response()->json(
-    //             new ResResource('', false, "Book not found"),
-    //             404
-    //         );
-    //     }
-    // }
-
     public function store($bookId)
     {
         try {

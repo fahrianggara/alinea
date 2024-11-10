@@ -66,72 +66,223 @@ class BorrowingAPIController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    // public function store(Request $request)
+    // {
+    //     // Validasi data permintaan
+    //     $request->validate([
+    //         'book_ids' => 'required|array|min:1',
+    //         'book_ids.*' => 'exists:books,id',
+    //         'borrow_date' => 'required|date_format:d/m/Y',
+    //         'return_date' => 'nullable|date_format:d/m/Y|after_or_equal:borrow_date',
+    //     ]);
+
+    //     $date = Carbon::now()->format('Ymd');
+    //     $no_invoice = $date . Auth::id() . rand(100, 999);
+    //     $totalAmount = 0;
+
+    //     try {
+    //         DB::beginTransaction();
+
+    //         $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
+    //         $returnDate = $request->return_date ? Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d') : null;
+
+    //         // Generate kode QR untuk invoice
+    //         $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+
+    //         // Buat invoice
+    //         $invoice = Invoice::create([
+    //             'no_invoice' => $no_invoice,
+    //             'user_id' => Auth::id(),
+    //             'qr_code' => $qrCode,
+    //             'total_amount' => 0, // Total akan dihitung nanti
+    //             'status' => 'clear',
+    //         ]);
+
+    //         // Ambil buku berdasarkan `book_ids`
+    //         $books = Book::whereIn('id', $request->book_ids)->get();
+
+    //         foreach ($books as $book) {
+    //             if ($book->stock <= 0) {
+    //                 DB::rollBack();
+    //                 return response()->json(['message' => 'Book "' . $book->title . '" is out of stock!'], 400);
+    //             }
+
+    //             // Simpan data peminjaman
+    //             Borrowing::create([
+    //                 'invoice_id' => $invoice->id,
+    //                 'user_id' => Auth::id(),
+    //                 'book_id' => $book->id,
+    //                 'borrow_date' => $borrowDate,
+    //                 'return_date' => $returnDate,
+    //                 'status_id' => 1,
+    //             ]);
+
+    //             // Kurangi stok buku
+    //             $book->decrement('stock');
+
+    //             // Tambahkan harga buku ke total
+    //             $totalAmount += 10000; // Contoh harga per buku 10.000
+    //         }
+
+    //         // Update total_amount pada invoice
+    //         $invoice->update(['total_amount' => $totalAmount]);
+
+    //         DB::commit();
+
+    //         return response()->json(['message' => 'Books successfully borrowed!', 'invoice' => $invoice], 201);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json(['message' => 'Error occurred: ' . $e->getMessage()], 500);
+    //     }
+    // }
+
+
+
+
+
+
+    // public function store(Request $request)
+    // {
+    //     // Validate incoming request data
+    //     $request->validate([
+    //         'book_id' => 'required|exists:books,id',
+    //         'borrow_date' => 'required|date',
+    //         'return_date' => 'nullable|date|after_or_equal:borrow_date',
+    //     ]);
+
+    //     $date = Carbon::now()->format('Ymd');
+    //     $no_invoice = $date . Auth::id() . rand(100, 999);
+
+    //     // Find the book by ID
+    //     $book = Book::find($request->book_id);
+    //     if (!$book) {
+    //         return response()->json(['message' => 'Book not found'], 404);
+    //     }
+
+    //     // Check if the book is available
+    //     if ($book->stock <= 0) {
+    //         return response()->json(['message' => 'Book is out of stock'], 400);
+    //     }
+
+    //     // Calculate the total amount (for example, 10,000 per book)
+    //     $totalAmount = 10000;
+
+    //     try {
+    //         DB::beginTransaction();
+
+    //         $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
+    //         $returnDate = Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d');
+
+    //         // Generate the QR code for the invoice
+    //         $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+
+    //         // Create an invoice
+    //         $invoice = Invoice::create([
+    //             'no_invoice' => $no_invoice,
+    //             'user_id' => Auth::id(),
+    //             'qr_code' => $qrCode,
+    //             'total_amount' => $totalAmount,
+    //             'status' => 'clear',
+    //         ]);
+
+    //         // Create the borrowing record
+    //         $borrowing = Borrowing::create([
+    //             'invoice_id' => $invoice->id,
+    //             'user_id' => Auth::id(),
+    //             'book_id' => $book->id,
+    //             'borrow_date' => $borrowDate,
+    //             'return_date' => $returnDate, // Set return date to 1 week from now
+    //             'status_id' => 1, // Default status of borrowing
+    //         ]);
+
+    //         // Decrement the stock of the borrowed book
+    //         $book->decrement('stock');
+
+    //         DB::commit();
+
+    //         // Return success response
+    //         return response()->json(['message' => 'Book successfully borrowed!', 'borrowing' => $borrowing], 201);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json(['message' => 'Error occurred: ' . $e->getMessage()], 500);
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        // Validate incoming request data
-        $request->validate([
-            'book_id' => 'required|exists:books,id',
-            'borrow_date' => 'required|date',
-            'return_date' => 'nullable|date|after_or_equal:borrow_date',
-        ]);
+        // Validasi buku yang dipilih ada di database
+        $books = Book::whereIn('id', $request->book_ids)->get();
 
+        if ($books->isEmpty()) {
+            return response()->json(['message' => 'No books found for borrowing!'], 404);
+        }
+
+        // Generate nomor invoice unik
         $date = Carbon::now()->format('Ymd');
         $no_invoice = $date . Auth::id() . rand(100, 999);
 
-        // Find the book by ID
-        $book = Book::find($request->book_id);
-        if (!$book) {
-            return response()->json(['message' => 'Book not found'], 404);
-        }
+        // Inisiasi total amount (misalnya 10.000 per buku)
+        $totalAmount = 0;
 
-        // Check if the book is available
-        if ($book->stock <= 0) {
-            return response()->json(['message' => 'Book is out of stock'], 400);
-        }
-
-        // Calculate the total amount (for example, 10,000 per book)
-        $totalAmount = 10000;
+        // Mulai transaksi
+        DB::beginTransaction();
 
         try {
-            DB::beginTransaction();
+            // Simpan invoice
+            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
 
             $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
             $returnDate = Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d');
 
-            // Generate the QR code for the invoice
-            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
-
-            // Create an invoice
             $invoice = Invoice::create([
                 'no_invoice' => $no_invoice,
-                'user_id' => Auth::id(),
                 'qr_code' => $qrCode,
-                'total_amount' => $totalAmount,
-                'status' => 'clear',
-            ]);
-
-            // Create the borrowing record
-            $borrowing = Borrowing::create([
-                'invoice_id' => $invoice->id,
                 'user_id' => Auth::id(),
-                'book_id' => $book->id,
-                'borrow_date' => $borrowDate,
-                'return_date' => $returnDate, // Set return date to 1 week from now
-                'status_id' => 1, // Default status of borrowing
+                'total_amount' => 0, // Total dihitung nanti
+                'status' => 'clear', // Status invoice
             ]);
 
-            // Decrement the stock of the borrowed book
-            $book->decrement('stock');
+            foreach ($books as $book) {
+                if ($book->stock <= 0) {
+                    // Jika stok tidak cukup, rollback transaksi
+                    DB::rollBack();
+                    return response()->json(['message' => 'Book "' . $book->title . '" is out of stock!'], 400);
+                }
 
+                // Simpan data peminjaman dengan `invoice_id`
+                Borrowing::create([
+                    'invoice_id' => $invoice->id, // Menggunakan invoice_id, bukan no_invoice
+                    'user_id' => Auth::id(),
+                    'book_id' => $book->id,
+                    'borrow_date' => $borrowDate,
+                    'return_date' => $returnDate, // Contoh durasi 1 minggu
+                    'status_id' => 1, // Status peminjaman
+                ]);
+
+                // Kurangi stok buku
+                $book->decrement('stock');
+
+                // Tambahkan harga buku ke total
+                $totalAmount += 10000; // Contoh harga setiap buku 10.000
+            }
+
+            // Update total_amount pada invoice
+            $invoice->update(['total_amount' => $totalAmount]);
+            $invoices = Invoice::with('borrowings.book.category')->where('id', $invoice->id)->get();
             DB::commit();
+            
+            return response()->json(
+                new ResResource($invoices, "Books successfully borrowed!", 201)
+            );
 
-            // Return success response
-            return response()->json(['message' => 'Book successfully borrowed!', 'borrowing' => $borrowing], 201);
         } catch (\Exception $e) {
+            // Jika ada kesalahan, rollback transaksi
             DB::rollBack();
-            return response()->json(['message' => 'Error occurred: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'An error occurred while borrowing books: ' . $e->getMessage()], 500);
         }
     }
+
 
     /**
      * Update the specified borrowing in storage.
