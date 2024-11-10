@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -42,8 +43,9 @@ class BookApiController extends Controller
             'status' => 'required|in:available,borrowed',
             'category_id' => 'required|integer|exists:categories,id',
         ]);
-
+        
         $book = Book::create($validated);
+        event(new NewBookAdded($book));
 
         return response()->json(new ResResource($book, true, "Book created successfully"), 201);
     }
