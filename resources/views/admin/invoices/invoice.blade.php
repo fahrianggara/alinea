@@ -23,6 +23,12 @@
                     <button class="btn btn-success ml-auto py-1" data-toggle="modal" data-target="#Addinvoice">
                         <i class="fa fa-plus mr-1"></i> Add invoice
                     </button>
+                    <form action="{{ route('invoices.destroyAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all invoices?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete All</button>
+                    </form>
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -69,7 +75,7 @@
                                                             <span>Detail Invoice</span>
                                                         </a>
                                                     </li>
-                                                    {{-- <li class="dropdown-item">
+                                                    <li class="dropdown-item">
                                                         <form action="{{ route('invoices.destroy', $invoice->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this invoice?');">
@@ -82,7 +88,7 @@
                                                                 <span>Delete invoice</span>
                                                             </button>
                                                         </form>
-                                                    </li> --}}
+                                                    </li>
                                             </div>
 
                                             <div class="modal fade" id="Updateinvoice{{ $invoice->id }}">
@@ -92,7 +98,8 @@
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">invoice Book</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal">&times;</button>
                                                         </div>
 
                                                         <!-- Modal body -->
@@ -100,11 +107,15 @@
                                                             <form action="{{ route('categories.store') }}" method="post">
                                                                 @csrf
                                                                 <div class="form-group">
-                                                                    <label for="name" class="form-label small">invoice</label>
-                                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $invoice->name }}">
+                                                                    <label for="name"
+                                                                        class="form-label small">invoice</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="name" id="name"
+                                                                        value="{{ $invoice->name }}">
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="description" class="form-label small">Description</label>
+                                                                    <label for="description"
+                                                                        class="form-label small">Description</label>
                                                                     <textarea name="description" id="add-editor" rows="10" class="form-control">
                                                                         {{ $invoice->description }}
                                                                     </textarea>
@@ -114,7 +125,8 @@
                                                         <!-- Modal footer -->
                                                         <div class="modal-footer">
                                                             <button type="submit" class="btn btn-success">Add</button>
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
                                                         </div>
                                                         </form>
 

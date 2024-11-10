@@ -51,8 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'invoices', 'as' => 'invoices',], function () {
 
         Route::get('/', [InvoiceController::class, 'index'])->name('');
+        Route::delete('/deleteAll', [InvoiceController::class, 'destroyAll'])->name('.destroyAll');
         Route::get('/{no_invoice}', [InvoiceController::class, 'show'])->name('.show');
         Route::get('/donwload/{id}', [InvoiceController::class, 'downloadPdf'])->name('.donwload');
+        Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('.destroy');
+        
 
     });
 
