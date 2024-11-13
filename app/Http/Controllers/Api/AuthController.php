@@ -58,6 +58,7 @@ class AuthController extends Controller
 
         // set data user & token
         $data = [
+            'id' => $user->id,
             'email' => $user->email,
             'role' => $user->role,
             'access_token' => $user->createToken('auth_token')->plainTextToken,
