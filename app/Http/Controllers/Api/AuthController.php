@@ -52,7 +52,7 @@ class AuthController extends Controller
             $message = "Invalid username or password";
             return response()->json(new ResResource(null, false, $message), 401);
         }
-
+// cobain bosqu
         // Get the user data
         $user = User::where($username, $input['username'])->first();
 
