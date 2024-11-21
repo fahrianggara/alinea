@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Alinea;
 
 use App\Http\Controllers\Controller;
+use App\Models\Borrowing;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class PickupController extends Controller
     }
 
     public function show(string $no_invoice)
-    {   
+    {
 
         // $id = Invoice::where('no_invoice', $no_invoice)->first();
         $invoices = Invoice::where('no_invoice', $no_invoice)->with('user', 'borrowings.book')->get();
@@ -30,9 +31,21 @@ class PickupController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function borrow($id)
     {
-        //
+        $borrowings = Borrowing::where('invoice_id', $id)->with('book', 'status')->get();
+
+        if(!$borrowings){
+            return redirect()->back()->with('error', 'borrowings not found');
+        }
+
+        foreach ($borrowings as $borrowing) {
+            $borrowing->status_id = 2;
+            $borrowing->save();
+        }
+
+       return view('alinea.pickups.borrow', compact('borrowings'))->with('success', 'Book successfully borrowed!');
+
     }
 
     /**

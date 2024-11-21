@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{no_invoice}', [InvoiceController::class, 'show'])->name('.show');
         Route::get('/donwload/{id}', [InvoiceController::class, 'downloadPdf'])->name('.donwload');
         Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('.destroy');
-        
+
 
     });
 
@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/', [PickupController::class, 'index'])->name('');
         Route::post('/{no_invoice}', [PickupController::class, 'show'])->name('.show');
+        Route::post('/borrow/{no_invoice}', [PickupController::class, 'borrow'])->name('.borrow');
 
     });
 
