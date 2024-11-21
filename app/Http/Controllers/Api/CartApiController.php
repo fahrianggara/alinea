@@ -43,16 +43,7 @@ class CartApiController extends Controller
                 );
             }
 
-            // Cek apakah user sudah memiliki 3 buku di cart
-            $cartCount = Cart::where('user_id', Auth::id())->count();
-            if ($cartCount >= 3) {
-                return response()->json(
-                    new ResResource('', false, "Cart maximum limit reached (3 books)"),
-                    400
-                );
-            }
-
-            // Cek apakah book_id sudah ada di cart untuk user saat ini
+            // Validasi apakah book_id sudah ada di cart untuk user saat ini
             $existingCart = Cart::where('user_id', Auth::id())
                 ->where('book_id', $book->id)
                 ->exists();
@@ -63,7 +54,17 @@ class CartApiController extends Controller
                 );
             }
 
-            // Jika belum ada, tambahkan book ke cart
+            // Validasi apakah user sudah memiliki 3 buku di cart
+            $cartCount = Cart::where('user_id', Auth::id())->count();
+            if ($cartCount >= 3) {
+                return response()->json(
+                    new ResResource('', false, "Cart maximum limit reached (3 books)"),
+                    400
+                );
+            }
+
+
+            // Tambahkan buku ke cart
             $cart = Cart::create([
                 'user_id' => Auth::id(),
                 'book_id' => $book->id,
@@ -81,6 +82,7 @@ class CartApiController extends Controller
             );
         }
     }
+
 
 
 
