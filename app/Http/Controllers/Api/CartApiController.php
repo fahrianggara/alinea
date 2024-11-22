@@ -55,13 +55,13 @@ class CartApiController extends Controller
             }
 
             // Validasi apakah user sudah memiliki 3 buku di cart
-            $cartCount = Cart::where('user_id', Auth::id())->count();
-            if ($cartCount >= 3) {
-                return response()->json(
-                    new ResResource('', false, "Cart maximum limit reached (3 books)"),
-                    400
-                );
-            }
+            // $cartCount = Cart::where('user_id', Auth::id())->count();
+            // if ($cartCount >= 3) {
+            //     return response()->json(
+            //         new ResResource('', false, "Cart maximum limit reached (3 books)"),
+            //         400
+            //     );
+            // }
 
 
             // Tambahkan buku ke cart
