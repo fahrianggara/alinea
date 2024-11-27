@@ -58,9 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
         Route::get('/', [BorrowingAPIController::class, 'index']);
+        Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::get('/history', [BorrowingAPIController::class, 'history']);
         Route::get('/{id}', [BorrowingAPIController::class, 'show']);
-        Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::put('/{id}', [BorrowingAPIController::class, 'update']);
         Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
     });
