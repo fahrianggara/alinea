@@ -85,7 +85,7 @@ class BorrowingAPIController extends Controller
          $no_invoice = $date . Auth::id() . rand(100, 999);
      
          // Inisiasi total amount (misalnya 10.000 per buku)
-         $totalAmount = 0;
+        //  $totalAmount = 0;
      
          // Mulai transaksi
          DB::beginTransaction();
@@ -126,11 +126,11 @@ class BorrowingAPIController extends Controller
                  $book->decrement('stock');
      
                  // Tambahkan harga buku ke total
-                 $totalAmount += 10000; // Contoh harga setiap buku 10.000
+                //  $totalAmount += 10000; // Contoh harga setiap buku 10.000
              }
      
              // Update total_amount pada invoice
-             $invoice->update(['total_amount' => $totalAmount]);
+            //  $invoice->update(['total_amount' => $totalAmount]);
              $invoices = Invoice::with('borrowings.book.category')->where('id', $invoice->id)->get();
              DB::commit();
      
