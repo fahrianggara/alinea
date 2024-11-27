@@ -71,15 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationAPIController::class, 'index']);
-        // Route::get('/mynotif', function (Request $request) {
-        //     // Fetch notifications for the authenticated user
-        //     $user = $request->user();
-        //     $notifications = Notification::where('user_id', $user->id)->get();
-        //     return response()->json(new ResResource($notifications, true, 'User data retrieved successfully'), 200);
-        // });
-
         Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
-
         Route::post('/new-book/{bookId}', [NotificationAPIController::class, 'newBookNotification']);
         Route::post('/due-date/{userId}/{bookId}', [NotificationAPIController::class, 'dueDateNotification']);
         Route::post('/fined/{userId}', [NotificationAPIController::class, 'finedNotification']);
