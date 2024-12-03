@@ -1,9 +1,8 @@
 <?php
 
 
-use App\Http\Controllers\Api\{BookApiController, BorrowingAPIController, CartApiController, CategoryApiController, InvoiceApiController, NotificationAPIController};
+use App\Http\Controllers\Api\{BookApiController, BorrowingApiController, CartApiController, CategoryApiController, InvoiceApiController, NotificationApiController, AuthApiController};
 
-use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Resources\ResResource;
@@ -23,15 +22,15 @@ use Spatie\FlareClient\Api;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthApiController::class, 'login']);
+Route::post('/register', [AuthApiController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', function (Request $request) {
         return response()->json(new ResResource($request->user(), true, 'User data retrieved successfully'), 200);
     });
 
-    Route::delete('/logout', [AuthController::class, 'logout']);
+    Route::delete('/logout', [AuthApiController::class, 'logout']);
 
     Route::group(['prefix' => 'books'], function () {
         Route::get('/', [BookApiController::class, 'index']);
@@ -58,12 +57,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
-        Route::get('/', [BorrowingAPIController::class, 'index']);
-        Route::post('/', [BorrowingAPIController::class, 'store']);
-        Route::get('/history', [BorrowingAPIController::class, 'history']);
-        Route::get('/{id}', [BorrowingAPIController::class, 'show']);
-        Route::put('/{id}', [BorrowingAPIController::class, 'update']);
-        Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
+        Route::get('/', [BorrowingApiController::class, 'index']);
+        Route::post('/', [BorrowingApiController::class, 'store']);
+        Route::get('/history', [BorrowingApiController::class, 'history']);
+        Route::get('/{id}', [BorrowingApiController::class, 'show']);
+        Route::put('/{id}', [BorrowingApiController::class, 'update']);
+        Route::delete('/{id}', [BorrowingApiController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'invoices'], function () {
@@ -72,11 +71,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'notifications'], function () {
-        Route::get('/', [NotificationAPIController::class, 'index']);
-        Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
-        Route::post('/new-book/{bookId}', [NotificationAPIController::class, 'newBookNotification']);
-        Route::post('/due-date/{userId}/{bookId}', [NotificationAPIController::class, 'dueDateNotification']);
-        Route::post('/fined/{userId}', [NotificationAPIController::class, 'finedNotification']);
-        Route::put('/{id}/mark-read', [NotificationAPIController::class, 'markAsRead']);
+        Route::get('/', [NotificationApiController::class, 'index']);
+        Route::get('/mynotif', [NotificationApiController::class, 'mynotif']);
+        Route::post('/new-book/{bookId}', [NotificationApiController::class, 'newBookNotification']);
+        Route::post('/due-date/{userId}/{bookId}', [NotificationApiController::class, 'dueDateNotification']);
+        Route::post('/fined/{userId}', [NotificationApiController::class, 'finedNotification']);
+        Route::put('/{id}/mark-read', [NotificationApiController::class, 'markAsRead']);
     });
 });

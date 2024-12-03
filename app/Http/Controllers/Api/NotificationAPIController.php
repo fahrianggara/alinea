@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationAPIController extends Controller
+class NotificationApiController extends Controller
 {
     // notifikasi buku baru
     public function index()
