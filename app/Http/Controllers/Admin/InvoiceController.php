@@ -15,7 +15,7 @@ class InvoiceController extends Controller
 
         $invoices = Invoice::with(['user'])->latest()->get();
 
-        return view('admin.invoices.invoice', compact('invoices'));
+        return view('admin.invoices.index', compact('invoices'));
     }
 
     public function show($no_invoice)

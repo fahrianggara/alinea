@@ -22,7 +22,7 @@ class BorrowingController extends Controller
         $borrowings = Borrowing::with('user', 'book.category', 'status', 'invoice')->latest()->get();
         $books = Book::with('category')->get();
 
-        return view('admin.borrowings.borrowing', compact(['borrowings', 'books']));
+        return view('admin.borrowings.index', compact(['borrowings', 'books']));
     }
 
     /**
@@ -64,7 +64,7 @@ class BorrowingController extends Controller
         $totalAmount = 10000; // Contoh harga setiap buku 10.000
 
         // Mulai transaksi
-        
+
 
         try {
             DB::beginTransaction();

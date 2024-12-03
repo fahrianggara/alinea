@@ -54,7 +54,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
+                    <a href="{{ route('alinea') }}" class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Alinea</p>
                     </a>
@@ -118,7 +118,7 @@
                         <p>
                             Report
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span> 
+                            <span class="badge badge-info right">6</span>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -136,13 +136,7 @@
                 </li>
 
                 @if ($admin->role == 'super_admin')
-                    {{-- <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-user-shield"></i>
-                            <p>
-                                Super Admin
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a> --}}
+
                     <li class="nav-header">
                         <span>Super Admin</span>
                     </li>
@@ -171,21 +165,6 @@
                         <a href="/penulis" class="nav-link">
                             <i class="nav-icon fas fa-user-edit fa-sm"></i>
                             <p>Admins</p>
-                        </a>
-                    </li>
-                    <li class="nav-header">
-                        <span>Api Testing</span>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('testing') }}" class="nav-link">
-                            <i class="nav-icon fas fa-vial fa-sm"></i>
-                            <p>Api Mobile</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('testing') }}" class="nav-link">
-                            <i class="nav-icon fas fa-vial fa-sm"></i>
-                            <p>Api Mobile</p>
                         </a>
                     </li>
                 @endif

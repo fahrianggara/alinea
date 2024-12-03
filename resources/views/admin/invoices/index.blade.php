@@ -36,6 +36,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Id</th>
                                     <th>Invoice</th>
                                     <th>Borrower</th>
                                     <th>Total Amount</th>
@@ -51,6 +52,7 @@
                                 @foreach ($invoices as $invoice)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>{{ $invoice->id }}</td>
                                         <td>{{ $invoice->no_invoice }}</td>
                                         <td>{{ $invoice->user->first_name }} {{ $invoice->user->last_name }}</td>
                                         <td>{{ 'Rp' . number_format($invoice->total_amount, 0, ',', '.') }}</td>

@@ -24,6 +24,7 @@ use Spatie\FlareClient\Api;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', function (Request $request) {
@@ -67,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'invoices'], function () {
         Route::get('/myinvoice', [InvoiceApiController::class, 'myInvoice']);
+        Route::get('/download/{id}', [InvoiceApiController::class, 'downloadPdf']);
     });
 
     Route::group(['prefix' => 'notifications'], function () {

@@ -83,4 +83,52 @@ class AuthController extends Controller
         // Return success response
         return response()->json(new ResResource(null, true, 'User logout successfully'), 200);
     }
+
+    public function register(Request $request)
+    {
+        // Get all request data
+        $input = $request->all();
+
+        // Validate the request data
+        $validator = Validator::make($input, [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+            'nim' => 'required|string|unique:users,nim',
+        ]);
+
+        // Return error response if validation fails
+        if ($validator->fails()) {
+            return response()->json(new ResResource(null, false, $validator->errors()), 422);
+        }
+
+        // Create a new user
+        $user = User::create(attributes: [
+            'image' => 'profile/default.png',
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'email' => $input['email'],
+            'password' => bcrypt($input['password']), // Hash the password
+            'nim' => $input['nim'],
+            'role' => 'user', // Default role
+        ]);
+
+        // Set the response data
+        $data = [
+            'id' => $user->id,
+            'image' => $user->image,
+            'email' => $user->email,
+            'role' => $user->role,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'access_token' => $user->createToken('auth_token')->plainTextToken,
+            'token_type' => 'Bearer',
+        ];
+
+        $my = User::find($user->id); // Menggunakan ID user yang baru dibuat
+
+        // Return success response dengan data user baru
+        return response()->json(new ResResource($data, true, 'User registered successfully'), 201);
+    }
 }

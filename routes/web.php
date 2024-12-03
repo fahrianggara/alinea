@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/{id}', [InvoiceController::class, 'destroy'])->name('.destroy');
 
 
+
     });
 
     // In routes/web.php
@@ -67,16 +68,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');    // Show edit form
         Route::put('/{id}', [UserController::class, 'update'])->name('update');     // Update user
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
-    });
-
-    // for testing only
-    Route::group(['prefix' => 'testing', 'as' => 'testing',], function () {
-
-        Route::get('/', [CartTestController::class, 'index'])->name('');
-        Route::post('/cart/test/add', [CartTestController::class, 'addCart'])->name('.addCart');
-        Route::delete('/cart/test/delete', [CartTestController::class, 'deleteAll'])->name('.delCart');
-
-        Route::post('/cart/borrow', [CartTestController::class, 'borrow'])->name('.borrow');
     });
 });
 

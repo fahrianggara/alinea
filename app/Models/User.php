@@ -13,6 +13,7 @@ class User extends Authenticatable
 
     // Protect the id from mass assignment
     protected $guarded = ['id'];
+    protected $appends = ['image_url'];
 
     // Specify which attributes should be hidden
     protected $hidden = [
@@ -51,6 +52,11 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return asset("storage/$this->image");
     }
 }
 

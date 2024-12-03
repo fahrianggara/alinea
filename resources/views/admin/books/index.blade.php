@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content-header">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-6 ml-auto">
                     <ol class="breadcrumb float-sm-right">
@@ -14,7 +14,7 @@
         </div>
     </div>
     <section class="content">
-        <div class="container-fluid">
+        <div class="container">
             <div class="card table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="title-top-table">Book Manage</span>
@@ -53,7 +53,7 @@
                                             </span>
 
                                             <br>
-                                            
+
                                             <span class="font-weight-bold">{{ $book->title }}</span><br>
 
                                             <span>
