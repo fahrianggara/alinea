@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap Example</title>
+    <title>Alinea</title>
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo/logo.png') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
