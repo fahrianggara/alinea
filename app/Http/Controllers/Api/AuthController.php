@@ -117,16 +117,12 @@ class AuthController extends Controller
         // Set the response data
         $data = [
             'id' => $user->id,
-            'image' => $user->image,
             'email' => $user->email,
-            'role' => $user->role,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'access_token' => $user->createToken('auth_token')->plainTextToken,
             'token_type' => 'Bearer',
         ];
-
-        $my = User::find($user->id); // Menggunakan ID user yang baru dibuat
 
         // Return success response dengan data user baru
         return response()->json(new ResResource($data, true, 'User registered successfully'), 201);
