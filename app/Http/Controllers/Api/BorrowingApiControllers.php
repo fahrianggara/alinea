@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class BorrowingAPIController extends Controller
+class BorrowingApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         // Fetch all borrowings with related user, book category, status, and invoice
@@ -81,7 +78,7 @@ class BorrowingAPIController extends Controller
         // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama
         $existingBorrowings = Borrowing::whereIn('book_id', $bookIds)
             ->where('user_id', Auth::id())
-            ->whereIn('status_id', [1, 2]) // Status yang masih aktif (misalnya, sedang dipinjam)
+            ->whereIn('status_id', [2]) // Status yang masih aktif (misalnya, sedang dipinjam)
             ->get();
 
         if ($existingBorrowings->isNotEmpty()) {

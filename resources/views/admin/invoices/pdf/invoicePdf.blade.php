@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice #2436356452</title>
+    <title>Invoice #{{ $invoice->no_invoice }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
         .book-image {
-            width: 50px;
+            width: 100px;
             height: 70px;
             object-fit: cover;
         }
+
         .invoice-header {
             color: #4169E1;
         }
+
         .status-paid {
             color: #28a745;
         }
+        h6{
+            font-weight: bold;
+        }
     </style>
 </head>
+
 <body class="bg-light">
     <div class="container my-5">
         <div class="card shadow-sm">
@@ -26,7 +40,8 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="d-flex align-items-center">
-                        <img src="/placeholder.svg" alt="Book Icon" width="50" height="50" class="me-2">
+                        <img src="{{ asset('storage/logo/logo.png') }}" alt="Book Icon" width="50" height="50"
+                            class="me-2">
                         <h1 class="invoice-header h3 mb-0">Invoice</h1>
                     </div>
                     <button class="btn btn-outline-primary">
@@ -34,84 +49,89 @@
                     </button>
                 </div>
 
+                <hr>
                 <!-- Invoice Number -->
-                <h2 class="h4 mb-4">#2436356452</h2>
+            
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2 class="h4 m-0">#{{ $invoice->no_invoice }}</h2>
+                    </div>
+                </div>
+
+                <hr>
 
                 <!-- Invoice Details -->
-                <div class="row mb-4">
-                    <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-3 my-auto">
                         <h6>Invoice For</h6>
-                        <p>Sultan Jordy Priadi</p>
+                        <p>{{ $fullname }}</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3 my-auto">
                         <h6>Booked Date</h6>
-                        <p>Submitted on 27/08/2024</p>
+                        <p>Borrow Date on {{ \Carbon\Carbon::parse($borrowing->borrowing_date)->format('Y/m/d') }}</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3 my-auto">
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6>Due Date</h6>
-                                <p>Submitted on 27/09/2024</p>
-                            </div>
-                            <div>
-                                <h6>Status</h6>
-                                <p class="status-paid">Paid</p>
+                                <p>Return Date on {{ \Carbon\Carbon::parse($borrowing->return_date)->format('Y/m/d') }}
+                                </p>
                             </div>
                         </div>
                     </div>
+                    <div class="col-3 m-auto">
+                        <center><img src="data:image/png;base64,{{ $invoice->qr_code }}" alt="QR Code"
+                                class="img-fluid" width="140"></center>
+                    </div>
                 </div>
 
+                <hr>
+                <br>
+                <br>
+
                 <!-- Pay For -->
-                <div class="mb-4">
-                    <h6>Pay For</h6>
-                    <p>Three Books</p>
-                </div>
 
                 <!-- Items Table -->
                 <div class="table-responsive mb-4">
                     <table class="table">
                         <thead class="bg-light">
                             <tr>
-                                <th>Description</th>
+                                <th>No</th>
+                                <th>Items</th>
                                 <th>Qty</th>
-                                <th>Unit Price</th>
-                                <th>Total Price</th>
+                                <th>Author</th>
+                                <th>ISBN</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/placeholder.svg" alt="Book 1" class="book-image me-2">
-                                        <span>Book 1</span>
-                                    </div>
-                                </td>
-                                <td>1</td>
-                                <td>IDR Price</td>
-                                <td>IDR TOTAL PRICE</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/placeholder.svg" alt="Book 2" class="book-image me-2">
-                                        <span>Book 1</span>
-                                    </div>
-                                </td>
-                                <td>1</td>
-                                <td>IDR Price</td>
-                                <td>IDR TOTAL PRICE</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="/placeholder.svg" alt="Book 3" class="book-image me-2">
-                                        <span>Book 1</span>
-                                    </div>
-                                </td>
-                                <td>1</td>
-                                <td>IDR Price</td>
-                                <td>IDR TOTAL PRICE</td>
-                            </tr>
+                            @php $no=1; @endphp
+                            @foreach ($invoice->borrowings as $borrowing)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('storage/' . $borrowing->book->cover) }}"
+                                                alt="Book Cover" class="book-image me-2" style="max-width: 50px;">
+                                            {{ $borrowing->book->title }} <br>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        {{ $borrowing->book->author }}
+                                    </td>
+                                    <td>
+                                        {{ $borrowing->book->isbn }}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {{ $borrowing->status->name }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -144,4 +164,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

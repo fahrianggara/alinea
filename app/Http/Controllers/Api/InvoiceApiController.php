@@ -21,6 +21,16 @@ class InvoiceApiController extends Controller
         return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
 
     }
+
+    public function show($id)
+    {
+        $invoices = Invoice::where('id', $id)
+            ->with('borrowings.book.category', 'user')
+            ->get();
+
+        return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
+    }
+    
     public function downloadPdf($id)
     {
         // Cari data invoice

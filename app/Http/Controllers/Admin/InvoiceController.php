@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Borrowing;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -20,10 +21,12 @@ class InvoiceController extends Controller
 
     public function show($no_invoice)
     {
-        $invoice = Invoice::with('borrowings.book.category')->where('no_invoice', $no_invoice)->first();
+        $invoice = Invoice::with('borrowings.book.category', 'user')->where('no_invoice', $no_invoice)->first();
+        $fullname = $invoice->user->first_name . ' ' . $invoice->user->last_name;
+        $borrowing = Borrowing::where('invoice_id', $invoice->id)->first();
 
         if ($invoice) {
-            return view('admin.invoices.pdf.invoicePdf', compact('invoice'));
+            return view('admin.invoices.pdf.invoicePdf', compact('invoice', 'fullname', 'borrowing'));
         }
 
         return redirect()->back()->with('error', 'Invoice not found');
