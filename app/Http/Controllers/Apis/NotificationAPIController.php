@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ResResource;
@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationApiController extends Controller
 {
+    // notifikasi buku baru
     public function index()
     {
         $notifications = Notification::all();
@@ -134,4 +135,6 @@ class NotificationApiController extends Controller
 
         return response()->json(['message' => 'Notification marked as read.', 'notification' => $notification], 200);
     }
+
+
 }

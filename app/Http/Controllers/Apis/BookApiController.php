@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ResResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Http\Resources\ResResource;
 
 class BookApiController extends Controller
 {

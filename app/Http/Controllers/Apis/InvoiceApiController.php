@@ -21,6 +21,7 @@ class InvoiceApiController extends Controller
         return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
 
     }
+
     public function downloadPdf($id)
     {
         // Cari data invoice

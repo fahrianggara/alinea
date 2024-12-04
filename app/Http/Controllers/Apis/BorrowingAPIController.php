@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ResResource;
-use App\Models\Book;
 use App\Models\Borrowing;
+use App\Models\Book;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class BorrowingApiController extends Controller
+class BorrowingAPIController extends Controller
 {
+    /**
+     * Display a listing of the borrowings.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         // Fetch all borrowings with related user, book category, status, and invoice
