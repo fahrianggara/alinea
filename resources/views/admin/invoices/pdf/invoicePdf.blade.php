@@ -1,138 +1,147 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Invoice #2436356452</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .book-image {
+            width: 50px;
+            height: 70px;
+            object-fit: cover;
+        }
+        .invoice-header {
+            color: #4169E1;
+        }
+        .status-paid {
+            color: #28a745;
+        }
+    </style>
 </head>
-
-<body>
+<body class="bg-light">
     <div class="container my-5">
-        <div class="col-lg-6 mx-auto">
-            <h2 class="text-center mb-4">Invoice</h2>
-            <img src="data:image/png;base64,{{ $invoice->qr_code }}" alt="QR Code" class="img-fluid"
-                    width="100">
-            @foreach ($invoice->borrowings as $borrowing)
-                
-            @endforeach
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center">
+                        <img src="/placeholder.svg" alt="Book Icon" width="50" height="50" class="me-2">
+                        <h1 class="invoice-header h3 mb-0">Invoice</h1>
+                    </div>
+                    <button class="btn btn-outline-primary">
+                        <i class="bi bi-download"></i> Download
+                    </button>
+                </div>
 
+                <!-- Invoice Number -->
+                <h2 class="h4 mb-4">#2436356452</h2>
+
+                <!-- Invoice Details -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <h6>Invoice For</h6>
+                        <p>Sultan Jordy Priadi</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Booked Date</h6>
+                        <p>Submitted on 27/08/2024</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6>Due Date</h6>
+                                <p>Submitted on 27/09/2024</p>
+                            </div>
+                            <div>
+                                <h6>Status</h6>
+                                <p class="status-paid">Paid</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pay For -->
+                <div class="mb-4">
+                    <h6>Pay For</h6>
+                    <p>Three Books</p>
+                </div>
+
+                <!-- Items Table -->
+                <div class="table-responsive mb-4">
+                    <table class="table">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="/placeholder.svg" alt="Book 1" class="book-image me-2">
+                                        <span>Book 1</span>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>IDR Price</td>
+                                <td>IDR TOTAL PRICE</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="/placeholder.svg" alt="Book 2" class="book-image me-2">
+                                        <span>Book 1</span>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>IDR Price</td>
+                                <td>IDR TOTAL PRICE</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="/placeholder.svg" alt="Book 3" class="book-image me-2">
+                                        <span>Book 1</span>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>IDR Price</td>
+                                <td>IDR TOTAL PRICE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Totals -->
+                <div class="row justify-content-end">
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Sub Total :</span>
+                            <span></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Admin / fined</span>
+                            <span>Rp.4.000</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Discount</span>
+                            <span>Rp.0</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total :</strong>
+                            <strong>Rp.4.000</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-</html> --}}
-
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Aloha!</title>
-
-    <style type="text/css">
-        * {
-            font-family: Verdana, Arial, sans-serif;
-        }
-
-        table {
-            font-size: x-small;
-        }
-
-        tfoot tr td {
-            font-weight: bold;
-            font-size: x-small;
-        }
-
-        .gray {
-            background-color: lightgray
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <table width="100%">
-        <tr>
-            <td valign="top" style="padding: 30px 0 50px 0"><img src="data:image/png;base64,{{ $invoice->qr_code }}"
-                    alt="QR Code" width="150"></td>
-            <td align="right">
-                <h3>Alinea Library</h3>
-                <pre>
-                Company representative name
-                Company address
-                Tax ID
-                phone
-                fax
-            </pre>
-            </td>
-        </tr>
-
-    </table>
-
-    <table width="100%">
-        <tr>
-            <td><strong>From:</strong> Agus - Alinea Admin</td>
-            <td><strong>To:</strong> Agus Sedih - Borrower Book Alinea</td>
-        </tr>
-
-    </table>
-
-    <br />
-
-    <table width="100%">
-        <thead style="background-color: lightgray;">
-            <tr>
-                <th>#</th>
-                <th>Information</th>
-                <th>Quantity</th>
-                <th>Unit Price $</th>
-                <th>Total $</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $no = 1; @endphp
-            @foreach ($invoice->borrowings as $borrowing)
-
-                <tr>
-                    <th scope="row">{{ $no++ }}</th>
-                    <td style="display: inline">
-                        <img src="{{ public_path('storage/' . $borrowing->book->cover) }}" style="max-width: 80px;">
-                    </td>
-                    <td align="right">1</td>
-                    <td align="right">1400.00</td>
-                    <td align="right">1400.00</td>
-                </tr>
-
-            @endforeach
-        </tbody>
-
-        {{-- <tfoot>
-            <tr>
-                <td colspan="3"></td>
-                <td align="right">Subtotal $</td>
-                <td align="right">1635.00</td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td align="right">Tax $</td>
-                <td align="right">294.3</td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td align="right">Total $</td>
-                <td align="right" class="gray">$ 1929.3</td>
-            </tr>
-        </tfoot> --}}
-    </table>
-
-</body>
-
 </html>
