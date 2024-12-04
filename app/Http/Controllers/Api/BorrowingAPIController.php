@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class BorrowingApiController extends Controller
+class BorrowingAPIController extends Controller
 {
     /**
      * Display a listing of the borrowings.
