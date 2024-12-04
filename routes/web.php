@@ -15,7 +15,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->Middleware('auth');
 
 
-
+// bismillah bisa
 
 Route::group(['middleware' => ['auth']], function () {
 
