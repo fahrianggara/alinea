@@ -2,8 +2,7 @@
 
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\BookApiController;
-use App\Http\Controllers\Api\BorrowingApiController;
-// use App\Http\Controllers\Api\BorrowingApiController;
+use App\Http\Controllers\Api\BorrowingAPIController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
@@ -59,12 +58,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
-        Route::get('/', [BorrowingApiController::class, 'index']);
-        Route::post('/', [BorrowingApiController::class, 'store']);
-        Route::get('/history', [BorrowingApiController::class, 'history']);
-        Route::get('/{id}', [BorrowingApiController::class, 'show']);
-        Route::put('/{id}', [BorrowingApiController::class, 'update']);
-        Route::delete('/{id}', [BorrowingApiController::class, 'destroy']);
+        Route::get('/', [BorrowingAPIController::class, 'index']);
+        Route::post('/', [BorrowingAPIController::class, 'store']);
+        Route::get('/history', [BorrowingAPIController::class, 'history']);
+        Route::get('/{id}', [BorrowingAPIController::class, 'show']);
+        Route::put('/{id}', [BorrowingAPIController::class, 'update']);
+        Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'invoices'], function () {
