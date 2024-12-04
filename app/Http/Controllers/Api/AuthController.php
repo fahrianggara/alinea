@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 
-class AuthApiController extends Controller
+class AuthController extends Controller
 {
     /**
      * Login user api

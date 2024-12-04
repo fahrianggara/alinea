@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Api\{BookApiController, BorrowingApiController, CartApiController, CategoryApiController, InvoiceApiController, NotificationApiController, AuthApiController};
+use App\Http\Controllers\Api\{BookApiController, BorrowingApiController, CartApiController, CategoryApiController, InvoiceApiController, NotificationApiController, AuthController};
 
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -22,15 +22,15 @@ use Spatie\FlareClient\Api;
 |
 */
 
-Route::post('/login', [AuthApiController::class, 'login']);
-Route::post('/register', [AuthApiController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', function (Request $request) {
         return response()->json(new ResResource($request->user(), true, 'User data retrieved successfully'), 200);
     });
 
-    Route::delete('/logout', [AuthApiController::class, 'logout']);
+    Route::delete('/logout', [AuthController::class, 'logout']);
 
     Route::group(['prefix' => 'books'], function () {
         Route::get('/', [BookApiController::class, 'index']);
@@ -57,12 +57,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
-        Route::get('/', [BorrowingApiController::class, 'index']);
-        Route::post('/', [BorrowingApiController::class, 'store']);
-        Route::get('/history', [BorrowingApiController::class, 'history']);
-        Route::get('/{id}', [BorrowingApiController::class, 'show']);
-        Route::put('/{id}', [BorrowingApiController::class, 'update']);
-        Route::delete('/{id}', [BorrowingApiController::class, 'destroy']);
+        Route::get('/', [BorrowingAPIController::class, 'index']);
+        Route::post('/', [BorrowingAPIController::class, 'store']);
+        Route::get('/history', [BorrowingAPIController::class, 'history']);
+        Route::get('/{id}', [BorrowingAPIController::class, 'show']);
+        Route::put('/{id}', [BorrowingAPIController::class, 'update']);
+        Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'invoices'], function () {
