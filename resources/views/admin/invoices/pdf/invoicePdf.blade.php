@@ -40,9 +40,10 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('storage/logo/logo.png') }}" alt="Book Icon" width="50" height="50"
+                        <img src="{{ asset('storage/logo/logo.png') }}" alt="Book Icon" width="60" height="50"
                             class="me-2">
                         <h1 class="invoice-header h3 mb-0">Invoice</h1>
+                        <h6 class="mt-2 mb-0 mx-3"> # {{ $invoice->no_invoice }}</h6>
                     </div>
                     <button class="btn btn-outline-primary">
                         <i class="bi bi-download"></i> Download
@@ -50,18 +51,13 @@
                 </div>
 
                 <hr>
-                <!-- Invoice Number -->
-            
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h2 class="h4 m-0">#{{ $invoice->no_invoice }}</h2>
-                    </div>
-                </div>
-
-                <hr>
 
                 <!-- Invoice Details -->
                 <div class="row">
+                    <div class="col-3 m-auto">
+                        <center><img src="data:image/png;base64,{{ $invoice->qr_code }}" alt="QR Code"
+                                class="img-fluid" width="140"></center>
+                    </div>
                     <div class="col-md-3 my-auto">
                         <h6>Invoice For</h6>
                         <p>{{ $fullname }}</p>
@@ -78,10 +74,6 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-3 m-auto">
-                        <center><img src="data:image/png;base64,{{ $invoice->qr_code }}" alt="QR Code"
-                                class="img-fluid" width="140"></center>
                     </div>
                 </div>
 
