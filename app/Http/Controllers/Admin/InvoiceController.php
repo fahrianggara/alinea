@@ -35,14 +35,16 @@ class InvoiceController extends Controller
     public function downloadPdf($id)
     {
         // Cari data invoice
-        $invoice = Invoice::with('user', 'borrowings.book')->find($id);
+        $invoice = Invoice::with('borrowings.book.category', 'user')->where('id', $id)->first();
+        $fullname = $invoice->user->first_name . ' ' . $invoice->user->last_name;
+        $borrowing = Borrowing::where('invoice_id', $invoice->id)->first();
 
         if (!$invoice) {
             return response()->json(['error' => 'Invoice not found'], 404);
         }
 
         // Generate PDF dari view
-        $pdf = Pdf::loadView('admin.invoices.pdf.invoicePdf', compact('invoice'));
+        $pdf = Pdf::loadView('admin.invoices.pdf.invoicePdf', compact('invoice', 'fullname', 'borrowing'));
 
         // Mengembalikan file PDF sebagai download
         return $pdf->download("invoice_{$invoice->id}.pdf");
