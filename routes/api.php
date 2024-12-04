@@ -3,10 +3,11 @@
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\BookApiController;
 use App\Http\Controllers\Api\BorrowingApiController;
+// use App\Http\Controllers\Api\BorrowingApiController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
-use App\Http\Controllers\Api\NotificationApiController;
+// use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Resources\ResResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,12 +72,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/download/{id}', [InvoiceApiController::class, 'downloadPdf']);
     });
 
-    Route::group(['prefix' => 'notifications'], function () {
-        Route::get('/', [NotificationApiController::class, 'index']);
-        Route::get('/mynotif', [NotificationApiController::class, 'mynotif']);
-        Route::post('/new-book/{bookId}', [NotificationApiController::class, 'newBookNotification']);
-        Route::post('/due-date/{userId}/{bookId}', [NotificationApiController::class, 'dueDateNotification']);
-        Route::post('/fined/{userId}', [NotificationApiController::class, 'finedNotification']);
-        Route::put('/{id}/mark-read', [NotificationApiController::class, 'markAsRead']);
-    });
+    // Route::group(['prefix' => 'notifications'], function () {
+    //     Route::get('/', [NotificationApiController::class, 'index']);
+    //     Route::get('/mynotif', [NotificationApiController::class, 'mynotif']);
+    //     Route::post('/new-book/{bookId}', [NotificationApiController::class, 'newBookNotification']);
+    //     Route::post('/due-date/{userId}/{bookId}', [NotificationApiController::class, 'dueDateNotification']);
+    //     Route::post('/fined/{userId}', [NotificationApiController::class, 'finedNotification']);
+    //     Route::put('/{id}/mark-read', [NotificationApiController::class, 'markAsRead']);
+    // });
 });
