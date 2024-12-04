@@ -88,7 +88,7 @@ class AuthApiController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed', // Confirmed untuk password
             'nim' => 'required|string|unique:users,nim',
         ]);
 
@@ -98,7 +98,7 @@ class AuthApiController extends Controller
         }
 
         // Create a new user
-        $user = User::create(attributes: [
+        $user = User::create([
             'image' => 'profile/default.png',
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
