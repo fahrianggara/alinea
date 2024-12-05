@@ -74,7 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::put('/update', [UserApiController::class, 'updateProfile']);
+        Route::post('/update', [UserApiController::class, 'updateProfile']);
     });
 
     // Route::group(['prefix' => 'notifications'], function () {
