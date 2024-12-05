@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BorrowingAPIController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
+use App\Http\Controllers\Api\UserApiController;
 // use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Resources\ResResource;
 use Illuminate\Http\Request;
@@ -35,8 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'books'], function () {
         Route::get('/', [BookApiController::class, 'index']);
-        Route::get('/{id}', [BookApiController::class, 'show']);
         Route::post('/', [BookApiController::class, 'store']);
+        Route::get('/{id}', [BookApiController::class, 'show']);
         Route::put('/{id}', [BookApiController::class, 'update']);
         Route::delete('/{id}', [BookApiController::class, 'destroy']);
     });
@@ -70,6 +71,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/myinvoice', [InvoiceApiController::class, 'myInvoice']);
         Route::get('/download/{id}', [InvoiceApiController::class, 'downloadPdf']);
         Route::get('/{id}', [InvoiceApiController::class, 'show']);
+    });
+
+    Route::group(['prefix' => 'profile'], function () {
+        Route::put('/update', [UserApiController::class, 'updateProfile']);
     });
 
     // Route::group(['prefix' => 'notifications'], function () {
