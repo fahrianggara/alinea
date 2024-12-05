@@ -176,20 +176,23 @@
             </tbody>
 
         </table>
-        {{-- <table style="width: 100%;" style="font-size: 12px; font-weight:bold;">
+
+        <table style="width: 100%; font-size: 12px; font-weight:bold; margin-top: 10px;">
             <tr>
-                <td style="width: 35%; text-align: center;"></td>
-                <td style="width: 35%; text-align: center;"></td>
+                <td style="width: 40%;">
+                    <h6>*Please show this invoice when collecting and returning the book !</h6>
+                </td>
+                <td style="width: 30%; text-align: center;"></td>
                 <td style="width: 15%; text-align: center;">
                     Fined : 
                 </td>
                 <td style="width: 15%; text-align: right;">
-                    1200
+                    Rp. 0
                 </td>
             </tr>
-        </table> --}}
+        </table>
 
-        <h6 style="margin-top: 10px; text-align:right;">Please show this invoice when collecting and returning the book!!!</h6>
+        
     </div>
 </body>
 
