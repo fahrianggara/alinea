@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\BorrowingAPIController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
-use App\Http\Controllers\Api\NotificationApiController;
+use App\Http\Controllers\Api\NotificationAPIController;
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Resources\ResResource;
 use Illuminate\Http\Request;
@@ -78,8 +78,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'notifications'], function () {
-        Route::get('/mynotif', [NotificationApiController::class, 'mynotif']);
-        Route::delete('/deleteAll', [NotificationApiController::class, 'destroy']);
+        Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
+        Route::delete('/deleteAll', [NotificationAPIController::class, 'destroy']);
     });
 
 
