@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\InvoiceApiController;
 use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Controllers\Api\UserApiController;
-// use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Resources\ResResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
