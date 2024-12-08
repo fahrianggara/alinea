@@ -20,7 +20,6 @@ class InvoiceApiController extends Controller
             ->get();
 
         return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
-
     }
 
     public function show($id)
@@ -49,4 +48,30 @@ class InvoiceApiController extends Controller
         // Mengembalikan file PDF sebagai download
         return $pdf->download("invoice_{$invoice->id}.pdf");
     }
+
+    public function destroy($id)
+    {
+        // Cari data invoice berdasarkan id
+        $invoice = Invoice::with('borrowings.book.category', 'user', 'notifications')->find($id);
+
+        // Jika data invoice ditemukan
+        if ($invoice) {
+            // Hapus semua borrowing yang terkait dengan invoice ini
+
+            foreach ($invoice->borrowings as $borrowing) {
+                $borrowing->delete(); // Hapus semua borrowings terkait 
+            }
+            foreach ($invoice->notifications as $notification) {
+                $notification->delete(); // Hapus semua notifications terkait 
+            }
+
+            // Hapus invoice itu sendiri
+            $invoice->delete();
+
+            return redirect()->back()->with('success', 'Invoice, related borrowings, and notifications deleted successfully');
+        }
+
+        return response()->json(new ResResource(null, true, "Invoices deleted successfully"), 200);
+    }
+
 }

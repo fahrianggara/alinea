@@ -15,7 +15,8 @@ class CreateNotificationsTable extends Migration
             $table->boolean('is_read')->default(false);
             $table->foreignId('admin_id')->nullable()->constrained('admins');
             $table->foreignId('book_id')->nullable()->constrained('books');
-            $table->enum('type', ['recommendations', 'due', 'fined']);
+            $table->foreignId('invoice_id')->nullable()->constrained('invoices');
+            $table->enum('type', ['recommendations', 'due', 'fined', 'reminder']);
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class CreateInvoicesTable extends Migration
             $table->text('qr_code')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('total_amount', 10, 2)->nullable();
-            $table->enum('status', ['fined', 'clear'])->nullable();
+            $table->enum('status', ['fined', 'clear', 'canceled', 'pending'])->nullable();
             $table->timestamps();
         });
     }

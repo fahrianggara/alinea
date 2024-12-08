@@ -19,4 +19,9 @@ class Invoice extends Model
     {
         return $this->hasMany(Borrowing::class, 'invoice_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'invoice_id');
+    }
 }

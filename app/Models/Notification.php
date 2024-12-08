@@ -9,12 +9,7 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',     // User to notify
-        'book_id',     // The book related to the notification
-        'message',     // The notification message
-        'type',        // Type of notification (e.g., 'due', 'recommendation', etc.)
-    ];
+    protected $guarded = ['id'];
 
     // Relationships
     public function user()
@@ -25,6 +20,11 @@ class Notification extends Model
     public function book()
     {
         return $this->belongsTo(Book::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 }
 

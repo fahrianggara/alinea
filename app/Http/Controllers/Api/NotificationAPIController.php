@@ -23,6 +23,17 @@ class NotificationApiController extends Controller
             200
         );
     }
+
+    public function destroy(){
+
+        Notification::query()->delete();
+
+        return response()->json(
+            new ResResource(null, true, "All notification deleted"),
+            200
+        );
+    }
+    
     // notif buku baru untuk user yang sudah login
     public function mynotif()
     {
@@ -44,6 +55,7 @@ class NotificationApiController extends Controller
                     'user_id' => $user->id,
                     'message' => "A new book titled '{$book->title}' has been added.",
                     'type' => 'recommendations',
+                    'book_id' => $book->id
                 ]);
             }
 

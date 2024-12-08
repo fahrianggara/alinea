@@ -102,7 +102,7 @@
                 </td>
                 <td>
                     <h5>Invoice For</h5>
-                    <small>{{ $fullname }}</small>
+                    <small style="text-transform: capitalize;">{{ $fullname }}</small>
                 </td>
                 <td>
                     <h5>Booked Date</h5>
@@ -115,7 +115,7 @@
                 </td>
                 <td>
                     <h5>Status</h5>
-                    <small>{{ $invoice->status}}</small>
+                    <small style="text-transform: capitalize;">{{ $invoice->status}}</small>
                 </td>
             </tr>
         </table>
@@ -168,7 +168,7 @@
                         <td>
                             1
                         </td>
-                        <td>
+                        <td style="text-transform: capitalize;">
                             {{ $borrowing->status->name }}
                         </td>
                     </tr>
@@ -187,7 +187,7 @@
                     Fined : 
                 </td>
                 <td style="width: 15%; text-align: right;">
-                    Rp. 0
+                    Rp. {{ number_format($invoice->total_amount, 0, ',', '.') }}
                 </td>
             </tr>
         </table>

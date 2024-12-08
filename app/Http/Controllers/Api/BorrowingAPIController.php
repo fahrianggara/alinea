@@ -78,18 +78,22 @@ class BorrowingAPIController extends Controller
             return response()->json(['message' => 'No books found for borrowing!'], 404);
         }
 
-        // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama
-        $existingBorrowings = Borrowing::whereIn('book_id', $bookIds)
+        // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama, kecuali yang status_id = 3
+        $invalidBorrowings = Borrowing::whereIn('book_id', $bookIds)
             ->where('user_id', Auth::id())
-            ->whereIn('status_id', [1, 2]) // Status yang masih aktif (misalnya, sedang dipinjam)
+            ->whereNotIn('status_id', [3]) // Hanya status_id = 3 yang diizinkan untuk dipesan ulang
             ->get();
 
-        if ($existingBorrowings->isNotEmpty()) {
-            $bookTitles = $existingBorrowings->pluck('book.title')->toArray();
+        if ($invalidBorrowings->isNotEmpty()) {
+            $bookTitles = $invalidBorrowings->map(function ($borrowing) {
+                return $borrowing->book->title;
+            })->toArray();
+
             return response()->json([
-                'message' => 'You have already borrowed these books: ' . implode(', ', $bookTitles),
+                'message' => 'You cannot borrow these books again until the previous borrowing is cleared: ' . implode(', ', $bookTitles),
             ], 400);
         }
+
 
         // Generate nomor invoice unik
         $date = Carbon::now()->format('Ymd');
@@ -110,7 +114,7 @@ class BorrowingAPIController extends Controller
                 'qr_code' => $qrCode,
                 'user_id' => Auth::id(),
                 'total_amount' => 0, // Total dihitung nanti
-                'status' => 'clear', // Status invoice
+                'status' => 'pending', // Status invoice
             ]);
 
             foreach ($books as $book) {
@@ -132,7 +136,6 @@ class BorrowingAPIController extends Controller
 
                 // Kurangi stok buku
                 $book->decrement('stock');
-
             }
 
             // Update total_amount pada invoice
