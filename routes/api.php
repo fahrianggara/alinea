@@ -27,7 +27,7 @@ use Spatie\FlareClient\Api;
 Route::post('/login', [AuthApiController::class, 'login']);
 Route::post('/register', [AuthApiController::class, 'register']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', function (Request $request) {
         return response()->json(new ResResource($request->user(), true, 'User data retrieved successfully'), 200);
     });

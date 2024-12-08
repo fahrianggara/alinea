@@ -69,6 +69,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/{id}', [UserController::class, 'update'])->name('update');     // Update user
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
     });
+
+    Route::get('/test', function () {
+        return 'Testing middleware';
+    })->middleware('UpdateBorrowingStatusMiddleware');
 });
 
 

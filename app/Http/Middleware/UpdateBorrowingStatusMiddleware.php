@@ -48,13 +48,14 @@ class UpdateBorrowingStatusMiddleware
              // Update total_amount pada invoice
              $invoice->update([
                  'total_amount' => $totalAmount,
+                 'status' => 'fined'
              ]);
      
              // Jika ada borrowing dengan status 4, ubah status invoice menjadi "fined"
              if ($hasFinedBorrowing) {
-                 $invoice->update([
-                     'status' => 'fined',
-                 ]);
+                //  $invoice->update([
+                //      'status' => 'fined',
+                //  ]);
      
                  // Cek apakah notifikasi sudah dibuat untuk invoice ini
                  $existingNotification = Notification::where('user_id', $invoice->user_id)
