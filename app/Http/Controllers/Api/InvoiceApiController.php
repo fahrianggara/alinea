@@ -74,4 +74,5 @@ class InvoiceApiController extends Controller
         return response()->json(new ResResource(null, true, "Invoices deleted successfully"), 200);
     }
 
+
 }

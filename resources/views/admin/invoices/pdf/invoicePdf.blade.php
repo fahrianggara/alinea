@@ -106,12 +106,13 @@
                 </td>
                 <td>
                     <h5>Booked Date</h5>
-                    <small>Borrow Date on
-                        {{ \Carbon\Carbon::parse($borrowing->borrowing_date)->format('Y/m/d') }}</small>
+                    <small>Borrow Date on 
+                    {{ \Carbon\Carbon::parse($borrowing->borrow_date)->format('Y/m/d') }}</small> 
                 </td>
                 <td>
                     <h5>Return Date</h5>
-                    <small>Borrow Date on {{ \Carbon\Carbon::parse($borrowing->return_date)->format('Y/m/d') }}</small>
+                     <small>Return Date on  
+                        {{ \Carbon\Carbon::parse($borrowing->return_date)->format('Y/m/d') }}</small> 
                 </td>
                 <td>
                     <h5>Status</h5>
