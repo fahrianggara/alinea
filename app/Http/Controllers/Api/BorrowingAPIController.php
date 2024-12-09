@@ -78,7 +78,7 @@ class BorrowingAPIController extends Controller
             return response()->json(['message' => 'No books found for borrowing!'], 404);
         }
 
-        // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama
+        // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama bismillah
         $existingBorrowings = Borrowing::whereIn('book_id', $bookIds)
             ->where('user_id', Auth::id())
             ->whereIn('status_id', [1, 2]) // Status yang masih aktif (misalnya, sedang dipinjam)
