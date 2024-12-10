@@ -21,7 +21,7 @@ class SendDueDateNotifications extends Command
     public function handle()
     {
         // Mendapatkan peminjaman dengan tanggal kembali 2 hari dari sekarang
-        $borrowings = Borrowing::whereDate('return_date', Carbon::now()->addDays(2)->toDateString())->get();
+        $borrowings = Borrowing::whereDate('return_date', Carbon::now()->addDays(1)->toDateString())->get();
 
         foreach ($borrowings as $borrowing) {
             // Mengambil pengguna dan buku terkait peminjaman ini

@@ -60,11 +60,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
         Route::get('/', [BorrowingAPIController::class, 'index']);
+        Route::get('/mynotif', [BorrowingAPIController::class, 'mynotif']);
         Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::get('/history', [BorrowingAPIController::class, 'history']);
         Route::get('/{id}', [BorrowingAPIController::class, 'show']);
         Route::put('/{id}', [BorrowingAPIController::class, 'update']);
         Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
+        Route::delete('/mynotif/delete', [BorrowingAPIController::class, 'destroyAll']);
     });
 
     Route::group(['prefix' => 'invoices'], function () {

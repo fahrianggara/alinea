@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('send:due-date-notifications')->daily();
+        // $schedule->command('send:due-date-notifications')->everySecond();
+        $schedule->command('update:borrowing-invoice-status')->everySecond();
     }
 
     /**

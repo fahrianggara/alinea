@@ -7,6 +7,7 @@ use App\Http\Resources\ResResource;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Invoice;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -208,5 +209,23 @@ class BorrowingAPIController extends Controller
 
         // Return success response
         return response()->json(['message' => 'Borrowing record deleted successfully'], 200);
+    }
+    public function mynotif()
+    {
+        $notifications = Notification::all();
+        return response()->json(
+            new ResResource($notifications, true, "my notification retrieved successfully"),
+            200
+        );
+    }
+
+    public function destroyAll(){
+        
+        Notification::query()->delete();
+
+        return response()->json(
+            new ResResource(null, true, "notifications has delected"),
+            200
+        );
     }
 }
