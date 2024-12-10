@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
 use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
-use App\Http\Controllers\Alinea\{AlineaController, PickupController};
+use App\Http\Controllers\Alinea\{AlineaController, PickupController, ReturnController};
 use App\Http\Controllers\Testing\CartTestController;
 use App\Models\Admin;
 use Faker\Guesser\Name;
@@ -81,18 +81,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'pickups', 'as' => 'pickups',], function () {
 
         Route::get('/', [PickupController::class, 'index'])->name('');
-        Route::post('/{no_invoice}', [PickupController::class, 'show'])->name('.show');
-        Route::post('/borrow/{no_invoice}', [PickupController::class, 'borrow'])->name('.borrow');
+        Route::get('/{no_invoice}', [PickupController::class, 'show'])->name('.show');
+        Route::post('/pickup/{id}', [PickupController::class, 'pickup'])->name('.pickup');
+        Route::get('/success/{id}', [PickupController::class, 'success'])->name('.success');
 
     });
 
     Route::group(['prefix' => 'returns', 'as' => 'returns',], function () {
 
-        Route::get('/', [PickupController::class, 'index'])->name('');
-        Route::get('/{id}', [BorrowingController::class, 'show'])->name('.show');
-        Route::post('/', [BorrowingController::class, 'store'])->name('.store');
-        Route::delete('/{id}', [BorrowingController::class, 'destroy'])->name('.destroy');
-        Route::put('/{id}', [BorrowingController::class, 'update'])->name('.update');
+        Route::get('/', [ReturnController::class, 'index'])->name('');
+        Route::get('/{no_invoice}', [ReturnController::class, 'show'])->name('.show');
+        Route::patch('/{borrowing}', [ReturnController::class, 'updateStatus'])->name('.updateStatus');
+        Route::post('/success/{id}', [ReturnController::class, 'success'])->name('.success');
     });
 
 });

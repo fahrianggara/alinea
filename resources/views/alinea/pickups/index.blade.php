@@ -7,4 +7,26 @@
             <div id="qr-reader-results"></div>
         </div>
     </div>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+
+    <script>
+        var lastResult;
+    
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                lastResult = decodedText;
+    
+                // Redirect ke route tertentu menggunakan JavaScript
+                window.location.href = `/pickups/${decodedText}`;
+            }
+        }
+    
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", {
+                fps: 30,
+                qrbox: 250
+            });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
 @endsection

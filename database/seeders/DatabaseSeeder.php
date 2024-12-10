@@ -107,6 +107,13 @@ class DatabaseSeeder extends Seeder
             'description' => 'book missing',
         ]);
 
+        Status::create([
+            'name' => 'damaged',
+            'color' => 'bg-danger',
+            'message' => 'The book is currently marked as damaged. Please report it',
+            'description' => 'book missing',
+        ]);
+
 
     }
 }
