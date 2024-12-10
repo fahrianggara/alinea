@@ -86,9 +86,9 @@ class BorrowingAPIController extends Controller
 
         if ($existingBorrowings->isNotEmpty()) {
             $bookTitles = $existingBorrowings->pluck('book.title')->toArray();
-            return response()->json([
-                'message' => 'You have already borrowed these books: ' . implode(', ', $bookTitles),
-            ], 400);
+            return response()->json(
+                new ResResource(null, false,  "You have already borrowed these books: ' . implode(', ', $bookTitles)", 400)
+            );
         }
 
         // Generate nomor invoice unik
