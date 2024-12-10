@@ -67,108 +67,119 @@ class BorrowingAPIController extends Controller
      */
 
 
-     public function store(Request $request)
-     {
-         // Pastikan `book_id` selalu array, meskipun inputnya tunggal
-         $bookIds = is_array($request->book_id) ? $request->book_id : [$request->book_id];
-     
-         // Validasi buku yang dipilih ada di database
-         $books = Book::whereIn('id', $bookIds)->get();
-     
-         if ($books->isEmpty()) {
-             return response()->json(['message' => 'No books found for borrowing!'], 404);
-         }
-     
-         // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama dan statusnya memungkinkan peminjaman lagi
-         $existingBorrowings = Borrowing::whereIn('book_id', $bookIds)
-             ->where('user_id', Auth::id())
-             ->whereIn('status_id', [3, 4]) // Hanya buku dengan status 1, 2, 3, 4 yang bisa dipinjam
-             ->get();
-     
-         if ($existingBorrowings->isNotEmpty()) {
-             $bookTitles = $existingBorrowings->pluck('book.title')->toArray();
-             $message = "You have already borrowed or reserved these books: " . implode(', ', $bookTitles);
-             return response()->json(
-                 new ResResource(null, false, $message), 400
-             );
-         }
-     
-         // Validasi buku dengan status_id 5 atau 6
-         $problematicBooks = Borrowing::whereIn('book_id', $bookIds)
-             ->where('user_id', Auth::id())
-             ->whereIn('status_id', [5, 6]) // Status yang menandakan masalah (hilang atau rusak)
-             ->get();
-     
-         if ($problematicBooks->isNotEmpty()) {
-             foreach ($problematicBooks as $borrowing) {
-                 $problematicBook = $borrowing->book->title;
-                 if ($borrowing->status_id == 5) {
-                     $message = "You cannot borrow the book \"$problematicBook\" because it has been lost.";
-                 } elseif ($borrowing->status_id == 6) {
-                     $message = "You cannot borrow the book \"$problematicBook\" because it has been damaged.";
-                 }
-                 return response()->json(['message' => $message], 400);
-             }
-         }
-     
-         // Generate nomor invoice unik
-         $date = Carbon::now()->format('Ymd');
-         $no_invoice = $date . Auth::id() . rand(100, 999);
-     
-         // Mulai transaksi
-         DB::beginTransaction();
-     
-         try {
-             // Simpan invoice
-             $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
-     
-             $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
-             $returnDate = Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d');
-     
-             $invoice = Invoice::create([
-                 'no_invoice' => $no_invoice,
-                 'qr_code' => $qrCode,
-                 'user_id' => Auth::id(),
-                 'total_amount' => 0, // Total dihitung nanti
-                 'status' => 'pending', // Status invoice
-             ]);
-     
-             foreach ($books as $book) {
-                 if ($book->stock <= 0) {
-                     // Jika stok tidak cukup, rollback transaksi
-                     DB::rollBack();
-                     return response()->json(['message' => 'Book "' . $book->title . '" is out of stock!'], 400);
-                 }
-     
-                 // Simpan data peminjaman dengan `invoice_id`
-                 Borrowing::create([
-                     'invoice_id' => $invoice->id, // Menggunakan invoice_id, bukan no_invoice
-                     'user_id' => Auth::id(),
-                     'book_id' => $book->id,
-                     'borrow_date' => $borrowDate,
-                     'return_date' => $returnDate,
-                     'status_id' => 1, // Status peminjaman
-                 ]);
-     
-                 // Kurangi stok buku
-                 $book->decrement('stock');
-             }
-     
-             // Update total_amount pada invoice
-             //  $invoice->update(['total_amount' => $totalAmount]);
-             $invoices = Invoice::with('borrowings.book.category')->where('id', $invoice->id)->get();
-             DB::commit();
-     
-             return response()->json(
-                 new ResResource($invoices, "Books successfully borrowed!", 201)
-             );
-         } catch (\Exception $e) {
-             // Jika ada kesalahan, rollback transaksi
-             DB::rollBack();
-             return response()->json(['message' => 'An error occurred while borrowing books: ' . $e->getMessage()], 500);
-         }
-     }
-     
+    public function store(Request $request)
+    {
+        // Pastikan `book_id` selalu array, meskipun inputnya tunggal
+        $bookIds = is_array($request->book_id) ? $request->book_id : [$request->book_id];
+
+        // Validasi buku yang dipilih ada di database
+        $books = Book::whereIn('id', $bookIds)->get();
+
+        if ($books->isEmpty()) {
+            return response()->json(
+                new ResResource(null, false, 'No books found for borrowing!'),
+                404
+            );
+        }
+
+        // Validasi: cek apakah buku sudah pernah dipesan oleh user dengan status tidak valid
+        $invalidBorrowings = Borrowing::whereIn('book_id', $bookIds)
+            ->where('user_id', Auth::id())
+            ->whereNotIn('status_id', [3, 4]) // Buku dengan status selain 3 atau 4 tidak bisa dipinjam lagi
+            ->get();
+
+        if ($invalidBorrowings->isNotEmpty()) {
+            $bookTitles = $invalidBorrowings->pluck('book.title')->toArray();
+            $message = "You cannot borrow these books again: " . implode(', ', $bookTitles);
+            return response()->json(
+                new ResResource(null, false, $message),
+                400
+            );
+        }
+
+        // Validasi buku dengan status_id 5 atau 6 (hilang atau rusak)
+        $problematicBooks = Borrowing::whereIn('book_id', $bookIds)
+            ->where('user_id', Auth::id())
+            ->whereIn('status_id', [5, 6])
+            ->get();
+
+        if ($problematicBooks->isNotEmpty()) {
+            foreach ($problematicBooks as $borrowing) {
+                $problematicBook = $borrowing->book->title;
+                $message = $borrowing->status_id == 5
+                    ? "You cannot borrow the book \"$problematicBook\" because it has been lost."
+                    : "You cannot borrow the book \"$problematicBook\" because it has been damaged.";
+                return response()->json(
+                    new ResResource(null, false, $message),
+                    400
+                );
+            }
+        }
+
+        // Generate nomor invoice unik
+        $date = Carbon::now()->format('Ymd');
+        $no_invoice = $date . Auth::id() . rand(100, 999);
+
+        // Mulai transaksi
+        DB::beginTransaction();
+
+        try {
+            // Simpan invoice
+            $qrCode = base64_encode(QrCode::format('png')->size(300)->generate($no_invoice));
+
+            $borrowDate = Carbon::createFromFormat('d/m/Y', $request->borrow_date)->format('Y-m-d');
+            $returnDate = Carbon::createFromFormat('d/m/Y', $request->return_date)->format('Y-m-d');
+
+            $invoice = Invoice::create([
+                'no_invoice' => $no_invoice,
+                'qr_code' => $qrCode,
+                'user_id' => Auth::id(),
+                'total_amount' => 0, // Total dihitung nanti
+                'status' => 'pending', // Status invoice
+            ]);
+
+            foreach ($books as $book) {
+                if ($book->stock <= 0) {
+                    // Jika stok tidak cukup, rollback transaksi
+                    DB::rollBack();
+                    return response()->json(
+                        new ResResource(null, false, 'Book "' . $book->title . '" is out of stock!'),
+                        400
+                    );
+                }
+
+                // Simpan data peminjaman dengan `invoice_id`
+                Borrowing::create([
+                    'invoice_id' => $invoice->id, // Menggunakan invoice_id, bukan no_invoice
+                    'user_id' => Auth::id(),
+                    'book_id' => $book->id,
+                    'borrow_date' => $borrowDate,
+                    'return_date' => $returnDate,
+                    'status_id' => 3, // Status peminjaman awal
+                ]);
+
+                // Kurangi stok buku
+                $book->decrement('stock');
+            }
+
+            // Update total_amount pada invoice
+            $invoices = Invoice::with('borrowings.book.category')->where('id', $invoice->id)->get();
+            DB::commit();
+
+            return response()->json(
+                new ResResource($invoices, true, "Books successfully borrowed!", 201)
+            );
+        } catch (\Exception $e) {
+            // Jika ada kesalahan, rollback transaksi
+            DB::rollBack();
+            return response()->json(
+                new ResResource(null, false, 'An error occurred while borrowing books: ' . $e->getMessage()),
+                500
+            );
+        }
+    }
+
+
 
 
     /**
