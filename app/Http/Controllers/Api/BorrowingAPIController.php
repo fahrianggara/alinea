@@ -86,8 +86,9 @@ class BorrowingAPIController extends Controller
 
         if ($existingBorrowings->isNotEmpty()) {
             $bookTitles = $existingBorrowings->pluck('book.title')->toArray();
+            $message = "You have already borrowed these books: " . implode(', ', $bookTitles);
             return response()->json(
-                new ResResource(null, false,  "You have already borrowed these books: ' . implode(', ', $bookTitles)", 400)
+                new ResResource(null, false, $message),400
             );
         }
 
@@ -132,7 +133,6 @@ class BorrowingAPIController extends Controller
 
                 // Kurangi stok buku
                 $book->decrement('stock');
-
             }
 
             // Update total_amount pada invoice
