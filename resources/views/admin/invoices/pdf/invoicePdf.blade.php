@@ -102,20 +102,21 @@
                 </td>
                 <td>
                     <h5>Invoice For</h5>
-                    <small>{{ $fullname }}</small>
+                    <small style="text-transform: capitalize;">{{ $fullname }}</small>
                 </td>
                 <td>
                     <h5>Booked Date</h5>
-                    <small>Borrow Date on
-                        {{ \Carbon\Carbon::parse($borrowing->borrowing_date)->format('Y/m/d') }}</small>
+                    <small>Borrow Date on 
+                    {{ \Carbon\Carbon::parse($borrowing->borrow_date)->format('Y/m/d') }}</small> 
                 </td>
                 <td>
                     <h5>Return Date</h5>
-                    <small>Borrow Date on {{ \Carbon\Carbon::parse($borrowing->return_date)->format('Y/m/d') }}</small>
+                     <small>Return Date on  
+                        {{ \Carbon\Carbon::parse($borrowing->return_date)->format('Y/m/d') }}</small> 
                 </td>
                 <td>
                     <h5>Status</h5>
-                    <small>{{ $invoice->status}}</small>
+                    <small style="text-transform: capitalize;">{{ $invoice->status}}</small>
                 </td>
             </tr>
         </table>
@@ -168,7 +169,7 @@
                         <td>
                             1
                         </td>
-                        <td>
+                        <td style="text-transform: capitalize;">
                             {{ $borrowing->status->name }}
                         </td>
                     </tr>
@@ -176,20 +177,23 @@
             </tbody>
 
         </table>
-        {{-- <table style="width: 100%;" style="font-size: 12px; font-weight:bold;">
+
+        <table style="width: 100%; font-size: 12px; font-weight:bold; margin-top: 10px;">
             <tr>
-                <td style="width: 35%; text-align: center;"></td>
-                <td style="width: 35%; text-align: center;"></td>
+                <td style="width: 40%;">
+                    <h6>*Please show this invoice when collecting and returning the book !</h6>
+                </td>
+                <td style="width: 30%; text-align: center;"></td>
                 <td style="width: 15%; text-align: center;">
                     Fined : 
                 </td>
                 <td style="width: 15%; text-align: right;">
-                    1200
+                    Rp. {{ number_format($invoice->total_amount, 0, ',', '.') }}
                 </td>
             </tr>
-        </table> --}}
+        </table>
 
-        <h6 style="margin-top: 10px; text-align:right;">Please show this invoice when collecting and returning the book!!!</h6>
+        
     </div>
 </body>
 
