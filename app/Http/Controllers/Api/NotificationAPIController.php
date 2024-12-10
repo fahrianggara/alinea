@@ -19,29 +19,40 @@ class NotificationAPIController extends Controller
     {
         $notifications = Notification::latest()->get();
         return response()->json(
-            new ResResource($notifications, true, "my notification retrieved successfully"),
+            new ResResource($notifications, true, "My notifications retrieved successfully"),
             200
         );
     }
+
     public function mynotif()
     {
-        $notifications = Notification::find('user_id', Auth::id());
+        // Menggunakan where untuk mencari berdasarkan user_id
+        $notifications = Notification::where('user_id', Auth::id())->get();
+
+        if ($notifications->isEmpty()) {
+            return response()->json(
+                new ResResource(null, false, "No notifications found for this user"),
+                404
+            );
+        }
+
         return response()->json(
-            new ResResource($notifications, true, "my notification retrieved successfully"),
+            new ResResource($notifications, true, "My notifications retrieved successfully"),
             200
         );
     }
 
     public function destroyAll()
     {
-
+        // Menghapus semua notifikasi
         Notification::query()->delete();
 
         return response()->json(
-            new ResResource(null, true, "notifications has delected"),
+            new ResResource(null, true, "Notifications have been deleted"),
             200
         );
     }
+
 
     public function newBookNotification($bookId)
     {
