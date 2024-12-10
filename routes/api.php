@@ -83,5 +83,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationAPIController::class, 'index']);
         Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
+        Route::delete('/delete', [NotificationAPIController::class, 'destroyAll']);
     });
 });

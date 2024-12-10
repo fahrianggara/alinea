@@ -82,7 +82,7 @@ class BorrowingAPIController extends Controller
          // Validasi: cek apakah buku sudah pernah dipesan oleh user yang sama dan statusnya memungkinkan peminjaman lagi
          $existingBorrowings = Borrowing::whereIn('book_id', $bookIds)
              ->where('user_id', Auth::id())
-             ->whereIn('status_id', [1, 2, 3, 4]) // Hanya buku dengan status 1, 2, 3, 4 yang bisa dipinjam
+             ->whereIn('status_id', [3, 4]) // Hanya buku dengan status 1, 2, 3, 4 yang bisa dipinjam
              ->get();
      
          if ($existingBorrowings->isNotEmpty()) {
@@ -228,23 +228,5 @@ class BorrowingAPIController extends Controller
 
         // Return success response
         return response()->json(['message' => 'Borrowing record deleted successfully'], 200);
-    }
-    public function mynotif()
-    {
-        $notifications = Notification::all();
-        return response()->json(
-            new ResResource($notifications, true, "my notification retrieved successfully"),
-            200
-        );
-    }
-
-    public function destroyAll(){
-
-        Notification::query()->delete();
-
-        return response()->json(
-            new ResResource(null, true, "notifications has delected"),
-            200
-        );
     }
 }

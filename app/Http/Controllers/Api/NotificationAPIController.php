@@ -17,7 +17,7 @@ class NotificationAPIController extends Controller
 {
     public function index()
     {
-        $notifications = Notification::all()->latest();
+        $notifications = Notification::latest()->get();
         return response()->json(
             new ResResource($notifications, true, "my notification retrieved successfully"),
             200
@@ -25,7 +25,7 @@ class NotificationAPIController extends Controller
     }
     public function mynotif()
     {
-        $notifications = Notification::find('id', Auth::id());
+        $notifications = Notification::find('user_id', Auth::id());
         return response()->json(
             new ResResource($notifications, true, "my notification retrieved successfully"),
             200
