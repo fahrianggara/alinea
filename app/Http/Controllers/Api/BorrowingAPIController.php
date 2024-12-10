@@ -85,7 +85,7 @@ class BorrowingAPIController extends Controller
         // Validasi: cek apakah buku sudah pernah dipesan oleh user dengan status tidak valid
         $invalidBorrowings = Borrowing::whereIn('book_id', $bookIds)
             ->where('user_id', Auth::id())
-            ->whereNotIn('status_id', [3, 4]) // Buku dengan status selain 3 atau 4 tidak bisa dipinjam lagi
+            ->whereNotIn('status_id', [3,4]) // Buku dengan status selain 3 atau 4 tidak bisa dipinjam lagi
             ->get();
 
         if ($invalidBorrowings->isNotEmpty()) {
@@ -155,7 +155,7 @@ class BorrowingAPIController extends Controller
                     'book_id' => $book->id,
                     'borrow_date' => $borrowDate,
                     'return_date' => $returnDate,
-                    'status_id' => 3, // Status peminjaman awal
+                    'status_id' => 1, // Status peminjaman awal
                 ]);
 
                 // Kurangi stok buku
