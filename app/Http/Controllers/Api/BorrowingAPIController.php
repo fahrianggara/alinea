@@ -94,7 +94,6 @@ class BorrowingAPIController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $message,
-                'data' => null,
             ], 400);
         }
 
@@ -113,7 +112,7 @@ class BorrowingAPIController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => $message,
-                    'data' => null,
+
                 ], 400);
             }
         }
