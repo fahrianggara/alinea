@@ -85,16 +85,17 @@ class BorrowingAPIController extends Controller
         // Validasi: cek apakah buku sudah pernah dipesan oleh user dengan status tidak valid
         $invalidBorrowings = Borrowing::whereIn('book_id', $bookIds)
             ->where('user_id', Auth::id())
-            ->whereNotIn('status_id', [3,4]) // Buku dengan status selain 3 atau 4 tidak bisa dipinjam lagi
+            ->whereNotIn('status_id', [3, 4]) // Buku dengan status selain 3 atau 4 tidak bisa dipinjam lagi
             ->get();
 
         if ($invalidBorrowings->isNotEmpty()) {
             $bookTitles = $invalidBorrowings->pluck('book.title')->toArray();
             $message = "You cannot borrow these books again: " . implode(', ', $bookTitles);
-            return response()->json(
-                new ResResource(null, false, $message),
-                400
-            );
+            return response()->json([
+                'success' => false,
+                'message' => $message,
+                'data' => null,
+            ], 400);
         }
 
         // Validasi buku dengan status_id 5 atau 6 (hilang atau rusak)
@@ -109,10 +110,11 @@ class BorrowingAPIController extends Controller
                 $message = $borrowing->status_id == 5
                     ? "You cannot borrow the book \"$problematicBook\" because it has been lost."
                     : "You cannot borrow the book \"$problematicBook\" because it has been damaged.";
-                return response()->json(
-                    new ResResource(null, false, $message),
-                    400
-                );
+                return response()->json([
+                    'success' => false,
+                    'message' => $message,
+                    'data' => null,
+                ], 400);
             }
         }
 
