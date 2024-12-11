@@ -36,11 +36,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', [AuthApiController::class, 'logout']);
 
     Route::group(['prefix' => 'books'], function () {
+        Route::post('/update/{id}', [BookApiController::class, 'update']);
         Route::get('/', [BookApiController::class, 'index']);
         Route::post('/', [BookApiController::class, 'store']);
         Route::get('/{id}', [BookApiController::class, 'show']);
-        Route::put('/{id}', [BookApiController::class, 'update']);
         Route::delete('/{id}', [BookApiController::class, 'destroy']);
+        
     });
 
     Route::group(['prefix' => 'categories'], function () {
