@@ -62,30 +62,6 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book-reader"></i>
-                        <p>
-                            Borrowings
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <hr>
-
-                        <li class="nav-item">
-                            <a href="{{ route('categories') }}" class="nav-link">
-                                <i class="nav-icon fas fa-tags fa-sm"></i>
-                                <p>Returns Page</p>
-                            </a>
-                        </li>
-
-                        <hr>
-                    </ul>
-                </li>
-
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Books
@@ -129,7 +105,7 @@
                 </li> --}}
 
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('users.myProfile') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>Profile</p>
                     </a>

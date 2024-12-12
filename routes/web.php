@@ -68,11 +68,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');    // Show edit form
         Route::put('/{id}', [UserController::class, 'update'])->name('update');     // Update user
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
+        Route::get('/profile', [UserController::class, 'myProfile'])->name('myProfile');
+        Route::post('/profile/reset-password/{id}', [UserController::class, 'resetPassword'])->name('resetPassword');
     });
 
     Route::prefix('admins')->name('admins.')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');          // List users
         Route::post('/', [AdminController::class, 'store'])->name('store');          // List users
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('destroy');          // List users
+        Route::put('/{id}', [AdminController::class, 'update'])->name('update');          // List users
     });
 
 
