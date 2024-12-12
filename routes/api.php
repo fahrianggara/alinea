@@ -45,10 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', [CategoryApiController::class, 'index']);
-        Route::get('/{id}', [CategoryApiController::class, 'show']);
         Route::post('/', [CategoryApiController::class, 'store']);
-        Route::put('/{id}', [CategoryApiController::class, 'update']);
-        Route::delete('/{id}', [CategoryApiController::class, 'destroy']);
+        Route::get('/{id}', [CategoryApiController::class, 'show']);
+        Route::delete('/delete/{id}', [CategoryApiController::class, 'destroy']);
+        Route::post('/update/{id}', [CategoryApiController::class, 'update']);
     });
 
     Route::group(['prefix' => 'carts'], function () {

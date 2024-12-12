@@ -33,7 +33,7 @@ class User extends Authenticatable
     ];
 
     // Relationship with Admin model
-    public function admin()
+    public function admins()
     {
         return $this->hasOne(Admin::class);
     }

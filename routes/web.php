@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use GuzzleHttp\Middleware;
-use App\Http\Controllers\Admin\{AuthController, BookController, BorrowingController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
+use App\Http\Controllers\Admin\{AdminController, AuthController, BookController, BorrowingController, CategoryController, DashboardController, InvoiceController, TestingController, UserController};
 use App\Http\Controllers\Alinea\{AlineaController, PickupController, ReturnController};
 use App\Http\Controllers\Testing\CartTestController;
 use App\Models\Admin;
@@ -69,6 +69,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/{id}', [UserController::class, 'update'])->name('update');     // Update user
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy'); // Delete user
     });
+
+    Route::prefix('admins')->name('admins.')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');          // List users
+        Route::post('/', [AdminController::class, 'store'])->name('store');          // List users
+    });
+
+
 });
 
 
