@@ -16,7 +16,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('role', 'user')->get(); // Retrieve only users with the 'user' role
-        return view('admin.users.index', compact('users'));
+        $title = "User Manage";
+        return view('admin.users.index', compact('users', 'title'));
     }
 
     // Show the form for creating a new user

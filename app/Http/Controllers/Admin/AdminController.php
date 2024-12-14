@@ -13,8 +13,9 @@ class AdminController extends Controller
     {
 
         $admins = User::where('role', 'admin')->with('admins')->get();
+        $title = "Admin Manage";
 
-        return view('admin.admins.index', compact('admins'));
+        return view('admin.admins.index', compact('admins', 'title'));
     }
 
     public function store(Request $request)

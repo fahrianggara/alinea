@@ -1,5 +1,5 @@
 @extends('admin.index')
-
+@section('title', $title)
 @section('content')
     <div class="content-header">
         <div class="container-fluid">

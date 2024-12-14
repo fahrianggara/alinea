@@ -1,5 +1,5 @@
 @extends('admin.index')
-
+@section('title', $title)
 @section('content')
     <div class="content-header">
         <div class="container">
@@ -20,10 +20,7 @@
             <div class="card table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="title-top-table">Book invoice</span>
-                    <button class="btn btn-success ml-auto py-1" data-toggle="modal" data-target="#Addinvoice">
-                        <i class="fa fa-plus mr-1"></i> Add invoice
-                    </button>
-                    <form action="{{ route('invoices.destroyAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all invoices?');">
+                    <form class="ml-auto" action="{{ route('invoices.destroyAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all invoices?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete All</button>

@@ -6,6 +6,7 @@ use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,8 +19,9 @@ class BookController extends Controller
     {
         $books = Book::with('category')->latest()->get();
         $categories = Category::all();
+        $title = "Book Manage";
 
-        return view('admin.books.index', compact(['books', 'categories']));
+        return view('admin.books.index', compact('books', 'categories', 'title'));
     }
 
     /**
@@ -95,7 +97,8 @@ class BookController extends Controller
     {
         $book = Book::with('category')->find($id);
         $categories = Category::all();
-        return view('admin.books.detail-update', compact(['book', 'categories']));
+        $title = "Book Detail";
+        return view('admin.books.detail-update', compact('book', 'categories', 'title'));
     }
 
     /**
@@ -179,6 +182,9 @@ class BookController extends Controller
         // Temukan buku berdasarkan ID
         $book = Book::findOrFail($id);
 
+        // Hapus notifikasi yang berhubungan dengan buku ini
+        Notification::where('book_id', $id)->delete();
+
         // Hapus gambar cover dari storage jika ada
         if ($book->cover) {
             // Tentukan path lengkap gambar di storage
@@ -194,6 +200,6 @@ class BookController extends Controller
         $book->delete();
 
         // Redirect kembali dengan pesan sukses
-        return redirect()->back()->with('success', 'Book deleted successfully!');
+        return redirect()->back()->with('success', 'Book and related notifications deleted successfully!');
     }
 }

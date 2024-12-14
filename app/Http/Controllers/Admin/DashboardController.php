@@ -13,7 +13,9 @@ class DashboardController extends Controller
     public function index()
     {
         $admins = Admin::with('user')->get();
-        return view('admin.pages.dashboard', compact('admins'));
+        $title = "Dashboard";
+
+        return view('admin.pages.dashboard', compact('admins', 'title'));
     }
 
 }

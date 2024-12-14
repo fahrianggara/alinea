@@ -21,8 +21,9 @@ class BorrowingController extends Controller
     {
         $borrowings = Borrowing::with('user', 'book.category', 'status', 'invoice')->latest()->get();
         $books = Book::with('category')->get();
+        $title = "Borrowings";
 
-        return view('admin.borrowings.index', compact(['borrowings', 'books']));
+        return view('admin.borrowings.index', compact('borrowings', 'books'. 'title'));
     }
 
     /**
