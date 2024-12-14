@@ -92,8 +92,9 @@ class UserController extends Controller
 
         $user = User::where('id', Auth::id())->with('admins')->first();
         $fullname = $user->first_name. ' ' .$user->last_name;
+        $title = "Profile";
 
-        return view('admin.profile.index', compact('user', 'fullname'));
+        return view('admin.profile.index', compact('user', 'fullname', 'title'));
 
     }
 
