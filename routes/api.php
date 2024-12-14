@@ -72,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'invoices'], function () {
         Route::get('/myinvoice', [InvoiceApiController::class, 'myInvoice']);
+        Route::get('/myinvoice/fined', [InvoiceApiController::class, 'fined']);
         Route::get('/download/{id}', [InvoiceApiController::class, 'downloadPdf'])->name('invoices.download');
         Route::get('/{id}', [InvoiceApiController::class, 'show']);
     });

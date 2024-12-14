@@ -17,7 +17,7 @@ class NotificationAPIController extends Controller
 {
     public function index()
     {
-        $notifications = Notification::latest()->get();
+        $notifications = Notification::with('book')->latest()->get();
         return response()->json(
             new ResResource($notifications, true, "My notifications retrieved successfully"),
             200
@@ -27,7 +27,7 @@ class NotificationAPIController extends Controller
     public function mynotif()
     {
         // Menggunakan where untuk mencari berdasarkan user_id
-        $notifications = Notification::where('user_id', Auth::id())->get();
+        $notifications = Notification::where('user_id', Auth::id())->with('book')->latest()->get();
 
         if ($notifications->isEmpty()) {
             return response()->json(

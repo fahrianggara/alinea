@@ -20,7 +20,16 @@ class InvoiceApiController extends Controller
             ->get();
 
         return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
+    }
+    public function fined()
+    {
 
+        $invoices = Invoice::where('user_id', Auth::id())
+            ->where('status', 'fined')
+            ->with('borrowings.book.category', 'user')
+            ->get();
+
+        return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
     }
 
     public function show($id)

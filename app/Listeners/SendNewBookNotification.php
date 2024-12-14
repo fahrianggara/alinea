@@ -30,6 +30,7 @@ class SendNewBookNotification
             Notification::create([
                 'user_id' => $user->id,
                 'message' => "A new book titled '{$book->title}' has been added.",
+                'book_id' => $book->id,
                 'type' => 'recommendations',
             ]);
         }
