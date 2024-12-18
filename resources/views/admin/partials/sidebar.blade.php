@@ -13,7 +13,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('storage/' . $admin->user->image) }}" alt="User Image" class="img-circle elevation-2">
+                <img src="{{ asset('storage/' . $admin->user->image) }}" alt="User Image" class="profile-img elevation-2">
             </div>
             <div class="info">
                 <a href="#" class="d-block">
@@ -25,7 +25,7 @@
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
+        {{-- <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                     aria-label="Search">
@@ -35,7 +35,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">

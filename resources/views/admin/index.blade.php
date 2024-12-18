@@ -25,6 +25,16 @@
         .sidebar-dark-primary {
             background-color: #212631 !important;
         }
+
+        .profile-img {
+            width: 50px;
+            /* Ukuran gambar sesuai kebutuhan */
+            height: 50px;
+            object-fit: cover;
+            /* Menjaga gambar proporsional */
+            border-radius: 50%;
+            /* Membuat gambar bulat */
+        }
     </style>
 
 </head>
