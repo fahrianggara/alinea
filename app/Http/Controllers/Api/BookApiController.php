@@ -117,7 +117,7 @@ class BookApiController extends Controller
         // Proses cover gambar jika ada
         if ($request->hasFile('cover')) {
             $image = $request->file('cover');
-            $imagePath = $image->store('cover', 'public');
+            $imagePath = $image->store('cover-book', 'public');
 
             // Hapus gambar lama jika bukan default.png
             if ($book->cover !== 'cover-book/default.png' && !empty($book->cover)) {
