@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Category::factory()->count(5)->create();
+        Category::factory()->count(0)->create();
         Book::factory()->count(10)->create();
 
 
