@@ -72,7 +72,8 @@ class BookApiController extends Controller
         $book->created_at = Carbon::now('Asia/Jakarta');
         $book->updated_at = Carbon::now('Asia/Jakarta');
         $book->save();
-
+        
+        event(new NewBookAdded($book));
         return response()->json(new ResResource($book, true, "Book created successfully"), 201);
     }
 
