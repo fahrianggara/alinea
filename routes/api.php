@@ -37,10 +37,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(['prefix' => 'books'], function () {
         Route::get('/', [BookApiController::class, 'index']);
-        Route::post('/', [BookApiController::class, 'store']);
         Route::get('/{id}', [BookApiController::class, 'show']);
-        Route::delete('/delete/{id}', [BookApiController::class, 'destroy']);
-        Route::post('/update/{id}', [BookApiController::class, 'update']);
+
+        Route::middleware('role:admin')->group(function () {
+            Route::post('/', [BookApiController::class, 'store']);
+            Route::delete('/delete/{id}', [BookApiController::class, 'destroy']);
+            Route::post('/update/{id}', [BookApiController::class, 'update']);
+        });
+
     });
 
     Route::group(['prefix' => 'categories'], function () {
