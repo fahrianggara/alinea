@@ -21,6 +21,11 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap4.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet" />
+    <style>
+        .sidebar-dark-primary {
+            background-color: #212631 !important;
+        }
+    </style>
 
 </head>
 
