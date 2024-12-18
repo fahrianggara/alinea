@@ -39,80 +39,80 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
-
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-header">Menu</li>
-
+        
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-
+        
                 <li class="nav-item">
-                    <a href="{{ route('alinea') }}" class="nav-link">
+                    <a href="{{ route('alinea') }}" class="nav-link {{ Route::is('alinea') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>Alinea</p>
                     </a>
                 </li>
-
+        
                 <li class="nav-header">Manage</li>
-
+        
                 <li class="nav-item">
-                    <a href="{{ route('categories') }}" class="nav-link">
+                    <a href="{{ route('categories') }}" class="nav-link {{ Route::is('categories') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tags fa-sm"></i>
                         <p>Categories</p>
                     </a>
                 </li>
+        
                 <li class="nav-item">
-                    <a href="{{ route('books') }}" class="nav-link">
+                    <a href="{{ route('books') }}" class="nav-link {{ Route::is('books') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open fa-sm"></i>
                         <p>Books</p>
                     </a>
                 </li>
-
+        
                 <li class="nav-item">
-                    <a href="{{ route('users.myProfile') }}" class="nav-link">
+                    <a href="{{ route('users.myProfile') }}" class="nav-link {{ Route::is('users.myProfile') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-circle"></i>
                         <p>Profile</p>
                     </a>
                 </li>
-
+        
                 @if ($admin->role == 'super_admin')
-
                     <li class="nav-header">Super Admin</li>
-                    
-                    <li class="nav-item active">
-                        <a href="{{ route('borrowings') }}" class="nav-link">
+        
+                    <li class="nav-item">
+                        <a href="{{ route('borrowings') }}" class="nav-link {{ Route::is('borrowings') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-book-reader fa-sm"></i>
                             <p>Borrowing</p>
                         </a>
                     </li>
+        
                     <li class="nav-item">
-                        <a href="{{ route('invoices') }}" class="nav-link">
+                        <a href="{{ route('invoices') }}" class="nav-link {{ Route::is('invoices') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-file-invoice fa-sm"></i>
                             <p>Invoice</p>
                         </a>
                     </li>
+        
                     <li class="nav-item">
-                        <a href="{{ route('users.index') }}" class="nav-link">
+                        <a href="{{ route('users.index') }}" class="nav-link {{ Route::is('users.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users-cog fa-sm"></i>
                             <p>Users</p>
                         </a>
                     </li>
+        
                     <li class="nav-item">
-                        <a href="{{ route('admins.index') }}" class="nav-link">
+                        <a href="{{ route('admins.index') }}" class="nav-link {{ Route::is('admins.index') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-edit fa-sm"></i>
                             <p>Admins</p>
                         </a>
                     </li>
                 @endif
             </ul>
-
-
         </nav>
+        
 
     </div>
 </aside>

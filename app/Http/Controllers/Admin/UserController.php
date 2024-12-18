@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\TextUI\Configuration\Variable;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -60,24 +61,40 @@ class UserController extends Controller
     // Update the specified user
     public function update(Request $request, $id)
     {
+        // Cari pengguna berdasarkan ID
         $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        // Validasi data yang diterima
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            // Password can be optional for updates
-
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        // Proses gambar jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('profile', 'public');
 
+            // Hapus gambar lama jika bukan default.png
+            if ($user->image !== 'profile/default.png' && $user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
 
-        if (!$user) {
-
-            return redirect()->back()->with('error', 'user Not Found');
+            // Tambahkan path gambar baru ke data yang akan diperbarui
+            $validatedData['image'] = $imagePath;
         }
+
+        // Perbarui data pengguna
         $user->update($validatedData);
-        return redirect()->back()->with('success', 'user updated');
+
+        return redirect()->back()->with('success', 'User updated successfully.');
     }
+
 
 
     // Remove the specified user
@@ -88,14 +105,14 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
-    public function myProfile(){
+    public function myProfile()
+    {
 
         $user = User::where('id', Auth::id())->with('admins')->first();
-        $fullname = $user->first_name. ' ' .$user->last_name;
+        $fullname = $user->first_name . ' ' . $user->last_name;
         $title = "Profile";
 
         return view('admin.profile.index', compact('user', 'fullname', 'title'));
-
     }
 
     public function resetPassword(Request $request, $id)

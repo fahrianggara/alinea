@@ -32,6 +32,9 @@
             object-fit: cover !important;
             border-radius: 50%;
         }
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+            background-color: hsla(0, 0%, 80%, 0.161) !important;
+        }
     </style>
 
 </head>
