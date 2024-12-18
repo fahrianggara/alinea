@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('content')
     <div class="content-header">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Dashboard</h1>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <section class="content">
-        <div class="container-fluid">
+        <div class="container">
             <a href="{{ route('logout') }}">Logout</a>
         </div>
     </section>

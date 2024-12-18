@@ -26,14 +26,11 @@
             background-color: #212631 !important;
         }
 
-        .profile-img {
-            width: 50px;
-            /* Ukuran gambar sesuai kebutuhan */
-            height: 50px;
-            object-fit: cover;
-            /* Menjaga gambar proporsional */
+        .image .profile-img {
+            width: 33px;
+            height: 33px;
+            object-fit: cover !important;
             border-radius: 50%;
-            /* Membuat gambar bulat */
         }
     </style>
 
