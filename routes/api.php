@@ -44,19 +44,25 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/delete/{id}', [BookApiController::class, 'destroy']);
             Route::post('/update/{id}', [BookApiController::class, 'update']);
         });
-
     });
 
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', [CategoryApiController::class, 'index']);
-        Route::post('/', [CategoryApiController::class, 'store']);
-        Route::get('/{id}', [CategoryApiController::class, 'show']);
-        Route::delete('/delete/{id}', [CategoryApiController::class, 'destroy']);
-        Route::post('/update/{id}', [CategoryApiController::class, 'update']);
+
+        Route::middleware('role:admin')->group(function () {
+            Route::post('/', [CategoryApiController::class, 'store']);
+            Route::get('/{id}', [CategoryApiController::class, 'show']);
+            Route::delete('/delete/{id}', [CategoryApiController::class, 'destroy']);
+            Route::post('/update/{id}', [CategoryApiController::class, 'update']);
+        });
+
     });
 
     Route::group(['prefix' => 'carts'], function () {
-        Route::get('/', [CartApiController::class, 'index']);
+        Route::middleware('role:admin')->group(function () {
+           Route::get('/', [CartApiController::class, 'index']);
+        });
+
         Route::get('/mycart', [CartApiController::class, 'mycart']);
         Route::post('/addCart/{bookId}', [CartApiController::class, 'store']);
         Route::delete('/{cartId}', [CartApiController::class, 'destroy']);
@@ -65,13 +71,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Borrowing Routes
     Route::group(['prefix' => 'borrowings'], function () {
         Route::get('/', [BorrowingAPIController::class, 'index']);
-        Route::get('/mynotif', [BorrowingAPIController::class, 'mynotif']);
         Route::post('/', [BorrowingAPIController::class, 'store']);
         Route::get('/history', [BorrowingAPIController::class, 'history']);
         Route::get('/{id}', [BorrowingAPIController::class, 'show']);
         Route::put('/{id}', [BorrowingAPIController::class, 'update']);
         Route::delete('/{id}', [BorrowingAPIController::class, 'destroy']);
-        Route::delete('/mynotif/delete', [BorrowingAPIController::class, 'destroyAll']);
     });
 
     Route::group(['prefix' => 'invoices'], function () {
