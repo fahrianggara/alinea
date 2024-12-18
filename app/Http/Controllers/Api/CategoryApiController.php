@@ -61,13 +61,28 @@ class CategoryApiController extends Controller
     // Delete a category
     public function destroy($id)
     {
-        $category = Category::find($id);
-
-        if ($category) {
-            $category->delete();
-            return response()->json(new ResResource(null, true, "Category deleted successfully"), 200);
+        // Validasi jika ID bukan angka
+        if (!is_numeric($id)) {
+            return response()->json(new ResResource(null, false, "Invalid Category ID format"), 422);
         }
 
-        return response()->json(new ResResource(null, false, "Category not found"), 404);
+        // Cari kategori berdasarkan ID
+        $category = Category::find($id);
+
+        // Validasi jika kategori tidak ditemukan
+        if (!$category) {
+            return response()->json(new ResResource(null, false, "Category not found"), 404);
+        }
+
+        try {
+            // Hapus kategori dari database
+            $category->delete();
+
+            // Respons sukses
+            return response()->json(new ResResource(null, true, "Category deleted successfully"), 200);
+        } catch (\Exception $e) {
+            // Respons jika terjadi kesalahan
+            return response()->json(new ResResource(null, false, "An error occurred: " . $e->getMessage()), 500);
+        }
     }
 }

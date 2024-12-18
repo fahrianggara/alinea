@@ -172,24 +172,39 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        // Temukan buku berdasarkan ID
-        $book = Book::findOrFail($id);
-
-        // Hapus notifikasi yang berhubungan dengan buku ini
-        Notification::where('book_id', $id)->delete();
-
-        // Hapus gambar cover dari storage jika ada dan bukan default.png
-        if ($book->cover && $book->cover !== 'cover-book/default.png') {
-            $coverPath = 'public/' . $book->cover;
-            if (Storage::exists($coverPath)) {
-                Storage::delete($coverPath);
+        try {
+            // Validasi jika ID bukan angka
+            if (!is_numeric($id)) {
+                return redirect()->back()->with('error', 'Invalid Book ID format.');
             }
+
+            // Temukan buku berdasarkan ID
+            $book = Book::find($id);
+
+            // Validasi jika buku tidak ditemukan
+            if (!$book) {
+                return redirect()->back()->with('error', 'Book not found.');
+            }
+
+            // Hapus notifikasi yang berhubungan dengan buku ini
+            Notification::where('book_id', $id)->delete();
+
+            // Hapus gambar cover dari storage jika ada dan bukan default.png
+            if ($book->cover && $book->cover !== 'cover-book/default.png') {
+                $coverPath = 'public/' . $book->cover;
+                if (Storage::exists($coverPath)) {
+                    Storage::delete($coverPath);
+                }
+            }
+
+            // Hapus buku dari database
+            $book->delete();
+
+            // Redirect kembali dengan pesan sukses
+            return redirect()->back()->with('success', 'Book and related notifications deleted successfully!');
+        } catch (\Exception $e) {
+            // Jika terjadi error, kembalikan pesan error
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
-
-        // Hapus buku dari database
-        $book->delete();
-
-        // Redirect kembali dengan pesan sukses
-        return redirect()->back()->with('success', 'Book and related notifications deleted successfully!');
     }
 }

@@ -87,14 +87,28 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::find($id);
+        try {
+            // Validasi jika ID bukan angka
+            if (!is_numeric($id)) {
+                return redirect()->route('categories')->with('error', 'Invalid Category ID format.');
+            }
 
-        if (!$category) {
-            return redirect()->route('categories')->with('error', 'category Not Found');
+            // Temukan kategori berdasarkan ID
+            $category = Category::find($id);
+
+            // Validasi jika kategori tidak ditemukan
+            if (!$category) {
+                return redirect()->route('categories')->with('error', 'Category not found.');
+            }
+
+            // Hapus kategori
+            $category->delete();
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('categories')->with('success', 'Category successfully deleted.');
+        } catch (\Exception $e) {
+            // Jika terjadi error, kembalikan pesan error
+            return redirect()->route('categories')->with('error', 'An error occurred: ' . $e->getMessage());
         }
-
-        $category->delete();
-
-        return redirect()->route('categories')->with('success', 'category Success Deleted');
     }
 }

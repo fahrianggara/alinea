@@ -135,21 +135,36 @@ class BookApiController extends Controller
     // Delete a book
     public function destroy($id)
     {
+        // Validasi jika ID bukan angka
+        if (!is_numeric($id)) {
+            return response()->json(new ResResource(null, false, "Invalid Book ID format"), 422);
+        }
+
+        // Cari buku berdasarkan ID
         $book = Book::find($id);
 
+        // Validasi jika buku tidak ditemukan
         if (!$book) {
-            return response()->json(new ResResource(null, false, "Book ID not found"), 400);
+            return response()->json(new ResResource(null, false, "Book ID not found"), 404);
         }
 
-        Notification::where('book_id', $id)->delete();
+        try {
+            // Hapus notifikasi terkait buku ini
+            Notification::where('book_id', $id)->delete();
 
-        // Hapus gambar jika bukan default.png
-        if ($book->cover !== 'cover-book/default.png' && !empty($book->cover)) {
-            Storage::disk('public')->delete($book->cover);
+            // Hapus gambar jika bukan default.png
+            if ($book->cover !== 'cover-book/default.png' && !empty($book->cover)) {
+                Storage::disk('public')->delete($book->cover);
+            }
+
+            // Hapus buku dari database
+            $book->delete();
+
+            // Respons sukses
+            return response()->json(new ResResource(null, true, "Book deleted successfully"), 200);
+        } catch (\Exception $e) {
+            // Respons jika terjadi kesalahan
+            return response()->json(new ResResource(null, false, "An error occurred: " . $e->getMessage()), 500);
         }
-
-        $book->delete();
-
-        return response()->json(new ResResource(null, true, "Book deleted successfully"), 200);
     }
 }
