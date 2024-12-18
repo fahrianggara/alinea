@@ -42,9 +42,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
 
-                <li class="nav-item">
-                    <span class="small nav-link">Menu</span>
-                </li>
+                <li class="nav-header">Menu</li>
 
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
@@ -60,9 +58,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <span class="small nav-link">Manage</span>
-                </li>
+                <li class="nav-header">Manage</li>
 
                 <li class="nav-item">
                     <a href="{{ route('categories') }}" class="nav-link">
@@ -77,22 +73,6 @@
                     </a>
                 </li>
 
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>
-                            Report
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-header">
-                            <span>on proggress</span>
-                        </li>
-                    </ul>
-                </li> --}}
-
                 <li class="nav-item">
                     <a href="{{ route('users.myProfile') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-circle"></i>
@@ -102,9 +82,8 @@
 
                 @if ($admin->role == 'super_admin')
 
-                    <li class="nav-item">
-                        <span class="small nav-link">Super Admin</span>
-                    </li>
+                    <li class="nav-header">Super Admin</li>
+                    
                     <li class="nav-item active">
                         <a href="{{ route('borrowings') }}" class="nav-link">
                             <i class="nav-icon fas fa-book-reader fa-sm"></i>
