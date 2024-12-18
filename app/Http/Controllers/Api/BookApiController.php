@@ -45,7 +45,7 @@ class BookApiController extends Controller
             'published_date' => 'required|date',
             'status' => 'required|in:available,borrowed',
             'category_id' => 'required|integer|exists:categories,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi file gambar
+            'cover' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Validasi file gambar
         ]);
 
         if ($validator->fails()) {
@@ -56,7 +56,7 @@ class BookApiController extends Controller
         $imagePath = null;
         if ($request->hasFile('cover')) {
             $image = $request->file('cover');
-            $imagePath = $image->store('cover', 'public');
+            $imagePath = $image->store('cover-book', 'public');
         }
 
         // Simpan data buku
@@ -142,7 +142,7 @@ class BookApiController extends Controller
         }
 
         Notification::where('book_id', $id)->delete();
-        
+
         // Hapus gambar jika bukan default.png
         if ($book->cover !== 'cover-book/default.png' && !empty($book->cover)) {
             Storage::disk('public')->delete($book->cover);
