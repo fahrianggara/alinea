@@ -23,7 +23,7 @@ class BorrowingController extends Controller
         $books = Book::with('category')->get();
         $title = "Borrowings";
 
-        return view('admin.borrowings.index', compact('borrowings', 'books'. 'title'));
+        return view('admin.borrowings.index', compact('borrowings', 'books',  'title'));
     }
 
     /**
@@ -62,8 +62,7 @@ class BorrowingController extends Controller
 
 
         // Inisiasi total amount (misalnya 10.000 per buku)
-        $totalAmount = 10000; // Contoh harga setiap buku 10.000
-
+       
         // Mulai transaksi
 
 
@@ -77,8 +76,7 @@ class BorrowingController extends Controller
                 'no_invoice' => $no_invoice,
                 'user_id' => Auth::id(),
                 'qr_code' => $qrCode,
-                'total_amount' => $totalAmount, // Total dihitung langsung
-                'status' => 'clear', // Status invoice
+                'status' => 'pending', // Status invoice
             ]);
 
             // Simpan data peminjaman dengan `invoice_id`

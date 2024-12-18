@@ -75,6 +75,14 @@
                                                         </a>
                                                     </li>
                                                     <li class="dropdown-item">
+                                                        <a class="btn d-flex align-items-center px-0"
+                                                            href="{{ route('invoices.download', $invoice->id) }}">
+                                                            <i class="fas fa-download text-center mr-2"
+                                                                style="width: 18px; font-size: 16px;"></i>
+                                                            <span>Download Invoice</span>
+                                                        </a>
+                                                    </li>                                                    
+                                                    <li class="dropdown-item">
                                                         <form action="{{ route('invoices.destroy', $invoice->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('Are you sure you want to delete this invoice?');">

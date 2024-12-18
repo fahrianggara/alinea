@@ -55,37 +55,26 @@
 
                 <li class="nav-item">
                     <a href="{{ route('alinea') }}" class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
+                        <i class="nav-icon fas fa-home"></i>
                         <p>Alinea</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>
-                            Books
-                            <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview mt-2">
-                        <hr>
-                        <li class="nav-item">
-                            <a href="{{ route('categories') }}" class="nav-link">
-                                <i class="nav-icon fas fa-tags fa-sm"></i>
-                                <p>Book Category</p>
-                            </a>
-                        </li>
+                    <span class="small nav-link">Manage</span>
+                </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('books') }}" class="nav-link">
-                                <i class="nav-icon fas fa-book-open fa-sm"></i>
-                                <p>Book</p>
-                            </a>
-                        </li>
-                        <hr>
-                    </ul>
+                <li class="nav-item">
+                    <a href="{{ route('categories') }}" class="nav-link">
+                        <i class="nav-icon fas fa-tags fa-sm"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('books') }}" class="nav-link">
+                        <i class="nav-icon fas fa-book-open fa-sm"></i>
+                        <p>Books</p>
+                    </a>
                 </li>
 
                 {{-- <li class="nav-item">
@@ -113,8 +102,8 @@
 
                 @if ($admin->role == 'super_admin')
 
-                    <li class="nav-header">
-                        <span>Super Admin</span>
+                    <li class="nav-item">
+                        <span class="small nav-link">Super Admin</span>
                     </li>
                     <li class="nav-item active">
                         <a href="{{ route('borrowings') }}" class="nav-link">
@@ -127,9 +116,6 @@
                             <i class="nav-icon fas fa-file-invoice fa-sm"></i>
                             <p>Invoice</p>
                         </a>
-                    </li>
-                    <li class="nav-header">
-                        <span>Manage & Testing</span>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}" class="nav-link">

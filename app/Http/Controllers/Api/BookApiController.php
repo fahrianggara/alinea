@@ -6,6 +6,7 @@ use App\Events\NewBookAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ResResource;
 use App\Models\Book;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -72,7 +73,7 @@ class BookApiController extends Controller
         $book->created_at = Carbon::now('Asia/Jakarta');
         $book->updated_at = Carbon::now('Asia/Jakarta');
         $book->save();
-        
+
         event(new NewBookAdded($book));
         return response()->json(new ResResource($book, true, "Book created successfully"), 201);
     }
@@ -140,6 +141,8 @@ class BookApiController extends Controller
             return response()->json(new ResResource(null, false, "Book ID not found"), 400);
         }
 
+        Notification::where('book_id', $id)->delete();
+        
         // Hapus gambar jika bukan default.png
         if ($book->cover !== 'cover-book/default.png' && !empty($book->cover)) {
             Storage::disk('public')->delete($book->cover);

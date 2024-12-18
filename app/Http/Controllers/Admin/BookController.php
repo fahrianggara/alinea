@@ -118,7 +118,7 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'isbn' => 'required|string|max:20|unique:books,isbn,' . $id, // Pastikan ISBN unik kecuali untuk buku saat ini
+            'isbn' => 'required|string|max:20|unique:books,isbn,' . $id,
             'stock' => 'required|integer|min:1',
             'published_date' => 'required|date',
             'status' => 'required|in:available,borrowed',
@@ -142,8 +142,8 @@ class BookController extends Controller
 
         // Handle penggantian gambar jika ada cropped_image baru
         if ($request->has('cropped_image') && !empty($request->cropped_image)) {
-            // Hapus gambar lama jika ada
-            if ($book->cover && Storage::disk('public')->exists($book->cover)) {
+            // Hapus gambar lama jika bukan default.png
+            if ($book->cover && $book->cover !== 'cover-book/default.png' && Storage::disk('public')->exists($book->cover)) {
                 Storage::disk('public')->delete($book->cover);
             }
 
@@ -153,13 +153,13 @@ class BookController extends Controller
             $image = str_replace(' ', '+', $image);
             $imageName = uniqid() . '.png'; // Menghasilkan nama file unik
 
-            // Tentukan folder penyimpanan, di sini adalah 'cover-book'
+            // Tentukan folder penyimpanan
             $folderPath = 'cover-book/';
 
             // Simpan gambar ke folder 'public/cover-book'
             Storage::disk('public')->put($folderPath . $imageName, base64_decode($image));
 
-            // Simpan nama file gambar di database dengan path yang sesuai
+            // Simpan nama file gambar di database
             $book->cover = $folderPath . $imageName;
         }
 
@@ -167,16 +167,9 @@ class BookController extends Controller
         $book->save();
 
         // Redirect kembali dengan pesan sukses
-        if ($book) {
-            return redirect()->route('books.show', $id)->with('success', 'Book updated successfully!');
-        } else {
-            return redirect()->route('books.show', $id)->with('error', 'Book failed updated successfully!');
-        }
+        return redirect()->route('books.show', $id)->with('success', 'Book updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         // Temukan buku berdasarkan ID
@@ -185,12 +178,9 @@ class BookController extends Controller
         // Hapus notifikasi yang berhubungan dengan buku ini
         Notification::where('book_id', $id)->delete();
 
-        // Hapus gambar cover dari storage jika ada
-        if ($book->cover) {
-            // Tentukan path lengkap gambar di storage
+        // Hapus gambar cover dari storage jika ada dan bukan default.png
+        if ($book->cover && $book->cover !== 'cover-book/default.png') {
             $coverPath = 'public/' . $book->cover;
-
-            // Periksa apakah file gambar ada, jika ada maka hapus
             if (Storage::exists($coverPath)) {
                 Storage::delete($coverPath);
             }

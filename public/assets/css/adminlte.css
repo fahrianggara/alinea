@@ -10788,7 +10788,7 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
 }
 
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-  background-color: #343a40;
+  background-color: #212631 !important;
 }
 
 .layout-navbar-fixed .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
@@ -11908,7 +11908,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 .layout-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-  background-color: #343a40;
+  background-color: #212631;
 }
 
 .layout-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
@@ -11972,7 +11972,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 .layout-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-  background-color: #343a40;
+  background-color: #212631;
 }
 
 .layout-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
@@ -12037,7 +12037,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 @media (min-width: 576px) {
   .layout-sm-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-    background-color: #343a40;
+    background-color: #212631;
   }
   .layout-sm-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
     background-color: #fff;
@@ -12088,7 +12088,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 @media (min-width: 768px) {
   .layout-md-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-    background-color: #343a40;
+    background-color: #212631;
   }
   .layout-md-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
     background-color: #fff;
@@ -12139,7 +12139,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 @media (min-width: 992px) {
   .layout-lg-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-    background-color: #343a40;
+    background-color: #212631;
   }
   .layout-lg-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
     background-color: #fff;
@@ -12190,7 +12190,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 @media (min-width: 1200px) {
   .layout-xl-navbar-fixed .dark-mode .wrapper .sidebar-dark-primary .brand-link:not([class*="navbar"]) {
-    background-color: #343a40;
+    background-color: #212631;
   }
   .layout-xl-navbar-fixed .dark-mode .wrapper .sidebar-light-primary .brand-link:not([class*="navbar"]) {
     background-color: #fff;
@@ -12862,7 +12862,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 [class*="sidebar-dark-"] {
-  background-color: #343a40;
+  background-color: #212631;
 }
 
 [class*="sidebar-dark-"] .user-panel a:hover {

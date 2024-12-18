@@ -47,7 +47,7 @@ class InvoiceController extends Controller
         $pdf = Pdf::loadView('admin.invoices.pdf.invoicePdf', compact('invoice', 'fullname', 'borrowing'));
 
         // Mengembalikan file PDF sebagai download
-        return $pdf->download("invoice_{$invoice->id}.pdf");
+        return $pdf->download("invoice_{$invoice->no_invoice}_{$fullname}.pdf");
     }
 
     public function destroy($id)

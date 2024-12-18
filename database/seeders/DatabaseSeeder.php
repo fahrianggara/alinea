@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         Book::factory()->count(10)->create();
 
 
-
         User::create([
             'nim' => '125354544',
             'image' => 'profile/default.png',
