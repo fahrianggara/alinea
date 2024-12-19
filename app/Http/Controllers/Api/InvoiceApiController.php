@@ -17,7 +17,7 @@ class InvoiceApiController extends Controller
 
         $invoices = Invoice::where('user_id', Auth::id())
             ->with('borrowings.book.category', 'user')
-            ->get();
+            ->latest()->get();
 
         return response()->json(new ResResource($invoices, true, "Invoices retrieved successfully"), 200);
     }
