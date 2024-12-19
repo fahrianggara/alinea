@@ -118,11 +118,15 @@ class ReturnController extends Controller
         $invoice->status = 'clear';
         $invoice->save();
 
-        // Perbarui status borrowings
+        // Perbarui status borrowings dan tambahkan stok jika status menjadi 3
         foreach ($invoice->borrowings as $borrowing) {
             if ($borrowing->status_id == 4) {
                 $borrowing->status_id = 3; // Ganti ke status 3
                 $borrowing->save(); // Simpan perubahan
+
+                // Tambahkan stok buku terkait
+                $borrowing->book->stock += 1;
+                $borrowing->book->save();
             }
         }
 

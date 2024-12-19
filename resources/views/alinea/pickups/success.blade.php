@@ -65,10 +65,11 @@
             </div>
         </div>
     </div>
-    <script>
-        window.history.pushState(null, "", window.location.href);
-        window.addEventListener('popstate', function() {
-            window.location.reload();
+    {{-- <script>
+        window.history.pushState(null, "", window.location.href); // Menambah state baru
+        window.addEventListener('popstate', function () {
+            // Ketika tombol back ditekan, arahkan ke halaman home
+            window.location.href = "/alinea";
         });
-    </script>
+    </script> --}}
 @endsection

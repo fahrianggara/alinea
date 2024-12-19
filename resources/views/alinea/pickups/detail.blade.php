@@ -168,4 +168,11 @@
 
             </div>
         </div>
+        <script>
+            // Refresh halaman otomatis setiap kali diakses
+            window.onload = function () {
+                window.location.reload();
+            };
+        </script>
+
     @endsection
