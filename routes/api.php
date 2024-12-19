@@ -55,12 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/delete/{id}', [CategoryApiController::class, 'destroy']);
             Route::post('/update/{id}', [CategoryApiController::class, 'update']);
         });
-
     });
 
     Route::group(['prefix' => 'carts'], function () {
         Route::middleware('role:admin')->group(function () {
-           Route::get('/', [CartApiController::class, 'index']);
+            Route::get('/', [CartApiController::class, 'index']);
         });
 
         Route::get('/mycart', [CartApiController::class, 'mycart']);
@@ -90,6 +89,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [NotificationAPIController::class, 'index']);
         Route::get('/mynotif', [NotificationAPIController::class, 'mynotif']);
-        Route::delete('/delete', [NotificationAPIController::class, 'destroyAll']);
+
+        Route::middleware('role:admin')->group(function () {
+            Route::delete('/delete', [NotificationAPIController::class, 'destroyAll']);
+        });
     });
 });
