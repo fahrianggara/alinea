@@ -168,10 +168,19 @@
 
             </div>
         </div>
+
         <script>
-            // Refresh halaman otomatis setiap kali diakses
-            window.onload = function () {
-                window.location.reload();
+            window.onload = function() {
+                // Cek apakah sudah pernah direfresh
+                if (!localStorage.getItem('pageRefreshed')) {
+                    // Set flag di local storage
+                    localStorage.setItem('pageRefreshed', 'true');
+                    // Refresh halaman
+                    window.location.reload();
+                } else {
+                    // Hapus flag jika diperlukan
+                    localStorage.removeItem('pageRefreshed');
+                }
             };
         </script>
 

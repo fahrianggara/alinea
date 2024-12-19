@@ -7,12 +7,15 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Invoice #{{ $invoice->no_invoice }}</h5>
                     <div>
-                        <form action="{{ route('returns.success', $invoice->id)}}" method="POST">
+
+                        <form action="{{ route('returns.success', $invoice->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                            <button type="submit" class="btn btn-success btn-sm">Clear</button>
                         </form>
+
                     </div>
                 </div>
+
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-md-4 text-center">
@@ -55,16 +58,18 @@
                                     @method('PATCH')
                                     <div class="form-group">
                                         <select name="status_id" class="form-control">
-                                            <option value="5" {{ $borrowing->status_id == 5 ? 'selected' : '' }}>Book Missing</option>
-                                            <option value="6" {{ $borrowing->status_id == 6 ? 'selected' : '' }}>Book Damaged</option>
+                                            <option value="5" {{ $borrowing->status_id == 5 ? 'selected' : '' }}>Book
+                                                Missing</option>
+                                            <option value="6" {{ $borrowing->status_id == 6 ? 'selected' : '' }}>Book
+                                                Damaged</option>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-outline-primary">Change Status</button>
                                 </form>
                             </div>
                             <div class="col-md-3 text-right">
-                                <p><strong>Fine:</strong> Rp. 
-                                    @if($borrowing->status_id == 4)
+                                <p><strong>Fine:</strong> Rp.
+                                    @if ($borrowing->status_id == 4)
                                         20,000
                                     @elseif($borrowing->status_id == 5 || $borrowing->status_id == 6)
                                         100,000
@@ -79,4 +84,18 @@
             </div>
         </div>
     </div>
+    <script>
+        window.onload = function() {
+            // Cek apakah sudah pernah direfresh
+            if (!localStorage.getItem('pageRefreshed')) {
+                // Set flag di local storage
+                localStorage.setItem('pageRefreshed', 'true');
+                // Refresh halaman
+                window.location.reload();
+            } else {
+                // Hapus flag jika diperlukan
+                localStorage.removeItem('pageRefreshed');
+            }
+        };
+    </script>
 @endsection
