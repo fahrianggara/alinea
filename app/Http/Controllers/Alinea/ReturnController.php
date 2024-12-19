@@ -113,9 +113,22 @@ class ReturnController extends Controller
     {
         // Ambil data invoice dengan relasi borrowings dan user
         $invoice = Invoice::with('borrowings.book', 'user')->findOrFail($id);
-        $fullname = $invoice->user->first_name. '' .$invoice->user->last_name; 
 
-        return view('alinea.returns.success', compact('invoice','fullname'));
+        // Update status invoice menjadi clear
+        $invoice->status = 'clear';
+        $invoice->save();
+
+        // Perbarui status borrowings
+        foreach ($invoice->borrowings as $borrowing) {
+            if ($borrowing->status_id == 4) {
+                $borrowing->status_id = 3; // Ganti ke status 3
+                $borrowing->save(); // Simpan perubahan
+            }
+        }
+
+        // Gabungkan nama depan dan nama belakang
+        $fullname = $invoice->user->first_name . ' ' . $invoice->user->last_name;
+
+        return view('alinea.returns.success', compact('invoice', 'fullname'));
     }
-
 }
